@@ -1,17 +1,18 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
-import Header from './../components/Header';
-
-const inter = Inter({ subsets: ['latin'] });
+import { styled } from 'styled-components';
+import LeftBox from '../components/Home/LeftBox';
 
 export default function Home() {
   return (
-    <>
+    <Container>
       <Head>
-        <title>TYT</title>
+        <title>이왜진</title>
       </Head>
-      <Header />
-    </>
+      <LeftBox />
+    </Container>
   );
 }
+
+const Container = styled.div`
+  padding: 0 calc(100% - 1280px);
+`;
