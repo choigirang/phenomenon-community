@@ -1,6 +1,24 @@
-import "@/styles/App.css";
-import type { AppProps } from "next/app";
+import '@/styles/App.css';
+import { QueryClientProvider } from 'react-query';
+import type { AppProps } from 'next/app';
+import { QueryClient } from 'react-query';
+import Header from '@/components/Header';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Header />
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  );
 }
