@@ -3,6 +3,11 @@ import { QueryClientProvider } from 'react-query';
 import type { AppProps } from 'next/app';
 import { QueryClient } from 'react-query';
 import Header from '@/components/Header';
+import { worker } from '@/mocks/server';
+
+if (process.env.NODE_ENV === 'development') {
+  worker.listen();
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
