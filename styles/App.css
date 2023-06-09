@@ -10,11 +10,15 @@
 #__next {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 100;
+  width: 100%;
+  height: 100%;
 }
 
 a {
@@ -22,6 +26,8 @@ a {
 }
 
 :root {
+  width: 100%;
+  height: 100%;
   --color-gray: #777777;
   --color-black: #111111;
   --weight-thin: 100;
