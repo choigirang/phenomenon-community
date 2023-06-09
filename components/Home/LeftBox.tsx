@@ -3,12 +3,16 @@ import styled from 'styled-components';
 
 export default function LeftBox() {
   return (
-    <div className="first-box">
-      <ul className="hof-article"></ul>
-    </div>
+    <Container>
+      <div className="first-box">
+        <ul className="hof-article"></ul>
+      </div>
+    </Container>
   );
 }
 
-// const Container = styled.div`
-//   width: 70%;
-// `;
+const Container = styled.div`
+  width: 70%;
+  height: 100%;
+  background: black;
+`;
