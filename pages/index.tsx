@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import LeftBox from '../components/Home/LeftBox';
+import axios from 'axios';
 
 export default function Home() {
   return (
@@ -14,5 +15,6 @@ export default function Home() {
 }
 
 const Container = styled.div`
-  padding: 0 calc(100% - 1280px);
+  width: 100%;
+  height: 100%;
 `;
