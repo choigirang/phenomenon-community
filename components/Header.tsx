@@ -4,7 +4,9 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 export default function Header() {
+  // Header 카테고리
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
+  // 링크 연결
   const router = useRouter();
 
   return (
