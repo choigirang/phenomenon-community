@@ -5,3 +5,7 @@ export type Post = {
   content: string;
   createdAt: Date;
 };
+
+export type HeaderNav = {
+  [key: string]: string;
+};
