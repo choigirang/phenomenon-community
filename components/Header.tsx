@@ -1,21 +1,22 @@
+import { HEADER_NAV } from '@/constant/constant';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 export default function Header() {
-  const category = ['명예의 전당', '게시글', '공지사항'];
+  const category = useMemo(() => Object.keys(HEADER_NAV), []);
   const router = useRouter();
 
   return (
     <Container>
       <div className="logo">logo</div>
-      <div className="category-box">
+      <Nav>
         {category.map(each => (
-          <a className="category-text" onClick={() => router.push(each)} key={each}>
-            {each}
-          </a>
+          <li key={HEADER_NAV[each]} className="nav-item">
+            <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
+          </li>
         ))}
-      </div>
+      </Nav>
     </Container>
   );
 }
@@ -24,7 +25,7 @@ const Container = styled.div`
   width: 100vw;
   height: 60px;
   position: relative;
-  background: gray;
+  background: var(--color-blue);
 
   .logo {
     position: absolute;
@@ -35,19 +36,18 @@ const Container = styled.div`
     height: 30px;
     background: white;
   }
+`;
 
-  .category-box {
-    display: flex;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-  }
+const Nav = styled.ul`
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
 
-  .category-text {
-    padding: 5px;
+  .nav-item {
     font-size: var(--size-title);
-    padding: var(--padding-text);
+    padding: 0 20px;
   }
 `;
