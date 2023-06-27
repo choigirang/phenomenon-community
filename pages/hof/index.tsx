@@ -26,7 +26,7 @@ export default function index() {
         <Input placeholder="게시글 검색" onChange={e => handleChange(e)} />
         <FaSearch color="var(--color-blue)" />
       </InputBox>
-      <PostContainer>{data && data.map(res => <PostItem key={res.memberId}></PostItem>)}</PostContainer>
+      <PostContainer>{data && data.map(res => <PostList key={res.memberId}></PostList>)}</PostContainer>
     </Container>
   );
 }
@@ -36,7 +36,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 `;
 
 const InputBox = styled.div`
@@ -68,8 +68,7 @@ const PostContainer = styled.div`
   background: gray;
 `;
 
-const PostItem = styled.ul`
+const PostList = styled.ul`
   display: flex;
   flex-direction: column;
-  background: black;
 `;
