@@ -13,21 +13,23 @@ export default function Header() {
     <Container>
       <div className="logo">logo</div>
       <Nav>
-        {category.map(each => (
-          <li key={HEADER_NAV[each]} className="nav-item">
-            <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
-          </li>
-        ))}
+        <ul className="">
+          {category.map(each => (
+            <li key={HEADER_NAV[each]} className="nav-item">
+              <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
+            </li>
+          ))}
+        </ul>
       </Nav>
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 100vw;
   height: 60px;
   position: relative;
   background: var(--color-blue);
+  padding: 0 calc(100% - 1280px) / 2;
 
   .logo {
     position: absolute;
@@ -40,7 +42,7 @@ const Container = styled.div`
   }
 `;
 
-const Nav = styled.ul`
+const Nav = styled.nav`
   display: flex;
   position: absolute;
   left: 50%;
