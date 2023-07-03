@@ -1,6 +1,8 @@
 import { HEADER_NAV } from '@/constant/constant';
+import useInputs from '@/hooks/useInputs';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
 
 export default function Header() {
@@ -8,50 +10,84 @@ export default function Header() {
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
   // 링크 연결
   const router = useRouter();
+  // 검색어 저장
+  const [keywords, setKeywords] = useInputs('');
 
   return (
-    <Container>
-      <div className="logo">logo</div>
+    <>
+      <Bar>
+        <div className="logo">logo</div>
+        <InputBox>
+          <Input placeholder="게시글 검색" value={keywords} onChange={setKeywords}></Input>
+          <FaSearch color="var(--color-blue)" />
+        </InputBox>
+      </Bar>
       <Nav>
-        <ul className="">
-          {category.map(each => (
-            <li key={HEADER_NAV[each]} className="nav-item">
-              <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
-            </li>
-          ))}
-        </ul>
+        {category.map(each => (
+          <li key={HEADER_NAV[each]} className="nav-item">
+            <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
+          </li>
+        ))}
       </Nav>
-    </Container>
+    </>
   );
 }
 
-const Container = styled.div`
-  height: 60px;
+const Bar = styled.nav`
+  height: 100px;
+  display: flex;
+  align-items: center;
   position: relative;
-  background: var(--color-blue);
-  padding: 0 calc(100% - 1280px) / 2;
+  padding: 0 calc(100% - 1280px);
 
   .logo {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     width: 200px;
     height: 30px;
-    background: white;
+    background: gray;
   }
 `;
 
-const Nav = styled.nav`
-  display: flex;
+const InputBox = styled.div`
+  width: 40%;
+  max-width: 400px;
+  min-width: 300px;
+  height: 50px;
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--padding-content);
+  padding: var(--padding-text);
+  border: solid 3px var(--color-blue);
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 100%;
+  border: none;
+
+  :focus {
+    outline: none;
+  }
+`;
+
+const Nav = styled.ul`
+  width: 100%;
+  display: flex;
+  padding: 0 calc(100% - 1280px);
+  background: var(--color-blue);
   color: white;
 
   .nav-item {
-    font-size: var(--size-title);
-    padding: 0 20px;
+    font-size: var(--size-sub-title);
+    margin: 10px 0;
+    padding: 0 15px;
+    font-weight: 400;
+
+    :first-child {
+      padding-left: 0;
+    }
   }
 `;
