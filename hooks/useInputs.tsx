@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
 // 초깃값 없을 시 2중 에러
-function useInputs(initialData: string) {
+export default function useInputs(initialData: string | number) {
   const [data, setData] = useState(initialData);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(e.target.value);
+    const {
+      target: { value },
+    } = e;
+    setData(value);
   };
 
-  return [data, onChange, setData];
+  return [data, onChange] as const;
 }
