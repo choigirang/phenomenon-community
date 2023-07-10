@@ -18,7 +18,7 @@ export default function Header() {
       <Bar>
         <div className="logo">logo</div>
         <InputBox>
-          <Input placeholder="게시글 검색" value={keywords} onChange={setKeywords}></Input>
+          <Input placeholder="게시글 통합 검색" value={keywords} onChange={setKeywords}></Input>
           <FaSearch color="var(--color-blue)" />
         </InputBox>
       </Bar>
@@ -38,7 +38,7 @@ const Bar = styled.nav`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0 calc(100% - 1280px);
+  padding: 0 calc((100% - 1280px) / 2);
 
   .logo {
     width: 200px;
@@ -76,7 +76,7 @@ const Input = styled.input`
 const Nav = styled.ul`
   width: 100%;
   display: flex;
-  padding: 0 calc(100% - 1280px);
+  padding: 0 calc((100% - 1280px) / 2);
   background: var(--color-blue);
   color: white;
 
