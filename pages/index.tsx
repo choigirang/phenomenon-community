@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import LeftBox from '../components/Home/LeftBox';
+import RightBox from '@/components/Home/RightBox';
 import axios from 'axios';
-import Login from '@/components/Login';
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
       <Container>
         <LeftBox />
-        <Login />
+        <RightBox />
       </Container>
     </>
   );
@@ -20,7 +20,7 @@ export default function Home() {
 
 const Container = styled.div`
   height: 100%;
-  padding: 0 calc(100% - 1280px);
+  padding: 0 calc((100% - 1280px) / 2);
   display: grid;
-  grid-template-rows: 70% 30%;
+  grid-template-columns: calc(100% - 300px) 200px;
 `;
