@@ -12,6 +12,5 @@ export default function RightBox() {
 
 const Container = styled.div`
   width: 300px;
-  height: 200px;
   display: flex;
 `;
