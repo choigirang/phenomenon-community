@@ -41,8 +41,13 @@ a {
   --size-title: 18px;
   --padding-text: 5px 10px;
   --padding-content: 10px 20px;
+  --padding-side: 20px;
   --padding-solo: 10px;
+  --margin-small: 10px;
+  --margin-content: 10px 20px;
   --border-content: solid 1px var(--color-light-blue);
+  --border-text: solid 1px var(--color-light-gray);
+  --border-dash: dashed 1px;
 }
 
 input {
