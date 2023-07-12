@@ -15,26 +15,28 @@ export default function Header() {
 
   return (
     <>
-      <Bar>
+      <Nav>
         <div className="logo">logo</div>
         <InputBox>
           <Input placeholder="게시글 통합 검색" value={keywords} onChange={setKeywords}></Input>
           <FaSearch color="var(--color-blue)" />
         </InputBox>
-      </Bar>
-      <Nav>
+      </Nav>
+      <Bar>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">
             <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
           </li>
         ))}
-      </Nav>
+      </Bar>
     </>
   );
 }
 
-const Bar = styled.nav`
+const Nav = styled.nav`
   height: 100px;
+  /* 없으면 왜 밀리는지 */
+  min-height: 100px;
   display: flex;
   align-items: center;
   position: relative;
@@ -73,7 +75,7 @@ const Input = styled.input`
   }
 `;
 
-const Nav = styled.ul`
+const Bar = styled.ul`
   width: 100%;
   display: flex;
   padding: 0 calc((100% - 1280px) / 2);
