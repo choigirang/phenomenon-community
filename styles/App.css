@@ -48,6 +48,7 @@ a {
   --border-content: solid 1px var(--color-light-blue);
   --border-text: solid 1px var(--color-light-gray);
   --border-dash: dashed 1px;
+  --border-solid: solid 1px;
 }
 
 input {
