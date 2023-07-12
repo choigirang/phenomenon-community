@@ -2,6 +2,10 @@ import { rest } from 'msw';
 
 const post = [
   { id: 9, userId: 1, name: 'choi', title: '9번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
+  { id: 9, userId: 1, name: 'choi', title: '9번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
+  { id: 9, userId: 1, name: 'choi', title: '9번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
+  { id: 9, userId: 1, name: 'choi', title: '9번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
+  { id: 9, userId: 1, name: 'choi', title: '9번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
   { id: 8, userId: 1, name: 'choi', title: '8번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
   { id: 7, userId: 1, name: 'choi', title: '7번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
   { id: 6, userId: 1, name: 'choi', title: '6번 게시글 입니다.', content: 'content', createdAt: '2023-07-12' },
