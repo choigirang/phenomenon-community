@@ -41,7 +41,7 @@ export default function Login() {
             <span className="border-Span"></span>
             <span className="btm-Text">이이디·비밀번호 찾기</span>
           </FontBox>
-          <FaBell color="orange"></FaBell>
+          <FaBell color="orange" />
         </BottomBox>
       </LoginBox>
     </Container>
@@ -137,6 +137,7 @@ const FontBox = styled.div`
     :hover {
       cursor: pointer;
       border-bottom: var(--border-text);
+      font-weight: 500;
     }
   }
 
