@@ -2,19 +2,24 @@ import { PostType } from '@/types/type';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+
+const POST_PAGE = 10;
 
 export default function LeftBox() {
   const [post, setPost] = useState<PostType[]>();
+  const [curIndex, setCurIndex] = useState<number>(0);
   const category = ['임시'];
 
-  const tem = Array(10).fill(category).flat();
+  const fetch = () => {
+    return axios.get('/dummy').then(res => setPost(res.data));
+  };
 
-  useEffect(() => {
-    axios.get('/dummy').then(res => {
-      setPost(res.data);
-    });
-  }, []);
+  const { isLoading, data, isError, error } = useQuery('post', fetch);
+
+  const tem = Array(30).fill(category).flat();
 
   return (
     <Container>
@@ -30,19 +35,28 @@ export default function LeftBox() {
           </CategoryList>
         </Category>
       </CategoryBox>
-      <PostBox>
+      <PostTitle>
         <p className="sub-title">실시간 게시글</p>
-        <PostList>
-          {post &&
-            post.map(item => (
-              <Post key={item.id}>
-                <a className="">
-                  <span className="post-title">{item.title}</span>
-                </a>
-              </Post>
-            ))}
-        </PostList>
-      </PostBox>
+        <div className="btn-box">
+          <AiFillLeftSquare />
+          <AiFillRightSquare />
+        </div>
+      </PostTitle>
+      <PostList>
+        {post &&
+          post.map(item => (
+            <Post key={item.id}>
+              <a href="/" className="post-box">
+                <span className="post-title">{item.title}</span>
+              </a>
+              <a href="/" className="member">
+                <span className="name">{item.name}</span>
+                <span className="line"></span>
+                <span>{item.createdAt.toString()}</span>
+              </a>
+            </Post>
+          ))}
+      </PostList>
     </Container>
   );
 }
@@ -94,8 +108,11 @@ const CategoryItem = styled.li`
 `;
 
 // 게시글 목록
-const PostBox = styled.div`
+const PostTitle = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: solid 3px var(--color-blue);
 
   .sub-title {
     width: 100%;
@@ -104,7 +121,19 @@ const PostBox = styled.div`
     font-size: 15px;
     margin-top: var(--padding-side);
     padding-bottom: var(--padding-solo);
-    border-bottom: solid 3px var(--color-blue);
+  }
+
+  .btn-box {
+    display: flex;
+
+    svg {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      path {
+        color: var(--color-dark-blue);
+      }
+    }
   }
 `;
 
@@ -116,6 +145,32 @@ const PostList = styled.ul`
 
 const Post = styled.li`
   width: 100%;
+  height: 50px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  /* 글 관련 */
+  .post-box {
+    :hover {
+      font-weight: 500;
+    }
+  }
+
+  /* 작성자 관련 */
+  .member {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+
+    .name {
+      font-weight: 400;
+      color: var(--color-gray);
+    }
+
+    .line {
+      border-left: var(--border-content);
+      cursor: none;
+    }
+  }
 `;
