@@ -14,7 +14,7 @@ export default function LeftBox() {
   const category = ['임시'];
 
   const fetch = () => {
-    return axios.get('/dummy').then(res => setPost(res.data));
+    return axios.get('/dummy');
   };
 
   const { isLoading, data, isError, error } = useQuery('post', fetch);
@@ -43,8 +43,8 @@ export default function LeftBox() {
         </div>
       </PostTitle>
       <PostList>
-        {post &&
-          post.map(item => (
+        {data &&
+          data.data.map(item => (
             <Post key={item.id}>
               <a href="/" className="post-box">
                 <span className="post-title">{item.title}</span>
