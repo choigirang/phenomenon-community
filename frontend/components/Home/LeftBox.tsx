@@ -1,5 +1,5 @@
 import { PostType } from '@/types/type';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
@@ -23,7 +23,9 @@ export default function LeftBox() {
     return await axios.get('/dummy').then(res => res.data);
   }
 
-  const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(), { staleTime: 2000 });
+  const { isLoading, data, isError, error } = useQuery<PostType[], AxiosError>(['post'], () => fetch(), {
+    staleTime: 2000,
+  });
 
   // 데이터 함수
   // 게시글 데이터 함수
