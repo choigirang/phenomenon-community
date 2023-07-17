@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
 const POST_PAGE = 10;
+const ENDPOINT = 'http://localhost:5000/data';
 
 export default function LeftBox() {
   // 게시글 페이지네이션
@@ -18,25 +19,16 @@ export default function LeftBox() {
   const category = ['임시'];
   const tem = Array(30).fill(category).flat();
 
-  // 임시 데이터
-  async function fetch() {
-    return await axios.get('/dummy').then(res => res.data);
-  }
-
-  const { isLoading, data, isError, error } = useQuery<PostType[], AxiosError>(['post'], () => fetch(), {
-    staleTime: 2000,
-  });
-
   // 데이터 함수
   // 게시글 데이터 함수
-  // async function fetch(page: number) {
-  //   return await axios.get(`https://locallhost:3000/post?page?=${currentPage}`).then(res => res.data);
-  // }
+  async function fetch(page: number) {
+    return await axios.get(`https://locallhost:3000/post/1`).then(res => res.data);
+  }
 
   // 게시글 데이터 쿼리
-  // const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(currentPage), {
-  //   staleTime: 2000,
-  // });
+  const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(currentPage), {
+    staleTime: 2000,
+  });
 
   return (
     <Container>
