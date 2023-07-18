@@ -1,19 +1,18 @@
 import { PostType } from '@/types/type';
 import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
 const POST_PAGE = 10;
-const ENDPOINT = 'http://localhost:5000/data';
 
 export default function LeftBox() {
   // 게시글 페이지네이션
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [post, setPost] = useState<PostType[]>();
+  // const [post, setPost] = useState<PostType[]>();
   const [curIndex, setCurIndex] = useState<number>(0);
   // 카테고리 가져오기
   const category = ['임시'];
@@ -21,12 +20,13 @@ export default function LeftBox() {
 
   // 데이터 함수
   // 게시글 데이터 함수
-  async function fetch(page: number) {
-    return await axios.get(`https://locallhost:3000/post/1`).then(res => res.data);
+  async function fetch(): Promise<PostType[]> {
+    const res = await axios.get('http://localhost:3001');
+    return res.data;
   }
 
   // 게시글 데이터 쿼리
-  const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(currentPage), {
+  const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(), {
     staleTime: 2000,
   });
 
