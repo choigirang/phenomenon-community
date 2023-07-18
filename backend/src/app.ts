@@ -1,42 +1,26 @@
-import express, { Application, Request, Response } from "express";
-import cors from "cors";
+import { Request, Response } from "express";
+import { postData } from "./data/postData";
+import { user } from "./data/loginData";
 
-const PORT = process.env.PORT || 3001;
-
-class App {
-  public application: express.Application;
-  constructor() {
-    this.application = express();
-  }
-}
-
-const app = new App().application;
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const port = 3001;
 
 app.use(cors());
 
-app.get("/", (req: Request, rest: Response) => {
-  rest.send("Hi");
+// 게시글 관련
+app.get("/", (req: Request, res: Response) => {
+  res.send(postData);
 });
 
-// app.get("post", (req: Request, rest: Response) => {});
-
-app.get("/post/1", (req: Request, res: Response) => {
-  res.json({
-    id: 1,
-    memberId: 1,
-    name: "choigirang",
-    title: "임시 데이터",
-    content: "임시데이터를 작성합니다....",
-    createdAt: "2023-07-16",
+// 로그인 관련
+app.get("/login", (req: Request, res: Response) => {
+  const findUser = user.find((user) => {
+    user.id;
+    user.password;
   });
-});
-app.get("/post/2", (req: Request, res: Response) => {
-  res.json({
-    id: 2,
-    memberId: 1,
-    name: "choigirang",
-    title: "임시 데이터",
-    content: "임시데이터를 작성합니다....",
-    createdAt: "2023-07-16",
-  });
+  if (findUser === req.body.id && findUser === req.body.password) {
+    res;
+  }
 });
