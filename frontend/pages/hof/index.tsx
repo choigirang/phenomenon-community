@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-import { Post } from '@/types/type';
+import { PostType } from '@/types/type';
 import axios from 'axios';
 
 export default function index() {
   // 검색창
   const [value, setValue] = useState<string>('');
-  const [data, setData] = useState<Post[]>();
+  const [data, setData] = useState<PostType[]>();
 
   useEffect(() => {
     axios.get('/dummy').then(res => {
@@ -22,10 +22,6 @@ export default function index() {
 
   return (
     <Container>
-      <InputBox>
-        <Input placeholder="게시글 검색" onChange={e => handleChange(e)} />
-        <FaSearch color="var(--color-blue)" />
-      </InputBox>
       <PostContainer>{data && data.map(res => <PostList key={res.memberId}></PostList>)}</PostContainer>
     </Container>
   );
