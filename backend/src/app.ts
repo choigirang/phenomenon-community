@@ -8,7 +8,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors());
-
+app.listen(port);
 // 게시글 관련
 app.get("/", (req: Request, res: Response) => {
   res.send(postData);
@@ -16,11 +16,15 @@ app.get("/", (req: Request, res: Response) => {
 
 // 로그인 관련
 app.get("/login", (req: Request, res: Response) => {
-  const findUser = user.find((user) => {
-    user.id;
-    user.password;
-  });
-  if (findUser === req.body.id && findUser === req.body.password) {
-    res;
+  const { id, password } = req.query;
+
+  const findUser = user.find(
+    (user) => user.id === id && user.password === password
+  );
+  if (findUser) {
+    res.send(200).json({ message: "로그인 되었습니다." });
+  } else {
+    console.log(user);
+    res.status(401).json({ message: "일치하지 않는 사용자입니다." });
   }
 });
