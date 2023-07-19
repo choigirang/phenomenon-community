@@ -3,11 +3,7 @@ import { QueryClientProvider } from 'react-query';
 import type { AppProps } from 'next/app';
 import { QueryClient } from 'react-query';
 import Header from '@/components/Header';
-import { worker } from '@/mocks/server';
-
-if (process.env.NODE_ENV === 'development') {
-  worker.listen();
-}
+import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,9 +16,10 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
+      {router.asPath === ('signup' || 'findUser') && <Header />}
       <Component {...pageProps} />
     </QueryClientProvider>
   );
