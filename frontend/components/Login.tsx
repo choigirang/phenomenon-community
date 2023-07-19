@@ -1,48 +1,77 @@
+import { HEADER_NAV } from '@/constant/constant';
 import useInputs from '@/hooks/useInputs';
-import React, { FormEvent } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { FormEvent, useState } from 'react';
 import { FaBell } from 'react-icons/fa';
 import styled from 'styled-components';
 
 export default function Login() {
   // 로그인 아이디
-  const [id, setId] = useInputs('');
+  const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
-  const [pass, setPass] = useInputs('');
+  const [pass, setPass] = useInputs<string>('');
+  const [login, setLogin] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent) => {
     // 새로고침 방지
     e.preventDefault();
     // 유저 확인
+    async function fetch() {
+      await axios
+        .get('http://localhost:3001/login', { params: { id, password: pass } })
+        .then(res => {
+          alert('로그인 되었습니다.');
+          setLogin(true);
+        })
+        .catch(res => {
+          alert('일치하지 않는 사용자입니다.');
+        });
+    }
+    fetch();
   };
 
   return (
     <Container>
       <LoginBox>
-        <Form action="/user" onSubmit={handleSubmit}>
-          <InputBox>
-            <Input type="text" placeholder="ID" value={id} onChange={setId} />
-            <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
-          </InputBox>
-          <ButtonBox>
-            <OptionBox>
-              <Option type="checkbox"></Option>
-              <span className="text">아이디저장</span>
-            </OptionBox>
-            <OptionBox>
-              <Option type="checkbox"></Option>
-              <span className="text">자동로그인</span>
-            </OptionBox>
-            <Button type="submit">로그인</Button>
-          </ButtonBox>
-        </Form>
-        <BottomBox>
-          <FontBox>
-            <span className="btm-Text">회원가입</span>
-            <span className="border-Span"></span>
-            <span className="btm-Text">이이디·비밀번호 찾기</span>
-          </FontBox>
-          <FaBell color="orange" />
-        </BottomBox>
+        {!login && (
+          <>
+            <Form action="/user" onSubmit={handleSubmit}>
+              <InputBox>
+                <Input type="text" placeholder="ID" value={id} onChange={setId} />
+                <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
+              </InputBox>
+              <ButtonBox>
+                <OptionBox>
+                  <Option type="checkbox"></Option>
+                  <span className="text">아이디저장</span>
+                </OptionBox>
+                <OptionBox>
+                  <Option type="checkbox"></Option>
+                  <span className="text">자동로그인</span>
+                </OptionBox>
+                <Button type="submit">로그인</Button>
+              </ButtonBox>
+            </Form>
+            <BottomBox>
+              <FontBox>
+                <span className="btm-Text" onClick={() => router.push(HEADER_NAV['회원가입'])}>
+                  회원가입
+                </span>
+                <span className="border-Span"></span>
+                <span className="btm-Text">이이디·비밀번호 찾기</span>
+              </FontBox>
+              <FaBell color="orange" />
+            </BottomBox>
+          </>
+        )}
+        {login && (
+          <>
+            <></>
+          </>
+        )}
       </LoginBox>
     </Container>
   );
