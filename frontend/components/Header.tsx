@@ -16,7 +16,9 @@ export default function Header() {
   return (
     <>
       <Nav>
-        <div className="logo">logo</div>
+        <div className="logo" onClick={() => router.push('/')}>
+          logo
+        </div>
         <InputBox>
           <Input placeholder="게시글 통합 검색" value={keywords} onChange={setKeywords}></Input>
           <FaSearch color="var(--color-blue)" />
@@ -46,6 +48,10 @@ const Nav = styled.nav`
     width: 200px;
     height: 30px;
     background: gray;
+
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
