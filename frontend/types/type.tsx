@@ -10,3 +10,14 @@ export type PostType = {
 export type HeaderNav = {
   [key: string]: string;
 };
+
+// 로그인
+interface UserInfo {
+  username: string;
+}
+
+interface User {
+  username: string;
+  password: string;
+  userInfo: UserInfo;
+}
