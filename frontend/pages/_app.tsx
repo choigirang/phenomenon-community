@@ -17,9 +17,10 @@ const queryClient = new QueryClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
   return (
     <QueryClientProvider client={queryClient}>
-      {router.asPath === ('signup' || 'findUser') && <Header />}
+      {router.asPath !== '/signup' && router.asPath !== '/findUser' && <Header />}
       <Component {...pageProps} />
     </QueryClientProvider>
   );
