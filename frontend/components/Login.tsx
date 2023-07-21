@@ -57,7 +57,7 @@ export default function Login() {
             </Form>
             <BottomBox>
               <FontBox>
-                <span className="btm-Text" onClick={() => router.push(HEADER_NAV['회원가입'])}>
+                <span className="btm-Text" onClick={() => router.push('/signup')}>
                   회원가입
                 </span>
                 <span className="border-Span"></span>
