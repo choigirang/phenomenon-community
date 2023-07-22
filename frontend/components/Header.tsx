@@ -15,6 +15,7 @@ export default function Header() {
 
   return (
     <>
+      {/* 상단 */}
       <Nav>
         <div className="logo" onClick={() => router.push('/')}>
           logo
@@ -24,6 +25,7 @@ export default function Header() {
           <FaSearch color="var(--color-blue)" />
         </InputBox>
       </Nav>
+      {/* 하단바 */}
       <Bar>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">
@@ -42,7 +44,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0 calc((100% - 1280px) / 2);
+  padding: var(--padding-base);
 
   .logo {
     width: 200px;
@@ -84,8 +86,8 @@ const Input = styled.input`
 const Bar = styled.ul`
   width: 100%;
   display: flex;
-  padding: 0 calc((100% - 1280px) / 2);
   background: var(--color-blue);
+  padding: var(--padding-base);
   color: white;
 
   .nav-item {
