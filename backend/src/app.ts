@@ -22,7 +22,7 @@ app.get("/login", (req: Request, res: Response) => {
     (user) => user.id === id && user.password === password
   );
   if (findUser) {
-    res.send(200).json({ message: "로그인 되었습니다." });
+    return res.send(findUser);
   } else {
     console.log(user);
     res.status(401).json({ message: "일치하지 않는 사용자입니다." });
