@@ -1,9 +1,11 @@
 import { HEADER_NAV } from '@/constant/constant';
 import useInputs from '@/hooks/useInputs';
+import { User } from '@/types/type';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
 import { FaBell } from 'react-icons/fa';
+import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 export default function Login() {
@@ -11,10 +13,11 @@ export default function Login() {
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
   const [pass, setPass] = useInputs<string>('');
-  const [login, setLogin] = useState<boolean>(false);
+  const [login, setLogin] = useState<User | undefined>();
 
   const router = useRouter();
 
+  // 아이디,비밀번호 입력 제출 이벤트
   const handleSubmit = (e: FormEvent) => {
     // 새로고침 방지
     e.preventDefault();
@@ -24,13 +27,19 @@ export default function Login() {
         .get('http://localhost:3001/login', { params: { id, password: pass } })
         .then(res => {
           alert('로그인 되었습니다.');
-          setLogin(true);
+          setLogin(res.data);
         })
         .catch(res => {
           alert('일치하지 않는 사용자입니다.');
         });
     }
     fetch();
+  };
+
+  // 로그아웃 이벤트
+  const logOut = () => {
+    setLogin(undefined);
+    alert('로그아웃 되었습니다.');
   };
 
   return (
@@ -68,9 +77,16 @@ export default function Login() {
           </>
         )}
         {login && (
-          <>
-            <></>
-          </>
+          <LoginUserBox>
+            <div className="user-box">
+              <span className="name">{login.userInfo.username}</span>
+              <span>님</span>
+              <BsFillArrowRightCircleFill />
+            </div>
+            <div className="log-out" onClick={logOut}>
+              로그아웃
+            </div>
+          </LoginUserBox>
         )}
       </LoginBox>
     </Container>
@@ -135,7 +151,7 @@ const Button = styled.button`
   }
 `;
 
-const OptionBox = styled.div`
+export const OptionBox = styled.div`
   display: flex;
   align-items: center;
   font-size: var(--size-text);
@@ -172,5 +188,38 @@ const FontBox = styled.div`
 
   .border-Span {
     border-right: var(--border-text);
+  }
+`;
+
+// 로그인 시 컴포넌트
+const LoginUserBox = styled.div`
+  width: 100%;
+  padding: var(--padding-solo) 0;
+  font-size: var(--size-sub-title);
+  display: flex;
+  justify-content: space-between;
+
+  .user-box {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .name {
+      color: var(--color-blue);
+      font-weight: 500;
+    }
+
+    svg {
+      font-size: 14px;
+    }
+  }
+
+  .log-out {
+    cursor: pointer;
+    font-size: var(--size-text);
+    font-weight: 400;
+    color: var(--color-white);
+    padding: var(--padding-half) var(--padding-solo);
+    background-color: var(--color-blue);
   }
 `;
