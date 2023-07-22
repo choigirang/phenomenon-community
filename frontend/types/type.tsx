@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export type PostType = {
   id: number;
   memberId: number;
@@ -16,8 +18,8 @@ interface UserInfo {
   username: string;
 }
 
-interface User {
+export type User = {
   username: string;
   password: string;
   userInfo: UserInfo;
-}
+};
