@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {router.asPath !== '/signup' && router.asPath !== '/findUser' && <Header />}
+      {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
       <Component {...pageProps} />
     </QueryClientProvider>
   );
