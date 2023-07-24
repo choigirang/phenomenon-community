@@ -6,7 +6,7 @@ export const Logo = styled.img`
   height: ${props => props.height || '50px'};
 `;
 
-// 회원가입 완료 버튼
+// 회원가입 버튼
 export const NextPage = styled.div`
   width: 100%;
   display: flex;
