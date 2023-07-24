@@ -1,17 +1,26 @@
 import { OptionBox } from '@/components/Login';
 import { HEADER_NAV, PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
-import { NextPage } from '@/styles/\bGlobalComponents';
+import { NextPage } from '@/styles/GlobalComponents';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 export default function index() {
   // Header 카테고리
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
 
+  // 필수 동의
+  const [useCheck, setUseCheck] = useState<boolean>(false);
+  const [privateCheck, setPrivateCheck] = useState<boolean>(false);
+
   // 링크
   const router = useRouter();
 
+  // 다음 페이지
+  const agreementCheck = () => {
+    if (!useCheck || !privateCheck) return alert('필수 항목에 동의해야 합니다.');
+    return router.push('/signup/info');
+  };
   return (
     <>
       {/* 상단 카테고리 */}
@@ -33,8 +42,8 @@ export default function index() {
           <span className="example">· 이용약관동의 예시입니다.</span>
           <pre className="content-text">{SERVICE_TEXT}</pre>
           <AgreeBox>
-            <input type="checkbox" />
-            <span>내용을 확인했으며, 동의합니다.</span>
+            <input type="checkbox" checked={useCheck} onChange={() => setUseCheck(!useCheck)} required />
+            <span>[필수] 내용을 확인했으며, 동의합니다.</span>
           </AgreeBox>
         </ServiceAgree>
 
@@ -42,19 +51,21 @@ export default function index() {
           <span className="example">· 개인정보처리방침 예시입니다.</span>
           <pre className="content-text">{PRIVATE_TEXT}</pre>
           <AgreeBox>
-            <input type="checkbox" />
-            <span>내용을 확인했으며, 동의합니다.</span>
+            <input type="checkbox" checked={privateCheck} onChange={() => setPrivateCheck(!privateCheck)} required />
+            <span>[필수] 내용을 확인했으며, 동의합니다.</span>
           </AgreeBox>
         </ServiceAgree>
         <NextPage>
-          <div className="btn">다음</div>
+          <button className="btn" onClick={() => agreementCheck()}>
+            다음
+          </button>
         </NextPage>
       </Bottom>
     </>
   );
 }
 // 카테고리 및 로고
-const Top = styled.div`
+export const Top = styled.div`
   width: 100%;
   height: 100px;
   display: flex;
@@ -65,7 +76,7 @@ const Top = styled.div`
   color: white;
 `;
 
-const Category = styled.ul`
+export const Category = styled.ul`
   display: flex;
   gap: 8px;
   font-size: 12px;
