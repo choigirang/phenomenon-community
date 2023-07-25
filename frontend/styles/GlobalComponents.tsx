@@ -27,3 +27,14 @@ export const NextPage = styled.div`
     cursor: pointer;
   }
 `;
+
+// 회원가입 공통 양식
+export const Bottom = styled.div`
+  width: 100%;
+  padding: var(--padding-base);
+  margin-bottom: var(--margin-solo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--padding-side);
+`;
