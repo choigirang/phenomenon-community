@@ -1,60 +1,80 @@
-import { OptionBox } from '@/components/Login';
-import { HEADER_NAV, PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
-import { NextPage } from '@/styles/GlobalComponents';
-import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-export default function index() {
-  // Header 카테고리
-  const category = useMemo(() => Object.keys(HEADER_NAV), []);
+import { PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
 
+import { NextPage } from '@/styles/GlobalComponents';
+import SignHeader from '@/components/Sign/SignHeader';
+import SignProgress from '@/components/Sign/SignProgress';
+import { Bottom } from '../../styles/GlobalComponents';
+
+interface AgreementData {
+  id: string;
+  title: string;
+  text: string;
+  name: 'useCheck' | 'privateCheck';
+}
+
+const serviceData: AgreementData[] = [
+  {
+    id: 'check1',
+    title: '· 이용약관동의 예시입니다.',
+    text: SERVICE_TEXT,
+    name: 'useCheck',
+  },
+  {
+    id: 'check2',
+    title: '· 개인정보처리방침 예시입니다.',
+    text: PRIVATE_TEXT,
+    name: 'privateCheck',
+  },
+];
+
+export default function index() {
   // 필수 동의
-  const [useCheck, setUseCheck] = useState<boolean>(false);
-  const [privateCheck, setPrivateCheck] = useState<boolean>(false);
+  const [check, setCheck] = useState({
+    useCheck: false,
+    privateCheck: false,
+  });
 
   // 링크
   const router = useRouter();
 
+  // 필수 동의 상태 변경
+  const handleCheckboxChange = (name: 'useCheck' | 'privateCheck') => {
+    setCheck(prevCheck => ({ ...prevCheck, [name]: !prevCheck[name] }));
+  };
+
   // 다음 페이지
   const agreementCheck = () => {
-    if (!useCheck || !privateCheck) return alert('필수 항목에 동의해야 합니다.');
+    if (!check.useCheck || !check.privateCheck) return alert('필수 항목에 동의해야 합니다.');
     return router.push('/signup/info');
   };
   return (
     <>
-      {/* 상단 카테고리 */}
-      <Top>
-        <div className="logo" onClick={() => router.push('/')}>
-          logo
-        </div>
-        <Category>
-          {category.map(each => (
-            <li key={HEADER_NAV[each]} className="nav-item">
-              <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
-            </li>
-          ))}
-        </Category>
-      </Top>
+      {/* 상단 */}
+      <SignHeader />
+      {/* 진행 단계 */}
+      <SignProgress />
       {/* 회원가입 */}
       <Bottom>
-        <ServiceAgree>
-          <span className="example">· 이용약관동의 예시입니다.</span>
-          <pre className="content-text">{SERVICE_TEXT}</pre>
-          <AgreeBox>
-            <input type="checkbox" checked={useCheck} onChange={() => setUseCheck(!useCheck)} required />
-            <span>[필수] 내용을 확인했으며, 동의합니다.</span>
-          </AgreeBox>
-        </ServiceAgree>
-
-        <ServiceAgree>
-          <span className="example">· 개인정보처리방침 예시입니다.</span>
-          <pre className="content-text">{PRIVATE_TEXT}</pre>
-          <AgreeBox>
-            <input type="checkbox" checked={privateCheck} onChange={() => setPrivateCheck(!privateCheck)} required />
-            <span>[필수] 내용을 확인했으며, 동의합니다.</span>
-          </AgreeBox>
-        </ServiceAgree>
+        {serviceData.map(data => (
+          <ServiceAgree>
+            <span className="example">{data.title}</span>
+            <pre className="content-text">{data.text}</pre>
+            <AgreeBox>
+              <input
+                id={data.id}
+                type="checkbox"
+                checked={check[data.name]}
+                onChange={() => handleCheckboxChange(data.name)}
+                required
+              />
+              [필수] 내용을 확인했으며, 동의합니다.
+            </AgreeBox>
+          </ServiceAgree>
+        ))}
         <NextPage>
           <button className="btn" onClick={() => agreementCheck()}>
             다음
@@ -64,34 +84,8 @@ export default function index() {
     </>
   );
 }
-// 카테고리 및 로고
-export const Top = styled.div`
-  width: 100%;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--color-blue);
-  padding: var(--padding-base);
-  color: white;
-`;
-
-export const Category = styled.ul`
-  display: flex;
-  gap: 8px;
-  font-size: 12px;
-`;
 
 // 회원가입 부분
-const Bottom = styled.div`
-  width: 100%;
-  padding: var(--padding-base);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--padding-side);
-`;
-
 const ServiceAgree = styled.div`
   width: 100%;
   display: flex;
@@ -130,9 +124,11 @@ const ServiceAgree = styled.div`
   }
 `;
 
-const AgreeBox = styled.div`
+// 체크 박스
+const AgreeBox = styled.label`
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: end;
   gap: 10px;
   font-weight: 500;
