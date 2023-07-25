@@ -1,7 +1,9 @@
-import { HEADER_NAV } from '@/constant/constant';
-import useInputs from '@/hooks/useInputs';
-import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+
+import useInputs from '@/hooks/useInputs';
+
+import { HEADER_NAV } from '@/constant/constant';
 import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
 

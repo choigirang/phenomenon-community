@@ -1,9 +1,9 @@
-import '@/styles/App.css';
-import { QueryClientProvider } from 'react-query';
 import type { AppProps } from 'next/app';
-import { QueryClient } from 'react-query';
-import Header from '@/components/Header';
 import { useRouter } from 'next/router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import Header from '@/components/Header';
+import '@/styles/App.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

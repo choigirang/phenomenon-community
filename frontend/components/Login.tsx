@@ -1,12 +1,14 @@
-import { HEADER_NAV } from '@/constant/constant';
-import useInputs from '@/hooks/useInputs';
-import { User } from '@/types/type';
-import axios from 'axios';
-import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+import axios from 'axios';
+import { User } from '@/types/type';
+
+import useInputs from '@/hooks/useInputs';
+import { HEADER_NAV } from '@/constant/constant';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import styled from 'styled-components';
 
 export default function Login() {
   // 로그인 아이디

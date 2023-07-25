@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
-import { PostType } from '@/types/type';
+
 import axios from 'axios';
+import { PostType } from '@/types/type';
 
 export default function index() {
   // 검색창
