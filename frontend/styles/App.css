@@ -30,6 +30,7 @@ a {
   --color-white: #ffffff;
   --color-light-gray: #d1d1d1;
   --color-gray: #777777;
+  --color-dark-gray: #515151;
   --color-black: #111111;
   --color-blue: #3b4890;
   --color-light-blue: #5365cc;
@@ -50,6 +51,7 @@ a {
   --padding-base: 0 calc((100% - 1280px) / 2);
   --margin-small: 10px;
   --margin-content: 10px 20px;
+  --margin-solo: 20px;
   --border-content: solid 1px var(--color-light-blue);
   --border-text: solid 1px var(--color-light-gray);
   --border-dash: dashed 1px;
