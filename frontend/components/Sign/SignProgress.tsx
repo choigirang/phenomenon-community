@@ -63,5 +63,5 @@ const BoxChild = styled.div<BoxProps>`
   color: ${props => (props.isActive ? 'var(--color-blue)' : 'var(--color-gray)')};
   font-weight: ${props => (props.isActive ? '500' : '')};
   font-size: var(--size-title);
-  border: ${props => (props.isActive ? '3px solid var(--color-dark-blue)' : '1px solid var(--color-dark-gray)')};
+  border: ${props => (props.isActive ? '3px solid var(--color-dark-blue)' : '')};
 `;
