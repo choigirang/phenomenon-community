@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { ReactEventHandler, useState } from 'react';
 
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
 
-import { Bottom } from '@/styles/GlobalComponents';
+import { Bottom, NextPage } from '@/styles/GlobalComponents';
 import styled from 'styled-components';
 import { AiFillCheckCircle, AiFillQuestionCircle } from 'react-icons/ai';
 
 interface InputType {
   [key: string]: string;
+}
+
+interface PassType {
+  firstPass: string;
+  secondPass: string;
 }
 
 const inputData: InputType = {
@@ -20,8 +25,21 @@ const inputData: InputType = {
 };
 
 export default function info() {
-  const [checkPass, setCheckPass] = useState({});
+  const [checkPass, setCheckPass] = useState<PassType>({
+    firstPass: '',
+    secondPass: '',
+  });
 
+  const checkPassHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setCheckPass(prevCheckPass => ({
+      ...prevCheckPass,
+      [name]: value,
+    }));
+  };
+
+  const agreementCheck = () => {};
   return (
     <>
       <SignHeader />
@@ -44,8 +62,21 @@ export default function info() {
                 비밀번호
               </label>
               <div className="pass-box">
-                <input id="pass" type="password" placeholder="비밀번호를 입력해주세요." required />
-                <input type="password" placeholder="비밀번호를 다시 입력해주세요." required />
+                <input
+                  id="pass"
+                  type="password"
+                  name="firstPass"
+                  placeholder="비밀번호를 입력해주세요."
+                  onChange={checkPassHandler}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="비밀번호를 다시 입력해주세요."
+                  name="secondPass"
+                  onChange={checkPassHandler}
+                  required
+                />
                 <div className="opt-box">
                   <div className="text-box">
                     <span className="small-title">비밀번호 필수 조건</span>
@@ -87,6 +118,20 @@ export default function info() {
               <div className="mail-box">
                 <div className="mail-input">
                   <input id="mail" type="text" required></input> @ <input id="url" type="text" required></input>
+                  <select name="fruits" className="select">
+                    <option disabled selected>
+                      이메일 선택
+                    </option>
+                    <option value="google">gmail.com</option>
+                    <option value="hanmail">hanmail.net</option>
+                    <option value="hotmail">hotmail.com</option>
+                    <option value="daum">daum.net</option>
+                    <option value="kakao">kakao.com</option>
+                    <option value="naver">naver.com</option>
+                    <option value="yahoo">yahoo.com</option>
+                    <option value="nate">nate.com</option>
+                    <option value="user">직접 입력</option>
+                  </select>
                 </div>
                 <ul className="text-box">
                   <li>보안 코드는 식별 코드 찾기/비밀번호 재설정 및 탈퇴 시 사용되므로 발급을 부탁드립니다.</li>
@@ -96,10 +141,23 @@ export default function info() {
                     받아주시기 바랍니다.
                   </li>
                 </ul>
+
+                <div className="mail-agree">
+                  <span className="small-title">이메일 수집 동의</span>
+                  <div className="check-info">
+                    <input type="checkbox" />
+                    입력하신 이메일은 인증 및 보안 코드 전송을 위해 사용하며, 이메일 발송 후 즉시 파기됩니다.
+                  </div>
+                </div>
               </div>
             </div>
           </InputBox>
         </InputContainer>
+        <NextPage>
+          <button className="btn" onClick={() => agreementCheck()}>
+            다음
+          </button>
+        </NextPage>
       </Bottom>
     </>
   );
@@ -170,7 +228,6 @@ const InputBox = styled.form`
     }
     /* 비밀번호 추가조건 */
     .opt-box {
-      padding-left: var(--padding-solo);
       padding-top: var(--padding-solo);
     }
 
@@ -178,14 +235,8 @@ const InputBox = styled.form`
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 4px;
-      font-size: var(--size-text);
-
-      li {
-        list-style: disc;
-      }
+      margin-bottom: var(--padding-solo);
     }
-
     .need-opt {
       display: flex;
       align-items: center;
@@ -217,6 +268,46 @@ const InputBox = styled.form`
     /* 이메일 */
     .mail-input {
       margin-bottom: var(--margin-solo);
+    }
+
+    li {
+      font-size: var(--size-text);
+
+      ::before {
+        content: '- ';
+      }
+    }
+
+    .select {
+      width: 150px;
+      height: 30px;
+      padding-left: var(--padding-solo);
+      margin-left: var(--margin-solo);
+      border: solid 1px var(--color-light-gray);
+      background-color: var(--color-dark-white);
+      position: relative;
+
+      option {
+        position: absolute;
+        top: -30px;
+      }
+
+      :first-child {
+        font-weight: 500;
+      }
+    }
+
+    .mail-agree {
+      width: 100%;
+      background-color: var(--color-light-gray);
+      padding: var(--padding-solo) var(--padding-side);
+    }
+
+    .check-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--size-text);
     }
   }
 `;
