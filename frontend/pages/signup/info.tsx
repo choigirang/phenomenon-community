@@ -16,6 +16,11 @@ interface PassType {
   secondPass: string;
 }
 
+type InputData = {
+  validate: boolean;
+  leastPass: boolean;
+};
+
 const inputData: InputType = {
   아이디: '아이디',
   비밀번호: '비밀번호',
@@ -24,12 +29,35 @@ const inputData: InputType = {
   자동입력방지: '자동 입력 방지 코드',
 };
 
+const options: InputType = {
+  google: 'google',
+  hanmail: 'hanmail',
+  hotmail: 'hanmail',
+  daum: 'daum',
+  kakao: 'kakao',
+  yahoo: 'yahoo',
+  nate: 'nate',
+  user: '직접 입력',
+};
+
 export default function info() {
+  // 비밀번호 관련
   const [checkPass, setCheckPass] = useState<PassType>({
     firstPass: '',
     secondPass: '',
   });
 
+  const confirmPass = checkPass.firstPass === checkPass.secondPass;
+
+  // 비밀번호 유효성 검사
+  const upperCase = /[A-Z]/.test(checkPass.secondPass);
+  const lowerCase = /[a-z]/.test(checkPass.secondPass);
+  const digit = /|d/.test(checkPass.secondPass);
+  const specialChar = /[!@#$%^&*()\-_=+{}[\]:;'",.<>?/|\\]/.test(checkPass.secondPass);
+
+  const validatePass = confirmPass && upperCase && lowerCase && digit && specialChar;
+
+  // 비밀번호 입력 이벤트
   const checkPassHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -39,6 +67,29 @@ export default function info() {
     }));
   };
 
+  // 닉네임 유효성 검사
+  const [nickname, setNickName] = useState<string>();
+  const [checkNick, setCheckNick] = useState<boolean>(false);
+  const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target.value;
+    if (target.length < 2 && target.length > 20) {
+      setCheckNick(true);
+    }
+  };
+
+  //  이메일 관리
+  const [, setUserMail] = useState<string>();
+  const [domain, setDomain] = useState<string>();
+
+  const domainHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.value === 'user') {
+      setDomain('');
+    } else {
+      setDomain(`${event.target.value}.com`);
+    }
+  };
+
+  //  제출
   const agreementCheck = () => {};
   return (
     <>
@@ -47,7 +98,7 @@ export default function info() {
       <Bottom>
         <InputContainer>
           <div className="title">기본 정보 입력</div>
-          <InputBox>
+          <InputBox validate={validatePass} leastPass={checkPass.secondPass.length >= 8}>
             {/* 아이디 */}
             <div className="each-data">
               <label htmlFor="id" className="sub-title">
@@ -63,7 +114,6 @@ export default function info() {
               </label>
               <div className="pass-box">
                 <input
-                  id="pass"
                   type="password"
                   name="firstPass"
                   placeholder="비밀번호를 입력해주세요."
@@ -77,26 +127,18 @@ export default function info() {
                   onChange={checkPassHandler}
                   required
                 />
+                {!confirmPass && <span className="confirm-pass">입력한 비밀번호가 일치하지 않습니다.</span>}
                 <div className="opt-box">
                   <div className="text-box">
                     <span className="small-title">비밀번호 필수 조건</span>
                     <div className="need-opt">
                       <AiFillCheckCircle />
-                      <span>영문, 숫자, 특수문자 조합입니다.</span>
+                      <span>영문 대소문자, 숫자, 특수문자 조합이어야 합니다.</span>
                     </div>
                     <div className="need-opt">
                       <AiFillCheckCircle />
                       <span>8 ~ 20 글자입니다..</span>
                     </div>
-                  </div>
-                  <span className="small-title">
-                    안전정도
-                    <AiFillQuestionCircle />
-                  </span>
-                  <div className="line-box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
                   </div>
                 </div>
               </div>
@@ -107,30 +149,29 @@ export default function info() {
               <label htmlFor="name" className="sub-title">
                 닉네임
               </label>
-              <input id="name" type="text" placeholder="닉네임을 입력해주세요." required></input>
+              <div className="name-box">
+                <input id="name" type="text" placeholder="닉네임을 입력해주세요." onChange={nicknameHandler} required />
+                <span>{`${'2~20자의 닉네임을 입력해주세요.(띄어쓰기는 허용되지 않습니다.)'}`}</span>
+              </div>
             </div>
 
             {/* 이메일 */}
             <div className="each-data">
-              <label htmlFor="name" className="sub-title">
+              <label htmlFor="mail" className="sub-title">
                 이메일
               </label>
               <div className="mail-box">
                 <div className="mail-input">
-                  <input id="mail" type="text" required></input> @ <input id="url" type="text" required></input>
-                  <select name="fruits" className="select">
-                    <option disabled selected>
+                  <input id="mail" type="text" onChange={e => setUserMail(e.target.value)} required />
+                  <span className="at">@</span>
+                  <input id="url" type="text" value={domain} onChange={e => setDomain(e.target.value)} required></input>
+                  <select name="fruits" className="select" onChange={domainHandler}>
+                    <option disabled selected={true}>
                       이메일 선택
                     </option>
-                    <option value="google">gmail.com</option>
-                    <option value="hanmail">hanmail.net</option>
-                    <option value="hotmail">hotmail.com</option>
-                    <option value="daum">daum.net</option>
-                    <option value="kakao">kakao.com</option>
-                    <option value="naver">naver.com</option>
-                    <option value="yahoo">yahoo.com</option>
-                    <option value="nate">nate.com</option>
-                    <option value="user">직접 입력</option>
+                    {Object.keys(options).map(opt => (
+                      <option value={opt}>{options[opt]}</option>
+                    ))}
                   </select>
                 </div>
                 <ul className="text-box">
@@ -177,7 +218,7 @@ const InputContainer = styled.div`
   }
 `;
 
-const InputBox = styled.form`
+const InputBox = styled.form<InputData>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -222,10 +263,17 @@ const InputBox = styled.form`
     /* 비밀번호 스타일 */
     .pass-box {
       width: 100%;
+      position: relative;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
+    .confirm-pass {
+      font-size: var(--size-text);
+      color: var(--color-red);
+    }
+
     /* 비밀번호 추가조건 */
     .opt-box {
       padding-top: var(--padding-solo);
@@ -245,12 +293,31 @@ const InputBox = styled.form`
 
       svg {
         font-size: 12px;
-        color: var(--color-gray);
+
+        :nth-child(1) {
+          color: ${props => (props.validate ? 'var(--color-green)' : 'var(--color-gray)')};
+        }
+
+        :nth-child(2) {
+          color: ${props => (props.leastPass ? 'var(--color-green)' : 'var(--color-gray)')};
+        }
       }
 
       span {
         font-size: var(--size-text);
+
+        :nth-child(1) {
+          color: ${props => (props.validate ? 'var(--color-green)' : 'var(--color-gray)')};
+        }
+
+        :nth-child(2) {
+          color: ${props => (props.leastPass ? 'var(--color-green)' : 'var(--color-gray)')};
+        }
       }
+    }
+
+    .on {
+      color: green !important;
     }
 
     .line-box {
@@ -262,6 +329,18 @@ const InputBox = styled.form`
         width: 100%;
         height: 3px;
         background-color: red;
+      }
+    }
+
+    /* 닉네임 */
+    .name-box {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        padding-top: var(--padding-solo);
+        font-size: var(--size-text);
+        color: var(--color-gray);
       }
     }
 
@@ -278,6 +357,10 @@ const InputBox = styled.form`
       }
     }
 
+    .at {
+      margin: 0 var(--padding-solo);
+    }
+
     .select {
       width: 150px;
       height: 30px;
@@ -285,16 +368,6 @@ const InputBox = styled.form`
       margin-left: var(--margin-solo);
       border: solid 1px var(--color-light-gray);
       background-color: var(--color-dark-white);
-      position: relative;
-
-      option {
-        position: absolute;
-        top: -30px;
-      }
-
-      :first-child {
-        font-weight: 500;
-      }
     }
 
     .mail-agree {
