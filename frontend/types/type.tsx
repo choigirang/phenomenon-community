@@ -14,9 +14,9 @@ export type HeaderNav = {
 };
 
 // 로그인
-interface UserInfo {
+export type UserInfo = {
   username: string;
-}
+};
 
 export type User = {
   username: string;
