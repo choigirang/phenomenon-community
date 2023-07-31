@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useState } from 'react';
+import React, { ReactEventHandler, useEffect, useState } from 'react';
 
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
@@ -11,22 +11,19 @@ interface InputType {
   [key: string]: string;
 }
 
-interface PassType {
-  firstPass: string;
-  secondPass: string;
+interface CheckData {
+  [key: string]: boolean;
 }
 
-type InputData = {
-  validate: boolean;
-  leastPass: boolean;
+type IdCheck = {
+  userId: string;
+  required?: boolean;
 };
 
-const inputData: InputType = {
-  아이디: '아이디',
-  비밀번호: '비밀번호',
-  닉네임: '닉네임',
-  이메일: '이메일',
-  자동입력방지: '자동 입력 방지 코드',
+type InputData = {
+  validatePass: boolean;
+  leastPass: boolean;
+  leastNickname: boolean;
 };
 
 const options: InputType = {
@@ -41,21 +38,44 @@ const options: InputType = {
 };
 
 export default function info() {
-  // 비밀번호 관련
-  const [checkPass, setCheckPass] = useState<PassType>({
+  // 아이디
+  const [id, setId] = useState<IdCheck>({
+    userId: '',
+    required: false,
+  });
+
+  // 비밀번호
+  const [checkPass, setCheckPass] = useState<InputType>({
     firstPass: '',
     secondPass: '',
   });
+  const [validatePass, setValidatePass] = useState<boolean>(false);
 
-  const confirmPass = checkPass.firstPass === checkPass.secondPass;
+  // 유효성 검사
+  function checkInput(userData: string) {
+    const upperCase = /[A-Z]/.test(userData);
+    const lowerCase = /[a-z]/.test(userData);
+    const digit = /|d/.test(userData);
+    const specialChar = /[!@#$%^&*()\-_=+{}[\]:;'",.<>?/|\\]/.test(userData);
+    const koreanStr = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(userData);
+
+    console.log(upperCase);
+
+    return upperCase && lowerCase && digit && specialChar && koreanStr;
+  }
+
+  // 아이디 입력 이벤트
+  const checkIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+
+    setId(prev => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
 
   // 비밀번호 유효성 검사
-  const upperCase = /[A-Z]/.test(checkPass.secondPass);
-  const lowerCase = /[a-z]/.test(checkPass.secondPass);
-  const digit = /|d/.test(checkPass.secondPass);
-  const specialChar = /[!@#$%^&*()\-_=+{}[\]:;'",.<>?/|\\]/.test(checkPass.secondPass);
-
-  const validatePass = confirmPass && upperCase && lowerCase && digit && specialChar;
+  const confirmPass = checkPass.firstPass === checkPass.secondPass;
 
   // 비밀번호 입력 이벤트
   const checkPassHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,19 +87,36 @@ export default function info() {
     }));
   };
 
+  useEffect(() => {
+    if (confirmPass && checkInput(checkPass.secondPass)) {
+      setValidatePass(true);
+    } else {
+      setValidatePass(false);
+    }
+    console.log(validatePass, checkPass.secondPass, checkPass.firstPass);
+  }, [confirmPass, checkPass.secondPass]);
+
   // 닉네임 유효성 검사
   const [nickname, setNickName] = useState<string>();
-  const [checkNick, setCheckNick] = useState<boolean>(false);
+  const [checkNick, setCheckNick] = useState<boolean>(true);
+
   const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target.value;
-    if (target.length < 2 && target.length > 20) {
+
+    if (target.length > 2 && target.length < 20) {
       setCheckNick(true);
+      setNickName(target);
+    } else {
+      setCheckNick(false);
+      setNickName('');
     }
+
+    console.log(target, checkNick);
   };
 
   //  이메일 관리
-  const [, setUserMail] = useState<string>();
-  const [domain, setDomain] = useState<string>();
+  const [userMail, setUserMail] = useState<string>('');
+  const [domain, setDomain] = useState<string>('');
 
   const domainHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'user') {
@@ -98,7 +135,10 @@ export default function info() {
       <Bottom>
         <InputContainer>
           <div className="title">기본 정보 입력</div>
-          <InputBox validate={validatePass} leastPass={checkPass.secondPass.length >= 8}>
+          <InputBox
+            validatePass={validatePass}
+            leastPass={confirmPass && checkPass.secondPass.length >= 8}
+            leastNickname={checkNick}>
             {/* 아이디 */}
             <div className="each-data">
               <label htmlFor="id" className="sub-title">
@@ -165,8 +205,8 @@ export default function info() {
                   <input id="mail" type="text" onChange={e => setUserMail(e.target.value)} required />
                   <span className="at">@</span>
                   <input id="url" type="text" value={domain} onChange={e => setDomain(e.target.value)} required></input>
-                  <select name="fruits" className="select" onChange={domainHandler}>
-                    <option disabled selected={true}>
+                  <select name="fruits" className="select" onChange={domainHandler} value={domain}>
+                    <option disabled value="">
                       이메일 선택
                     </option>
                     {Object.keys(options).map(opt => (
@@ -295,7 +335,7 @@ const InputBox = styled.form<InputData>`
         font-size: 12px;
 
         :nth-child(1) {
-          color: ${props => (props.validate ? 'var(--color-green)' : 'var(--color-gray)')};
+          color: ${props => (props.validatePass ? 'var(--color-green)' : 'var(--color-gray)')};
         }
 
         :nth-child(2) {
@@ -307,7 +347,7 @@ const InputBox = styled.form<InputData>`
         font-size: var(--size-text);
 
         :nth-child(1) {
-          color: ${props => (props.validate ? 'var(--color-green)' : 'var(--color-gray)')};
+          color: ${props => (props.validatePass ? 'var(--color-green)' : 'var(--color-gray)')};
         }
 
         :nth-child(2) {
@@ -340,7 +380,7 @@ const InputBox = styled.form<InputData>`
       span {
         padding-top: var(--padding-solo);
         font-size: var(--size-text);
-        color: var(--color-gray);
+        color: ${props => (props.leastNickname ? 'var(--color-gray)' : 'var(--color-red)')};
       }
     }
 
