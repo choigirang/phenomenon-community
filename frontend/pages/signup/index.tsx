@@ -47,7 +47,8 @@ export default function index() {
   };
 
   // 다음 페이지
-  const agreementCheck = () => {
+  const agreementCheck = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!check.useCheck || !check.privateCheck) return alert('필수 항목에 동의해야 합니다.');
     return router.push('/signup/info');
   };
@@ -60,7 +61,7 @@ export default function index() {
       {/* 회원가입 */}
       <Bottom>
         {serviceData.map(data => (
-          <ServiceAgree>
+          <ServiceAgree key={data.id}>
             <span className="example">{data.title}</span>
             <pre className="content-text">{data.text}</pre>
             <AgreeBox>
@@ -76,7 +77,7 @@ export default function index() {
           </ServiceAgree>
         ))}
         <NextPage>
-          <button className="btn" onClick={() => agreementCheck()}>
+          <button className="btn" onClick={e => agreementCheck(e)}>
             다음
           </button>
         </NextPage>
