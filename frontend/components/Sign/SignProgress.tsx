@@ -13,7 +13,7 @@ interface ColorByLinkTypes {
 
 export default function SignProgress() {
   const router = useRouter();
-  const [, setCurLink] = useState(router.asPath);
+  const [curLink, setCurLink] = useState(router.pathname);
   const colorByLink: ColorByLinkTypes = {
     '/signup': '약관 동의',
     '/signup/info': '기본 정보 입력',
@@ -29,7 +29,7 @@ export default function SignProgress() {
       {Object.keys(colorByLink).map(link => {
         return (
           <Box key={link}>
-            <BoxChild isActive={router.asPath === link}>{colorByLink[link]}</BoxChild>
+            <BoxChild isActive={router.pathname === link}>{colorByLink[link]}</BoxChild>
           </Box>
         );
       })}
