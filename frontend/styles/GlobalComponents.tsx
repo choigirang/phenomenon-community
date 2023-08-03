@@ -29,7 +29,7 @@ export const NextPage = styled.div`
 `;
 
 // 회원가입 공통 양식
-export const Bottom = styled.div`
+export const Bottom = styled.form`
   width: 100%;
   padding: var(--padding-base);
   margin-bottom: var(--margin-solo);
