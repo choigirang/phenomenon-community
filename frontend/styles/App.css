@@ -57,7 +57,8 @@ a {
   --border-content: solid 1px var(--color-light-blue);
   --border-text: solid 1px var(--color-light-gray);
   --border-dash: dashed 1px;
-  --border-solid: solid 1px;
+  --border-solid1: solid 1px;
+  --border-solid3: solid 3px;
   --border-radius-small: 3px;
 }
 
@@ -68,4 +69,8 @@ input {
 
 button {
   border: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
