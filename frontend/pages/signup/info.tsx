@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
@@ -6,9 +6,15 @@ import SignProgress from '@/components/Sign/SignProgress';
 import { Bottom, NextPage } from '@/styles/GlobalComponents';
 import styled from 'styled-components';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import axios from 'axios';
 
 interface InputType {
   [key: string]: string;
+}
+
+interface AxiosSecurityCode {
+  code: string | null;
+  userCode: string;
 }
 
 type Check = {
@@ -49,7 +55,7 @@ export default function info() {
     firstPass: '',
     secondPass: '',
   });
-  const [validatePass, setValidatePass] = useState<boolean>(false);
+  const [validatePass, setValidatePass] = useState(false);
 
   // 유효성 검사
   const validationItems: ValidationItem[] = [
@@ -150,31 +156,98 @@ export default function info() {
     mail: '',
     domain: '',
   });
+  const [inputAble, setInputAble] = useState<boolean>(false);
 
-  const domainHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const mailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (name === 'mail') {
       setUserMail(prev => ({
         ...prev,
-        [name]: value,
+        mail: value,
       }));
     } else {
-      if (value === 'user') {
-        setUserMail(prev => ({
-          ...prev,
-          [name]: '',
-        }));
-      } else if (name === 'domain') {
-        setUserMail(prev => ({
-          ...prev,
-          [name]: options[value],
-        }));
+      setUserMail(prev => ({
+        ...prev,
+        domain: value,
+      }));
+    }
+  };
+
+  // select 이벤트
+  const selectDirect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    function domainHandler(value: string) {
+      if (value === '직접 입력') {
+        setUserMail(prev => ({ ...prev, domain: '' }));
+        setInputAble(true);
+      } else {
+        setUserMail(prev => ({ ...prev, domain: value }));
+        setInputAble(false);
       }
     }
-
-    console.log(userMail);
+    domainHandler(value);
   };
+
+  // 보안 코드 관리
+  const [security, setSecurity] = useState<AxiosSecurityCode>({
+    code: null,
+    userCode: '',
+  });
+  const [checkSecurity, setCheckSecurity] = useState({
+    agree: false,
+    errInfo: '',
+    errCode: '',
+  });
+
+  // 이메일 수집 동의
+  const securityAgreeHandler = () => {
+    setCheckSecurity(prev => ({
+      ...prev,
+      agree: !prev.agree,
+    }));
+    console.log(checkSecurity);
+  };
+
+  // 보안 코드 입력
+  const userCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSecurity(prev => ({ ...prev, userCode: value }));
+  };
+
+  // 메일 확인과 수집 동의 확인
+  const checkMailOpt = userMail.mail !== '' && userMail.domain !== '' && checkSecurity.agree;
+
+  // 보안 코드 확인
+  const checkMailBeforeSend = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(userMail, checkSecurity.agree);
+    if (checkMailOpt) {
+      sendCodeHandler();
+    } else {
+      setCheckSecurity(prev => ({
+        ...prev,
+        err: '수집 동의와 올바른 이메일 입력이 필요합니다.',
+      }));
+    }
+  };
+
+  // 보안 코드 전송
+  const sendCodeHandler = () => {
+    axios
+      .post('http://localhost:3001/signin/security-code', userMail)
+      .then(res => {
+        alert('보안 코드가 전송되었습니다.');
+        setSecurity(prev => ({
+          ...prev,
+          code: res.data,
+        }));
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
   //  제출
   const agreementCheck = () => {};
   return (
@@ -207,6 +280,7 @@ export default function info() {
               </label>
               <div className="pass-box">
                 <input
+                  id="pass"
                   type="password"
                   name="firstPass"
                   placeholder="비밀번호를 입력해주세요."
@@ -262,28 +336,23 @@ export default function info() {
               </label>
               <div className="mail-box">
                 <div className="mail-input">
-                  <input type="text" onChange={domainHandler} name={userMail.mail} required />
+                  <input type="text" onChange={mailHandler} name="mail" required />
                   <span className="at">@</span>
                   <input
                     id="url"
                     name="domain"
-                    type="text"
                     value={userMail.domain}
-                    onChange={domainHandler}
-                    required></input>
-                  <select
-                    name="domain"
-                    className="select"
-                    onChange={e => {
-                      setUserMail(prev => ({ ...prev, domain: e.target.value }));
-                      console.log(e);
-                    }}
-                    value={userMail.domain}>
-                    <option disabled value="">
+                    type="text"
+                    onChange={mailHandler}
+                    required
+                    disabled={!inputAble}
+                  />
+                  <select name="domain" value={userMail.domain} className="select" onChange={selectDirect}>
+                    <option defaultValue="" value="">
                       이메일 선택
                     </option>
                     {Object.keys(options).map(opt => (
-                      <option value={opt} key={options[opt]}>
+                      <option value={options[opt]} key={options[opt]}>
                         {options[opt]}
                       </option>
                     ))}
@@ -298,12 +367,28 @@ export default function info() {
                   </li>
                 </ul>
 
+                {/* 보안 코드 */}
                 <div className="mail-agree">
-                  <span className="small-title">이메일 수집 동의</span>
-                  <div className="check-info">
-                    <input type="checkbox" />
-                    입력하신 이메일은 인증 및 보안 코드 전송을 위해 사용하며, 이메일 발송 후 즉시 파기됩니다.
+                  <div className="agree-box">
+                    <span className="small-title">이메일 수집 동의</span>
+                    <div className="check-info">
+                      <input type="checkbox" id="agree" onClick={securityAgreeHandler} />
+                      <label htmlFor="agree">
+                        입력하신 이메일은 인증 및 보안 코드 전송을 위해 사용하며, 이메일 발송 후 즉시 파기됩니다.
+                      </label>
+                    </div>
                   </div>
+                  <div className="check-security">
+                    <div className="security-input">
+                      <input type="text" placeholder="인증 코드 입력" onChange={userCode} />
+                      <button>확인</button>
+                    </div>
+                    <button className="send-code" onClick={e => checkMailBeforeSend(e)}>
+                      인증 코드 받기
+                    </button>
+                  </div>
+                  <p className="security-err">{checkSecurity.errInfo}</p>
+                  <p className="security-err">{checkSecurity.errCode}</p>
                 </div>
               </div>
             </div>
@@ -333,7 +418,7 @@ const InputContainer = styled.div`
   }
 `;
 
-const InputBox = styled.form<InputData>`
+const InputBox = styled.div<InputData>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -485,7 +570,7 @@ const InputBox = styled.form<InputData>`
       background-color: var(--color-dark-white);
     }
 
-    .mail-agree {
+    .agree-box {
       width: 100%;
       background-color: var(--color-light-gray);
       padding: var(--padding-solo) var(--padding-side);
@@ -496,6 +581,48 @@ const InputBox = styled.form<InputData>`
       align-items: center;
       gap: 4px;
       font-size: var(--size-text);
+    }
+
+    .check-security {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: var(--padding-solo);
+    }
+
+    .security-input {
+      float: left;
+      border: var(--border-solid1) var(--color-blue);
+
+      input {
+        width: 145px;
+        border: none;
+        padding: var(--padding-solo);
+        line-height: 33px;
+      }
+
+      button {
+        width: 50px;
+        height: 33px;
+        font-weight: bold;
+        text-shadow: 0px -1px var(--color-dark-blue);
+        color: var(--color-white);
+        background: var(--color-blue);
+      }
+    }
+
+    .send-code {
+      font-weight: bold;
+      height: 33px;
+      padding: 0 var(--padding-solo);
+      border: var(--border-solid1) var(--color-blue);
+      background: white;
+      color: var(--color-blue);
+    }
+
+    .security-err {
+      font-size: var(--size-text);
+      padding-top: var(--padding-solo);
     }
   }
 `;
