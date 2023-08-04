@@ -1,8 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import { UserType } from '../../type/type';
 
 const userSchema = new mongoose.Schema({
   userNum: {
     type: Number,
+    unique: true,
     required: true,
   },
   id: {
@@ -23,6 +25,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", userSchema);
+userSchema.methods.comparePassword = function (password: string) {
+  return password === this.password;
+};
 
-export { User };
+const User = mongoose.model<UserType>('User', userSchema);
+
+export default User;
