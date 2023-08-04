@@ -9,6 +9,7 @@ import useInputs from '@/hooks/useInputs';
 import { HEADER_NAV } from '@/constant/constant';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { api } from '@/util/api';
 
 export default function Login() {
   // 로그인 아이디
@@ -25,13 +26,14 @@ export default function Login() {
     e.preventDefault();
     // 유저 확인
     async function fetch() {
-      await axios
-        .get('http://localhost:3001/login', { params: { id, password: pass } })
+      await api
+        .get('/login', { params: { id, password: pass } })
         .then(res => {
           alert('로그인 되었습니다.');
           setLogin(res.data);
         })
         .catch(res => {
+          console.log(res);
           alert('일치하지 않는 사용자입니다.');
         });
     }
