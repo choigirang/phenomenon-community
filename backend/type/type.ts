@@ -8,3 +8,8 @@ export interface UserType extends Document {
   mail: string;
   comparePassword: (password: string) => boolean;
 }
+
+export interface PostType extends Document {
+  id: number;
+  userId: string;
+}
