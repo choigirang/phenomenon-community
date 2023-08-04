@@ -38,3 +38,19 @@ export const Bottom = styled.form`
   justify-content: center;
   gap: var(--padding-side);
 `;
+
+// 다른 페이지에서 사용될 기본 index 양식
+export const Container = styled.div`
+  height: 100%;
+  padding: 0 calc((100% - 1280px) / 2);
+  display: grid;
+  grid-template-columns: calc(100% - 300px) 200px;
+
+  .sub-title {
+    width: 100%;
+    font-weight: 500;
+    font-size: 12px;
+    padding-bottom: var(--padding-solo);
+    border-bottom: var(--border-dash);
+  }
+`;
