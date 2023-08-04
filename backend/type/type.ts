@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 export interface UserType extends Document {
   userNum: number;
@@ -6,4 +6,5 @@ export interface UserType extends Document {
   password: string;
   name: string;
   mail: string;
+  comparePassword: (password: string) => boolean;
 }
