@@ -1,33 +1,47 @@
-import express, { Request, Response, NextFunction, RequestHandler } from 'express';
-import { User } from '../models/users.model';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
+import User from '../models/users.model';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import jwt from 'jsonwebtoken';
+import { UserType } from '../../type/type';
 
-// 보안 메일
+// 로그인
+async function loginUser(req: Request, res: Response) {
+  try {
+    const { id, password } = req.body;
+    const user: UserType | null = await User.findOne({ id });
+
+    if (!user) {
+      return res.status(401).send('일치하는 아이디가 없습니다.');
+    }
+
+    const isPasswordMatch = await user.comparePassword(password);
+    if (!isPasswordMatch) {
+      return res.status(401).send('비밀번호가 일치하지 않습니다.');
+    }
+    const token = jwt.sign({ userId: user._id }, 'secret_key');
+    res.cookie('token', token, { httpOnly: true });
+    res.status(200).json({ message: 'Login successful!' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to login!' });
+  }
+}
+// 보안 코드 생성
 function generateRandomCode() {
   return crypto.randomBytes(3).toString('hex').toUpperCase();
 }
 
-const showUser: RequestHandler = async (req, res, next): Promise<void> => {
-  try {
-    const { id, password } = req.params;
-    const users = await User.find();
-    res.status(200).send(users);
-  } catch (err) {
-    next(err);
-  }
-};
-
+// 보안 코드 전송
 async function sendSecurityCode(req: Request, res: Response) {
   const { email, domain } = req.body;
   const securityCode = generateRandomCode();
   try {
     // 메일 전송 트랜스포터 설정
     const transporter = nodemailer.createTransport({
-      service: 'Gamil',
+      service: 'Gamail',
       auth: {
         user: 'chlrlfkd@gmail.com',
-        pass: 'chlrlfkd',
+        pass: 'zkkxyurtvdafbjww',
       },
     });
 
@@ -47,7 +61,7 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-// 비동기 요청
+// 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   try {
     const createUser = await User.create(req.body);
@@ -57,4 +71,4 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export { showUser, sendSecurityCode, createUser };
+export { loginUser, sendSecurityCode, createUser };
