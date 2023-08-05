@@ -26,6 +26,7 @@ async function loginUser(req: Request, res: Response) {
     res.status(500).json({ error: 'Failed to login!' });
   }
 }
+
 // 보안 코드 생성
 function generateRandomCode() {
   return crypto.randomBytes(3).toString('hex').toUpperCase();

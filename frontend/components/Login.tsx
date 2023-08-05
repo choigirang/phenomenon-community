@@ -27,7 +27,7 @@ export default function Login() {
     // 유저 확인
     async function fetch() {
       await api
-        .get('/login', { params: { id, password: pass } })
+        .post('/login', { params: { id, password: pass } })
         .then(res => {
           alert('로그인 되었습니다.');
           setLogin(res.data);
