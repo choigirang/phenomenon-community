@@ -2,13 +2,15 @@ import axios from 'axios';
 import { getCookie } from '../cookie';
 
 const api = axios.create({
-  baseURL: process.env.BASE_URL,
-  timeout: 3000,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: getCookie('accessToken'),
-  },
+  baseURL: 'http://localhost:3001',
+  timeout: 5000,
+  headers: { 'Content-Type': 'application/json' },
+  // withCredentials: true,
+  // 이후 쿠키
+  // headers: {
+  //   'Content-Type': 'application/json',
+  //   Authorization: getCookie('accessToken'),
+  // },
 });
 
 export { api };
