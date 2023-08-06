@@ -2,21 +2,19 @@ import React, { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import axios from 'axios';
-import { User } from '@/types/type';
-
 import useInputs from '@/hooks/useInputs';
-import { HEADER_NAV } from '@/constant/constant';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { api } from '@/util/api';
+import { UserType } from '../../backend/type/type';
+import { AxiosResponse } from 'axios';
 
 export default function Login() {
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
   const [pass, setPass] = useInputs<string>('');
-  const [login, setLogin] = useState<User | undefined>();
+  const [login, setLogin] = useState<UserType | undefined>();
 
   const router = useRouter();
 
@@ -27,14 +25,14 @@ export default function Login() {
     // 유저 확인
     async function fetch() {
       await api
-        .post('/login', { params: { id, password: pass } })
-        .then(res => {
+        .post('/login', { id, pass })
+        .then((res: AxiosResponse<UserType>) => {
+          const resData: UserType = res.data;
           alert('로그인 되었습니다.');
-          setLogin(res.data);
+          setLogin(resData);
         })
         .catch(res => {
-          console.log(res);
-          alert('일치하지 않는 사용자입니다.');
+          alert(res);
         });
     }
     fetch();
@@ -83,7 +81,7 @@ export default function Login() {
         {login && (
           <LoginUserBox>
             <div className="user-box">
-              <span className="name">{login.userInfo.username}</span>
+              <span className="name">{login.name}</span>
               <span>님</span>
               <BsFillArrowRightCircleFill />
             </div>
