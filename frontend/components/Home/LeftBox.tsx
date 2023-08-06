@@ -20,15 +20,15 @@ export default function LeftBox() {
 
   // 데이터 함수
   // 게시글 데이터 함수
-  async function fetch(): Promise<PostType[]> {
-    const res = await axios.get('http://localhost:3001');
-    return res.data;
-  }
+  // async function fetch(): Promise<PostType[]> {
+  //   const res = await axios.get('http://localhost:3001');
+  //   return res.data;
+  // }
 
   // 게시글 데이터 쿼리
-  const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(), {
-    staleTime: 2000,
-  });
+  // const { isLoading, data, isError, error } = useQuery<PostType[]>(['post'], () => fetch(), {
+  //   staleTime: 2000,
+  // });
 
   return (
     <Container>
@@ -59,7 +59,7 @@ export default function LeftBox() {
         </div>
       </PostTitle>
       <PostList>
-        {data &&
+        {/* {data &&
           data.map(item => (
             <Post key={item.id}>
               <a href="/" className="post-box">
@@ -71,7 +71,7 @@ export default function LeftBox() {
                 <span>{item.createdAt.toString()}</span>
               </a>
             </Post>
-          ))}
+          ))} */}
       </PostList>
     </Container>
   );
