@@ -7,13 +7,16 @@ import { Bottom, NextPage } from '@/styles/GlobalComponents';
 import styled from 'styled-components';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import axios from 'axios';
+import { api } from '@/util/api';
+import { FormEvent } from 'react';
+import { useRouter } from 'next/router';
 
 interface InputType {
   [key: string]: string;
 }
 
 interface AxiosSecurityCode {
-  code: string | null;
+  code: string;
   userCode: string;
 }
 
@@ -44,6 +47,8 @@ const options: InputType = {
 };
 
 export default function info() {
+  const router = useRouter();
+
   // 아이디
   const [id, setId] = useState<Check>({
     userId: '',
@@ -192,11 +197,12 @@ export default function info() {
 
   // 보안 코드 관리
   const [security, setSecurity] = useState<AxiosSecurityCode>({
-    code: null,
+    code: '',
     userCode: '',
   });
   const [checkSecurity, setCheckSecurity] = useState({
     agree: false,
+    compareSecurityCode: false,
     errInfo: '',
     errCode: '',
   });
@@ -207,7 +213,6 @@ export default function info() {
       ...prev,
       agree: !prev.agree,
     }));
-    console.log(checkSecurity);
   };
 
   // 보안 코드 입력
@@ -219,10 +224,9 @@ export default function info() {
   // 메일 확인과 수집 동의 확인
   const checkMailOpt = userMail.mail !== '' && userMail.domain !== '' && checkSecurity.agree;
 
-  // 보안 코드 확인
+  // 보안 코드 전송 메일 확인
   const checkMailBeforeSend = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(userMail, checkSecurity.agree);
     if (checkMailOpt) {
       sendCodeHandler();
     } else {
@@ -235,26 +239,63 @@ export default function info() {
 
   // 보안 코드 전송
   const sendCodeHandler = () => {
-    axios
-      .post('http://localhost:3001/signin/security-code', userMail)
+    api
+      .post('/signin/security-code', userMail)
       .then(res => {
         alert('보안 코드가 전송되었습니다.');
         setSecurity(prev => ({
           ...prev,
           code: res.data,
         }));
-        console.log(res.data);
       })
       .catch(err => console.log(err));
   };
 
+  // 보안 코드 확인
+  const compareSecurityCode = () => {
+    if (security.code !== '' && security.code !== security.userCode) {
+      alert('보안 코드를 확인해주세요.');
+      setCheckSecurity(prev => ({
+        ...prev,
+        compareSecurityCode: false,
+      }));
+      console.log(security.code, security.userCode);
+    } else {
+      setCheckSecurity(prev => ({
+        ...prev,
+        compareSecurityCode: true,
+      }));
+      checkSecurity.compareSecurityCode;
+    }
+  };
+
   //  제출
-  const agreementCheck = () => {};
+  const agreementCheck = (e: FormEvent) => {
+    e.preventDefault();
+    const userInfo = {
+      id: id.userId,
+      password: checkPass.secondPass,
+      name: nickname.name,
+      mail: `${userMail.mail}@${userMail.domain}`,
+    };
+
+    const signIn = () =>
+      api
+        .post('/signin', userInfo)
+        .then(() => alert('회원가입이 완료되었습니다.'))
+        .catch(err => console.log(err));
+
+    if (checkSecurity.compareSecurityCode) {
+      signIn();
+      alert('회원가입이 완료되었습니다.');
+      return router.push('/signup/complete');
+    } else alert('보안 코드를 확인해주세요.');
+  };
   return (
     <>
       <SignHeader />
       <SignProgress />
-      <Bottom>
+      <Bottom onSubmit={agreementCheck}>
         <InputContainer>
           <div className="title">기본 정보 입력</div>
           <InputBox validatePass={validatePass} leastPass={confirmPass && checkPass.secondPass.length >= 8}>
@@ -381,7 +422,7 @@ export default function info() {
                   <div className="check-security">
                     <div className="security-input">
                       <input type="text" placeholder="인증 코드 입력" onChange={userCode} />
-                      <button>확인</button>
+                      <button onClick={compareSecurityCode}>확인</button>
                     </div>
                     <button className="send-code" onClick={e => checkMailBeforeSend(e)}>
                       인증 코드 받기
@@ -395,7 +436,7 @@ export default function info() {
           </InputBox>
         </InputContainer>
         <NextPage>
-          <button className="btn" onClick={() => agreementCheck()}>
+          <button className="btn" type="submit">
             다음
           </button>
         </NextPage>
