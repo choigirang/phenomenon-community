@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import User from '../models/users.model';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import brcypt from 'bcrypt';
+
+import User from '../models/users.model';
 import { UserType } from '../../type/type';
 
 // 로그인
@@ -28,9 +30,21 @@ async function loginUser(req: Request, res: Response) {
 
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
+  const { id, password, name, mail } = req.body;
   try {
-    const createUser = await User.create(req.body);
-    res.status(200).json(createUser);
+    let hashedPassword;
+    hashedPassword = await brcypt.hash(password, 12);
+
+    const createUser = await User.create({
+      id,
+      password: hashedPassword,
+      name,
+      mail,
+    });
+
+    let token;
+    token = jwt.sign({ userId: createUser.id, email: createUser.mail }, 'supersecret', { expiresIn: '1h' });
+    res.status(200).json({});
   } catch (err) {
     next(err);
   }
