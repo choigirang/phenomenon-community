@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Header from '@/components/Header';
 import '@/styles/App.css';
+import AuthProvider from '@/components/api/AuthProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
