@@ -10,14 +10,18 @@ import { UserType } from '../../type/type';
 // 로그인
 async function loginUser(req: Request, res: Response) {
   try {
-    const { id, pass } = req.body;
+    const { id, password } = req.body;
     const user: UserType | null = await User.findOne({ id });
 
     if (!user) {
       return res.status(401).send('일치하는 아이디가 없습니다.');
     }
 
-    if (pass !== user.password) {
+    // 비밀번호 해싱 추후 예정
+    // let isValidPass = false;
+    // isValidPass = await brcypt.compare(password, user.password);
+
+    if (password !== user.password) {
       return res.status(401).send('비밀번호가 일치하지 않습니다.');
     }
     const token = jwt.sign({ userId: user._id }, 'secret_key');
@@ -32,19 +36,20 @@ async function loginUser(req: Request, res: Response) {
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
   try {
-    let hashedPassword;
-    hashedPassword = await brcypt.hash(password, 12);
+    // 비밀번호 해싱 추후 예정
+    // let hashedPassword;
+    // hashedPassword = await brcypt.hash(password, 12);
 
     const createUser = await User.create({
       id,
-      password: hashedPassword,
+      password,
       name,
       mail,
     });
 
     let token;
     token = jwt.sign({ userId: createUser.id, email: createUser.mail }, 'supersecret', { expiresIn: '1h' });
-    res.status(200).json({});
+    res.status(200).json({ token });
   } catch (err) {
     next(err);
   }
