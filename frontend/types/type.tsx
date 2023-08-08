@@ -23,3 +23,10 @@ export type User = {
   password: string;
   userInfo: UserInfo;
 };
+
+// 쿠키
+export interface AuthContextProps {
+  token: string | undefined;
+  setToken: (token: string) => void;
+  removeToken: () => void;
+}
