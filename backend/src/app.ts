@@ -1,11 +1,13 @@
 import express from 'express';
 import mongoose, { Error } from 'mongoose';
-import path from 'path';
+import dotenv from 'dotenv';
 import cors from 'cors';
-import { usersRouter } from './routes/users.router';
 import cookieParser from 'cookie-parser';
 
+import { usersRouter } from './routes/users.router';
+
 const app = express();
+dotenv.config();
 const port = 3001;
 
 app.use(cors());
