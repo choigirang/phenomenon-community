@@ -8,13 +8,19 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { api } from '@/util/api';
 import { UserType } from '../../backend/type/type';
 import { AxiosResponse } from 'axios';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Login() {
+  // 로그인, 패스워드 데이터 합치기
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
   const [pass, setPass] = useInputs<string>('');
   const [login, setLogin] = useState<UserType | undefined>();
+
+  // 토큰
+  // 백엔드에서 토큰과 로그인 요청에 대한 상태를 넘겨줘서 토큰있는지 확인
+  const { token, setToken } = useAuth();
 
   const router = useRouter();
 
