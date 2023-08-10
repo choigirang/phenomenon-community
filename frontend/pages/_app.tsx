@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Header from '@/components/Header';
 import '@/styles/App.css';
-import AuthProvider from '@/components/api/AuthProvider';
+import { CookiesProvider } from 'react-cookie';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,11 +20,11 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
-      <AuthProvider>
+    <CookiesProvider>
+      <QueryClientProvider client={queryClient}>
+        {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
         <Component {...pageProps} />
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </CookiesProvider>
   );
 }
