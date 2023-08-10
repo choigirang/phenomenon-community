@@ -18,15 +18,21 @@ export type UserInfo = {
   username: string;
 };
 
-export type User = {
-  username: string;
+export interface UserType extends Document {
+  id: string;
   password: string;
-  userInfo: UserInfo;
-};
+  name: string;
+  mail: string;
+}
 
 // 쿠키
 export interface AuthContextProps {
   token: string | undefined;
   setToken: (token: string) => void;
   removeToken: () => void;
+}
+
+export interface AuthData {
+  user: UserType;
+  token: string;
 }
