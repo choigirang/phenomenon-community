@@ -289,13 +289,15 @@ export default function info() {
     const signIn = () =>
       api
         .post('/signin', userInfo)
-        .then((res) => {alert('회원가입이 완료되었습니다.');
-      })
+        .then(res => {
+          alert('회원가입이 완료되었습니다.');
+          console.log(res);
+        })
         .catch(err => console.log(err));
 
     if (checkSecurity.compareSecurityCode) {
       signIn();
-      return router.push('/signup/complete');
+      // return router.push('/signup/complete');
     } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
   return (
