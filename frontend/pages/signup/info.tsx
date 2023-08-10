@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import styled from 'styled-components';
+import { FormEvent } from 'react';
+import { useRouter } from 'next/router';
 
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
+import { api } from '@/util/api';
 
 import { Bottom, NextPage } from '@/styles/GlobalComponents';
-import styled from 'styled-components';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import axios from 'axios';
-import { api } from '@/util/api';
-import { FormEvent } from 'react';
-import { useRouter } from 'next/router';
 
 interface InputType {
   [key: string]: string;
@@ -142,18 +141,23 @@ export default function info() {
   const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
-    function checkCondition(value: string) {
-      return (
-        validationItems.some(item => item.name === '숫자' && item.check(value)) &&
-        validationItems.some(item => item.name === '한글' && item.check(value))
-      );
-    }
+    // function checkCondition(value: string) {
+    //   return (
+    //     validationItems.some(item => item.name === '숫자' && item.check(value)) &&
+    //     validationItems.some(item => item.name === '한글' && item.check(value))
+    //   );
+    // }
 
-    if (checkCondition(value))
-      setNickName(prevState => ({
-        ...prevState,
-        name: value,
-      }));
+    // if (checkCondition(value))
+    //   setNickName(prevState => ({
+    //     ...prevState,
+    //     name: value,
+    //   }));
+
+    setNickName(prev => ({
+      ...prev,
+      name: value,
+    }));
   };
 
   //  이메일 관리
@@ -163,6 +167,7 @@ export default function info() {
   });
   const [inputAble, setInputAble] = useState<boolean>(false);
 
+  // 이메일 입력 이벤트
   const mailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -232,8 +237,9 @@ export default function info() {
     } else {
       setCheckSecurity(prev => ({
         ...prev,
-        err: '수집 동의와 올바른 이메일 입력이 필요합니다.',
+        errInfo: '수집 동의와 올바른 이메일 입력이 필요합니다.',
       }));
+      alert(checkSecurity.errInfo);
     }
   };
 
@@ -245,14 +251,15 @@ export default function info() {
         alert('보안 코드가 전송되었습니다.');
         setSecurity(prev => ({
           ...prev,
-          code: res.data,
+          code: res.data.toString(),
         }));
       })
       .catch(err => console.log(err));
   };
 
   // 보안 코드 확인
-  const compareSecurityCode = () => {
+  const compareSecurityCode = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (security.code !== '' && security.code !== security.userCode) {
       alert('보안 코드를 확인해주세요.');
       setCheckSecurity(prev => ({
@@ -261,11 +268,11 @@ export default function info() {
       }));
       console.log(security.code, security.userCode);
     } else {
+      alert('보안 코드 확인이 완료되었습니다.');
       setCheckSecurity(prev => ({
         ...prev,
         compareSecurityCode: true,
       }));
-      checkSecurity.compareSecurityCode;
     }
   };
 
@@ -282,14 +289,16 @@ export default function info() {
     const signIn = () =>
       api
         .post('/signin', userInfo)
-        .then(() => alert('회원가입이 완료되었습니다.'))
+        .then(res => {
+          alert('회원가입이 완료되었습니다.');
+          console.log(res);
+        })
         .catch(err => console.log(err));
 
     if (checkSecurity.compareSecurityCode) {
       signIn();
-      alert('회원가입이 완료되었습니다.');
-      return router.push('/signup/complete');
-    } else alert('보안 코드를 확인해주세요.');
+      // return router.push('/signup/complete');
+    } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
   return (
     <>
@@ -422,7 +431,7 @@ export default function info() {
                   <div className="check-security">
                     <div className="security-input">
                       <input type="text" placeholder="인증 코드 입력" onChange={userCode} />
-                      <button onClick={compareSecurityCode}>확인</button>
+                      <button onClick={e => compareSecurityCode(e)}>확인</button>
                     </div>
                     <button className="send-code" onClick={e => checkMailBeforeSend(e)}>
                       인증 코드 받기

@@ -1,36 +1,93 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import User from '../models/users.model';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
+import brcypt from 'bcrypt';
+
+import User from '../models/users.model';
 import { UserType } from '../../type/type';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
   try {
-    const { id, pass } = req.body;
+    const { id, password } = req.body;
     const user: UserType | null = await User.findOne({ id });
 
     if (!user) {
-      return res.status(401).send('일치하는 아이디가 없습니다.');
+      return res.status(401).send('일치하는 유저가 없습니다.');
     }
 
-    if (pass !== user.password) {
+    // 비밀번호 해싱 추후 예정
+    // let isValidPass = false;
+    // isValidPass = await brcypt.compare(password, user.password);
+
+    if (password !== user.password) {
       return res.status(401).send('비밀번호가 일치하지 않습니다.');
     }
-    const token = jwt.sign({ userId: user._id }, 'secret_key');
-    res.cookie('token', token, { httpOnly: true });
-    res.status(200).json(user);
+
+    // 토큰
+    const AccessToken = jwt.sign({ id: user.id }, 'super_secret', { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ id: user.id }, 'super_refresh');
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    res.cookie('token', AccessToken, { httpOnly: true });
+    return res.status(200).json({ user: user.name, refreshToken });
   } catch (err) {
-    res.send('1234');
+    res.status(500).send('서버 오류입니다.');
+  }
+}
+
+// 유저 확인
+async function checkUser(req: Request, res: Response) {
+  try {
+    const cookie = req.cookies.token;
+
+    if (!cookie) return res.status(401).send('유효하지 않은 유저입니다.');
+
+    // 토큰 확인
+    jwt.verify(cookie, 'supersecret', (err: VerifyErrors | null) => {
+      if (err) {
+        return res.status(401).json({ message: '토큰이 유효하지 않습니다.' });
+      }
+
+      const decodedToken = jwt.decode(cookie) as JwtPayload;
+      if (!decodedToken || !decodedToken.id) return res.status(401);
+
+      const userId = decodedToken.id;
+
+      User.findOne({ id: userId }).then(user => {
+        if (!user) return res.status(404).send('사용자를 찾을 수 없습니다.');
+
+        return res.status(200).json({ user: user.name });
+      });
+    });
+  } catch (err) {
+    return res.status(500).send('서버 오류입니다.');
   }
 }
 
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
+  const { id, password, name, mail } = req.body;
   try {
-    const createUser = await User.create(req.body);
-    res.status(200).json(createUser);
+    // 비밀번호 해싱 추후 예정
+    // let hashedPassword;
+    // hashedPassword = await brcypt.hash(password, 12);
+
+    const createUser = new User({
+      id,
+      password,
+      name,
+      mail,
+    });
+
+    await createUser.save();
+
+    let token;
+    token = jwt.sign({ id: createUser.id }, 'supersecret', { expiresIn: '1h' });
+    return res.status(200).json({ token });
   } catch (err) {
     next(err);
   }
@@ -71,4 +128,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, sendSecurityCode, createUser };
+export { loginUser, sendSecurityCode, createUser, checkUser };

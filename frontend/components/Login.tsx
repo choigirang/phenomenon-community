@@ -1,20 +1,43 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import { getCookie, setCookie } from '@/util/cookie';
 
 import useInputs from '@/hooks/useInputs';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { api } from '@/util/api';
-import { UserType } from '../../backend/type/type';
-import { AxiosResponse } from 'axios';
+import { UserType } from '@/types/type';
+
+import styled from 'styled-components';
 
 export default function Login() {
+  // 로그인, 패스워드 데이터 합치기
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
-  const [pass, setPass] = useInputs<string>('');
-  const [login, setLogin] = useState<UserType | undefined>();
+  const [password, setPassword] = useInputs<string>('');
+  const [user, setUser] = useState({
+    id: '',
+    password: '',
+    name: '',
+    mail: '',
+    login: false,
+  });
+
+  useEffect(() => {
+    api
+      .get(`/user`)
+      .then(res => {
+        setUser(prev => ({
+          ...prev,
+          name: res.data.name,
+          login: true,
+        }));
+      })
+      .catch(error => {
+        console.error('사용자 정보를 가져올 수 없습니다.');
+      });
+  }, []);
 
   const router = useRouter();
 
@@ -25,11 +48,16 @@ export default function Login() {
     // 유저 확인
     async function fetch() {
       await api
-        .post('/login', { id, pass })
-        .then((res: AxiosResponse<UserType>) => {
-          const resData: UserType = res.data;
+        .post('/login', { id, password })
+        .then(res => {
+          // :AxiosResponse<UserType>
+          const resData = res.data;
           alert('로그인 되었습니다.');
-          setLogin(resData);
+          setUser(prev => ({
+            ...prev,
+            name: resData.name,
+            login: true,
+          }));
         })
         .catch(res => {
           alert(res);
@@ -40,19 +68,23 @@ export default function Login() {
 
   // 로그아웃 이벤트
   const logOut = () => {
-    setLogin(undefined);
+    setUser(prev => ({
+      ...prev,
+      name: '',
+      login: false,
+    }));
     alert('로그아웃 되었습니다.');
   };
 
   return (
     <Container>
       <LoginBox>
-        {!login && (
+        {!user.login && !user.name && (
           <>
             <Form action="/user" onSubmit={handleSubmit}>
               <InputBox>
                 <Input type="text" placeholder="ID" value={id} onChange={setId} />
-                <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
+                <Input type="password" placeholder="PASSWORD" value={password} onChange={setPassword} />
               </InputBox>
               <ButtonBox>
                 <OptionBox>
@@ -78,10 +110,10 @@ export default function Login() {
             </BottomBox>
           </>
         )}
-        {login && (
+        {user.login && user.name && (
           <LoginUserBox>
             <div className="user-box">
-              <span className="name">{login.name}</span>
+              <span className="name">{user.name}</span>
               <span>님</span>
               <BsFillArrowRightCircleFill />
             </div>
