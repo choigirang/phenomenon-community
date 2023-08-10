@@ -1,16 +1,19 @@
 import axios from 'axios';
 import { getCookie } from '../cookie';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: 'http://localhost:3001',
   timeout: 5000,
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+  },
   withCredentials: true,
-  // 이후 쿠키
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   Authorization: getCookie('accessToken'),
-  // },
 });
 
-export { api };
+// api.interceptors.request.use(config => {
+//   const accessToken = getCookie('accessToken');
+//   if (accessToken) {
+//     config.headers.Authorization = accessToken;
+//   }
+//   return config;
+// });
