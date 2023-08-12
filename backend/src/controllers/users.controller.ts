@@ -26,14 +26,15 @@ async function loginUser(req: Request, res: Response) {
     }
 
     // 토큰
-    const AccessToken = jwt.sign({ id: user.id }, 'super_secret', { expiresIn: '1h' });
+    const accessToken = jwt.sign({ id: user.id }, 'super_secret', { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user.id }, 'super_refresh');
 
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie('token', AccessToken, { httpOnly: true });
-    return res.status(200).json({ user: user.name, refreshToken });
+    res.cookie('access', accessToken, { httpOnly: true });
+    res.cookie('refresh', refreshToken);
+    return res.status(200).json({ name: user.name, accessToken, refreshToken });
   } catch (err) {
     res.status(500).send('서버 오류입니다.');
   }
@@ -42,12 +43,12 @@ async function loginUser(req: Request, res: Response) {
 // 유저 확인
 async function checkUser(req: Request, res: Response) {
   try {
-    const cookie = req.cookies.token;
+    const cookie = req.cookies.refresh;
 
     if (!cookie) return res.status(401).send('유효하지 않은 유저입니다.');
 
     // 토큰 확인
-    jwt.verify(cookie, 'supersecret', (err: VerifyErrors | null) => {
+    jwt.verify(cookie, 'super_refresh', (err: VerifyErrors | null) => {
       if (err) {
         return res.status(401).json({ message: '토큰이 유효하지 않습니다.' });
       }
@@ -60,7 +61,7 @@ async function checkUser(req: Request, res: Response) {
       User.findOne({ id: userId }).then(user => {
         if (!user) return res.status(404).send('사용자를 찾을 수 없습니다.');
 
-        return res.status(200).json({ user: user.name });
+        return res.status(200).json({ name: user.name });
       });
     });
   } catch (err) {
