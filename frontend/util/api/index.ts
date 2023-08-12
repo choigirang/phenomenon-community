@@ -10,10 +10,4 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-// api.interceptors.request.use(config => {
-//   const accessToken = getCookie('accessToken');
-//   if (accessToken) {
-//     config.headers.Authorization = accessToken;
-//   }
-//   return config;
-// });
+api.interceptors.request.use();
