@@ -1,6 +1,5 @@
 import React, { FormEvent, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getCookie, setCookie } from '@/util/cookie';
 
 import useInputs from '@/hooks/useInputs';
 import { FaBell } from 'react-icons/fa';
@@ -9,6 +8,7 @@ import { api } from '@/util/api';
 import { UserType } from '@/types/type';
 
 import styled from 'styled-components';
+import { deleteToken, setToken } from '@/util/cookie/localStorage';
 
 export default function Login() {
   // 로그인, 패스워드 데이터 합치기
@@ -24,6 +24,7 @@ export default function Login() {
     login: false,
   });
 
+  // 토큰으로 유저 확인
   useEffect(() => {
     api
       .get(`/user`)
@@ -58,6 +59,7 @@ export default function Login() {
             name: resData.name,
             login: true,
           }));
+          setToken(resData.accessToken, resData.refreshToken);
         })
         .catch(res => {
           alert(res);
@@ -73,6 +75,7 @@ export default function Login() {
       name: '',
       login: false,
     }));
+    deleteToken();
     alert('로그아웃 되었습니다.');
   };
 
