@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose, { Error } from 'mongoose';
 import cors from 'cors';
-import { usersRouter } from '../routes/users.router';
+import { usersRouter } from './routes/users.router';
 import cookieParser from 'cookie-parser';
 
 const app = express();
