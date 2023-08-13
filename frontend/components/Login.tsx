@@ -2,20 +2,20 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
+import { api } from '@/util/api';
 import useInputs from '@/hooks/useInputs';
+import { deleteToken, setToken } from '@/util/cookie/localStorage';
+
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import { api } from '@/util/api';
 
 export default function Login() {
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
   const [pass, setPass] = useInputs<string>('');
-  const [password, setPassword] = useInputs<string>('');
   const [user, setUser] = useState({
     id: '',
-    password: '',
     name: '',
     mail: '',
     login: false,
@@ -47,13 +47,19 @@ export default function Login() {
     // 유저 확인
     async function fetch() {
       await api
-        .post('/login', { params: { id, password: pass } })
+        .post('/login', { id, password: pass })
         .then(res => {
+          const data = res.data;
           alert('로그인 되었습니다.');
-          setUser(res.data);
+          setUser({
+            id: data.user.id,
+            name: data.user.name,
+            mail: data.user.mail,
+            login: false,
+          });
+          setToken(data.accessToken, data.refreshToken);
         })
         .catch(res => {
-          console.log(res);
           alert('일치하지 않는 사용자입니다.');
         });
     }
@@ -62,7 +68,11 @@ export default function Login() {
 
   // 로그아웃 이벤트
   const logOut = () => {
-    // setUser(undefined);
+    setUser(prev => ({
+      ...prev,
+      login: false,
+    }));
+    deleteToken();
     alert('로그아웃 되었습니다.');
   };
 
@@ -119,8 +129,7 @@ export default function Login() {
 
 const Container = styled.div`
   width: 100%;
-  height: 170px;
-  padding: var(--padding-content);
+  height: 150px;
 `;
 
 // 로그인
