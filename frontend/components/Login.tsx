@@ -1,20 +1,17 @@
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 import useInputs from '@/hooks/useInputs';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { api } from '@/util/api';
-import { UserType } from '@/types/type';
-
-import styled from 'styled-components';
-import { deleteToken, setToken } from '@/util/cookie/localStorage';
 
 export default function Login() {
-  // 로그인, 패스워드 데이터 합치기
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
+  const [pass, setPass] = useInputs<string>('');
   const [password, setPassword] = useInputs<string>('');
   const [user, setUser] = useState({
     id: '',
@@ -23,8 +20,9 @@ export default function Login() {
     mail: '',
     login: false,
   });
+  const router = useRouter();
 
-  // 토큰으로 유저 확인
+  // 토큰에 따른 유저 받아오기
   useEffect(() => {
     api
       .get(`/user`)
@@ -40,7 +38,7 @@ export default function Login() {
       });
   }, []);
 
-  const router = useRouter();
+  //
 
   // 아이디,비밀번호 입력 제출 이벤트
   const handleSubmit = (e: FormEvent) => {
@@ -49,20 +47,14 @@ export default function Login() {
     // 유저 확인
     async function fetch() {
       await api
-        .post('/login', { id, password })
+        .post('/login', { params: { id, password: pass } })
         .then(res => {
-          // :AxiosResponse<UserType>
-          const resData = res.data;
           alert('로그인 되었습니다.');
-          setUser(prev => ({
-            ...prev,
-            name: resData.name,
-            login: true,
-          }));
-          setToken(resData.accessToken, resData.refreshToken);
+          setUser(res.data);
         })
         .catch(res => {
-          alert(res);
+          console.log(res);
+          alert('일치하지 않는 사용자입니다.');
         });
     }
     fetch();
@@ -70,24 +62,19 @@ export default function Login() {
 
   // 로그아웃 이벤트
   const logOut = () => {
-    setUser(prev => ({
-      ...prev,
-      name: '',
-      login: false,
-    }));
-    deleteToken();
+    // setUser(undefined);
     alert('로그아웃 되었습니다.');
   };
 
   return (
     <Container>
       <LoginBox>
-        {!user.login && !user.name && (
+        {!user.login && (
           <>
             <Form action="/user" onSubmit={handleSubmit}>
               <InputBox>
                 <Input type="text" placeholder="ID" value={id} onChange={setId} />
-                <Input type="password" placeholder="PASSWORD" value={password} onChange={setPassword} />
+                <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
               </InputBox>
               <ButtonBox>
                 <OptionBox>
@@ -113,7 +100,7 @@ export default function Login() {
             </BottomBox>
           </>
         )}
-        {user.login && user.name && (
+        {user.login && (
           <LoginUserBox>
             <div className="user-box">
               <span className="name">{user.name}</span>
