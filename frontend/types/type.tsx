@@ -23,6 +23,7 @@ export interface UserType extends Document {
   password: string;
   name: string;
   mail: string;
+  refreshToken: string;
 }
 
 // 쿠키
