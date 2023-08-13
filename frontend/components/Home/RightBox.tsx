@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import Login from './../Login';
+import AddPostBtn from '../Community/AddPostBtn';
 
 export default function RightBox() {
   return (
     <Container>
-      <Login></Login>
+      <Login />
+      <AddPostBtn />
     </Container>
   );
 }
@@ -13,4 +16,6 @@ export default function RightBox() {
 const Container = styled.div`
   width: 300px;
   display: flex;
+  flex-direction: column;
+  padding: var(--padding-content);
 `;
