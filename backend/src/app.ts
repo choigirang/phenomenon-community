@@ -1,35 +1,16 @@
 import express from 'express';
 import mongoose, { Error } from 'mongoose';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import { usersRouter } from '../routes/users.router';
+import cookieParser from 'cookie-parser';
 
 const app = express();
-dotenv.config();
 const port = 3001;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(usersRouter);
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-  next();
-});
-
-// 서버확인
-app.get('/', (req, res) => {
-  res.status(200).send('OK');
-  console.log('서버가 정상적으로 실행 중입니다.');
-});
-
-// 서버실행
 app.listen(port, () => {
   console.log('서버 실행');
 });
