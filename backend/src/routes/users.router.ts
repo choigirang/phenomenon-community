@@ -1,6 +1,6 @@
 import express from 'express';
-import { createUser, sendSecurityCode, loginUser, checkUser } from '../src/controllers/users.controller';
-import { refreshToken } from '../src/controllers/token.controller';
+import { createUser, sendSecurityCode, loginUser, checkUser } from '../controllers/users.controller';
+import { refreshToken } from '../controllers/token.controller';
 const usersRouter = express.Router();
 
 // 로그인

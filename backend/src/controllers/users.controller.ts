@@ -34,7 +34,7 @@ async function loginUser(req: Request, res: Response) {
 
     res.cookie('access', accessToken, { httpOnly: true });
     res.cookie('refresh', refreshToken);
-    return res.status(200).json({ name: user.name, accessToken, refreshToken });
+    return res.status(200).json({ user, accessToken, refreshToken });
   } catch (err) {
     res.status(500).send('서버 오류입니다.');
   }
