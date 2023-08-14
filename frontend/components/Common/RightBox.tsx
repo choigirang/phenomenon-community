@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Login from './../Login';
+import Login from './Login';
 import AddPostBtn from '../Community/AddPostBtn';
 
 export default function RightBox() {
