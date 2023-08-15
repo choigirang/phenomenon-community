@@ -8,37 +8,36 @@ import { deleteToken, setToken } from '@/util/cookie/localStorage';
 
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { loginSuccess, logout } from '@/redux/actions/user';
 
 export default function Login() {
   // 로그인 아이디
   const [id, setId] = useInputs<string>('');
   // 로그인 패스워드
   const [pass, setPass] = useInputs<string>('');
-  const [user, setUser] = useState({
-    id: '',
-    name: '',
-    mail: '',
-    login: false,
-  });
   const router = useRouter();
+
+  // 유저 reducer
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
 
   // 토큰에 따른 유저 받아오기
   useEffect(() => {
     api
       .get(`/user`)
       .then(res => {
-        setUser(prev => ({
-          ...prev,
-          name: res.data.name,
-          login: true,
-        }));
+        const { id, name, mail } = res.data.user;
+        const userData = { id, name, mail };
+
+        dispatch(loginSuccess(userData));
       })
       .catch(error => {
         console.error('사용자 정보를 가져올 수 없습니다.');
       });
   }, []);
-
-  //
 
   // 아이디,비밀번호 입력 제출 이벤트
   const handleSubmit = (e: FormEvent) => {
@@ -49,15 +48,12 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const data = res.data;
-          alert('로그인 되었습니다.');
-          setUser({
-            id: data.user.id,
-            name: data.user.name,
-            mail: data.user.mail,
-            login: false,
-          });
-          setToken(data.accessToken, data.refreshToken);
+          const { id, name, mail } = res.data.user;
+          const userData = { id, name, mail };
+
+          console.log(userData);
+          dispatch(loginSuccess(userData));
+          setToken(res.data.accessToken, res.data.refreshToken);
         })
         .catch(res => {
           alert('일치하지 않는 사용자입니다.');
@@ -68,10 +64,7 @@ export default function Login() {
 
   // 로그아웃 이벤트
   const logOut = () => {
-    setUser(prev => ({
-      ...prev,
-      login: false,
-    }));
+    dispatch(logout());
     deleteToken();
     alert('로그아웃 되었습니다.');
   };
