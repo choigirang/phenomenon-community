@@ -3,6 +3,7 @@ import mongoose, { Error } from 'mongoose';
 import cors from 'cors';
 import { usersRouter } from './routes/users.router';
 import cookieParser from 'cookie-parser';
+import postRouter from './routes/post.router';
 
 const app = express();
 const port = 3001;
@@ -10,7 +11,7 @@ const port = 3001;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(usersRouter);
+app.use(usersRouter, postRouter);
 app.listen(port, () => {
   console.log('서버 실행');
 });
