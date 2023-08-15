@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 
 import { PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
-
-import { NextPage } from '@/styles/GlobalComponents';
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
+
+import styled from 'styled-components';
+import { NextPage } from '@/styles/GlobalComponents';
 import { Bottom } from '../../styles/GlobalComponents';
 
 interface AgreementData {

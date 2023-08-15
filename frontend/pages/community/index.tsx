@@ -1,5 +1,5 @@
-import RightBox from '@/components/Home/RightBox';
-import Login from '@/components/Login';
+import RightBox from '@/components/Common/RightBox';
+import Login from '@/components/Common/Login';
 import { Container } from '@/styles/GlobalComponents';
 import React from 'react';
 import styled from 'styled-components';

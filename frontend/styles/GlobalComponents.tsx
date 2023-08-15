@@ -6,11 +6,12 @@ export const Logo = styled.img`
   height: ${props => props.height || '50px'};
 `;
 
-// 회원가입 버튼
+// 제출 버튼
 export const NextPage = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  margin: var(--margin-solo) 0;
 
   .btn {
     display: flex;
@@ -43,6 +44,7 @@ export const Bottom = styled.form`
 export const Container = styled.div`
   height: 100%;
   padding: 0 calc((100% - 1280px) / 2);
+  padding-top: 10px;
   display: grid;
   grid-template-columns: calc(100% - 300px) 200px;
 

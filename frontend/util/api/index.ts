@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { getCookie } from '../cookie';
 
-const api = axios.create({
-  baseURL: process.env.BASE_URL,
-  timeout: 3000,
-  withCredentials: true,
+export const api = axios.create({
+  baseURL: 'http://localhost:3001',
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: getCookie('accessToken'),
   },
+  withCredentials: true,
 });
 
-export { api };
+api.interceptors.request.use();

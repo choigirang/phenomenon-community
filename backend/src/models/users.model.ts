@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import { UserType } from '../../type/type';
 
 const userSchema = new mongoose.Schema({
-  userNum: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
+  // userNum: {
+  //   type: Number,
+  //   unique: true,
+  //   required: true,
+  // },
   id: {
     type: String,
     required: true,
@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   mail: {
+    type: String,
+    required: true,
+  },
+  refreshToken: {
     type: String,
     required: true,
   },

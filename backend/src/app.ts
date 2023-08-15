@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose, { Error } from 'mongoose';
-import path from 'path';
 import cors from 'cors';
 import { usersRouter } from './routes/users.router';
 import cookieParser from 'cookie-parser';
@@ -8,7 +7,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const port = 3001;
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(usersRouter);
