@@ -1,26 +1,42 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, FC } from 'react';
 import usePostForm from '@/hooks/usePostForm';
 
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { NextPage } from '@/styles/GlobalComponents';
 import { api } from '@/util/api';
+import htmlToDraft from 'html-to-draftjs';
+import { ContentState, EditorState } from 'draft-js';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
 export default function add() {
+  // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
+  const router = useRouter();
 
-  const { title, date, titleHandler, dateHandler, submitHandler } = usePostForm();
+  // 로그인한 유저의 정보 reducer
+  const user = useSelector((state: RootState) => state.user.user);
 
-  useEffect(() => {
-    dateHandler();
-  }, []);
+  const { title, titleHandler, dateHandler, submitHandler } = usePostForm();
 
-  const postHandler = (e: React.FormEvent<HTMLButtonElement>) => {
+  const postHandler = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log({ title, content: htmlStr, date });
-    // await api.post("/posts",{title, content: htmlStr, date: dateHandler})
+    if (user.login && user.name) {
+      await api
+        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id })
+        .then(res => {
+          alert('작성이 완료되었습니다.');
+          router.push('/');
+        })
+        .catch(err => {
+          alert('작성 오류입니다.');
+          router.push('/');
+        });
+    }
   };
 
   return (
@@ -38,7 +54,7 @@ export default function add() {
         </EditorContainer>
       </PostContainer>
       <NextPage>
-        <button className="btn" onSubmit={e => postHandler(e)}>
+        <button className="btn" onClick={e => postHandler(e)}>
           제출
         </button>
       </NextPage>
