@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
-import { FormEvent } from 'react';
+import React, { useEffect, useState, useRef, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
 import { api } from '@/util/api';
 
+import styled from 'styled-components';
 import { Bottom, NextPage } from '@/styles/GlobalComponents';
 import { AiFillCheckCircle } from 'react-icons/ai';
 

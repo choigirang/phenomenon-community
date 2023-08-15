@@ -1,10 +1,115 @@
+import React, { useRef, useState, useEffect, FC } from 'react';
 import usePostForm from '@/hooks/usePostForm';
-import { Container } from '@/styles/GlobalComponents';
-import React from 'react';
+
+import dynamic from 'next/dynamic';
+import styled from 'styled-components';
+import { NextPage } from '@/styles/GlobalComponents';
+import { api } from '@/util/api';
+import htmlToDraft from 'html-to-draftjs';
+import { ContentState, EditorState } from 'draft-js';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
+const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
 export default function add() {
-  const [title, content, date, titleHandler, contentHandler, dateHandler, submitHandler] = usePostForm();
+  // 작성한 데이터 (markdown)
+  const [htmlStr, setHtmlStr] = useState<string>('');
+  const router = useRouter();
 
-  // 카테고리에서 현재 글 쓰는 카테고리 위치 가져오기
-  return <Container>add</Container>;
+  // 로그인한 유저의 정보 reducer
+  const user = useSelector((state: RootState) => state.user.user);
+
+  const { title, titleHandler, dateHandler, submitHandler } = usePostForm();
+
+  const postHandler = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (user.login && user.name) {
+      await api
+        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id })
+        .then(res => {
+          alert('작성이 완료되었습니다.');
+          router.push('/');
+        })
+        .catch(err => {
+          alert('작성 오류입니다.');
+          router.push('/');
+        });
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <PostContainer>
+        <Title
+          type="text"
+          className="title"
+          placeholder="제목을 입력하세요."
+          onChange={e => titleHandler(e)}
+          required
+        />
+        <EditorContainer>
+          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
+        </EditorContainer>
+      </PostContainer>
+      <NextPage>
+        <button className="btn" onClick={e => postHandler(e)}>
+          제출
+        </button>
+      </NextPage>
+    </React.Fragment>
+  );
 }
+
+const PostContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-content);
+  border: var(--border-solid1) var(--color-blue);
+`;
+
+const Title = styled.input`
+  width: 500px;
+  height: 50px;
+  border: var(--border-solid1) var(--color-dark-white);
+  padding: 0 var(--padding-side);
+  margin-bottom: var(--margin-solo);
+
+  ::placeholder {
+    color: var(--color-gray);
+  }
+`;
+
+const EditorContainer = styled.div`
+  width: 100%;
+
+  .editor {
+    height: 600px;
+  }
+`;
+
+const Contents = {
+  Container: styled.div`
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+
+    & > div {
+      width: 600px;
+      padding: 16px;
+      box-sizing: border-box;
+      line-break: anywhere;
+    }
+  `,
+
+  HtmlContainer: styled.div`
+    border: 2px solid orange;
+  `,
+
+  ViewContainer: styled.div`
+    border: 2px solid olive;
+  `,
+};

@@ -1,4 +1,6 @@
+import { LOGIN_SUCCESS, LOGOUT } from '@/redux/actions/user';
 import { type } from 'os';
+import { Action } from 'redux';
 
 export type PostType = {
   id: number;
@@ -25,6 +27,22 @@ export interface UserType extends Document {
   mail: string;
   refreshToken: string;
 }
+
+// redux 로그인 유저 데이터
+export interface User {
+  id: string;
+  name: string;
+  mail: string;
+  login?: boolean;
+}
+
+interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
+  payload: User;
+}
+
+interface LogoutAction extends Action<typeof LOGOUT> {}
+
+export type UserAction = LoginSuccessAction | LogoutAction;
 
 // 쿠키
 export interface AuthContextProps {

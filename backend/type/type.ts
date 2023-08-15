@@ -14,6 +14,12 @@ export interface AuthData {
 }
 
 export interface PostType extends Document {
-  id: number;
-  userId: string;
+  postNumber: number;
+  author: string;
+  title: string;
+  body: string;
+  date: string;
+  views: number;
+  likes: number;
+  comments?: Object;
 }

@@ -6,11 +6,12 @@ export const Logo = styled.img`
   height: ${props => props.height || '50px'};
 `;
 
-// 회원가입 버튼
+// 제출 버튼
 export const NextPage = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  margin: var(--margin-solo) 0;
 
   .btn {
     display: flex;

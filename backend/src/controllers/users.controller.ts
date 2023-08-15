@@ -61,7 +61,7 @@ async function checkUser(req: Request, res: Response) {
       User.findOne({ id: userId }).then(user => {
         if (!user) return res.status(404).send('사용자를 찾을 수 없습니다.');
 
-        return res.status(200).json({ name: user.name });
+        return res.status(200).json(user);
       });
     });
   } catch (err) {

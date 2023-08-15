@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.25",
     "axios": "^1.4.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
