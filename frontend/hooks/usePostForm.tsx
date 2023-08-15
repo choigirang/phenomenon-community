@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 function usePostForm() {
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [date, setDate] = useState('');
 
   const titleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -16,18 +14,15 @@ function usePostForm() {
     const day = String(currentDate.getDate()).padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;
-    setDate(formattedDate);
+    return formattedDate;
   };
 
   const submitHandler = () => {
     setTitle('');
-    setContent('');
-    setDate('');
   };
 
   return {
     title,
-    date,
     titleHandler,
     dateHandler,
     submitHandler,
