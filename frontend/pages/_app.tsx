@@ -6,6 +6,8 @@ import { CookiesProvider } from 'react-cookie';
 import '@/styles/App.css';
 import Header from '@/components/Common/Header';
 import styled from 'styled-components';
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,12 +24,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <CookiesProvider>
-      <QueryClientProvider client={queryClient}>
-        {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
-        <Container>
-          <Component {...pageProps} />
-        </Container>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+        </QueryClientProvider>
+      </Provider>
     </CookiesProvider>
   );
 }
