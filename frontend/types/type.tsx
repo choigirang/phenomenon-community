@@ -2,14 +2,29 @@ import { LOGIN_SUCCESS, LOGOUT } from '@/redux/actions/user';
 import { type } from 'os';
 import { Action } from 'redux';
 
-export type PostType = {
-  id: number;
-  memberId: number;
-  name: string;
+// 포스트 타입
+export interface PostType {
+  postNumber: number;
+  author: string;
   title: string;
-  content: string;
-  createdAt: Date;
+  body: string;
+  date: string;
+  views: number;
+  likes: number;
+  comments: CommentType[];
+}
+
+export type EachPostProps = {
+  posts: PostType;
+  totlePost?: number;
 };
+
+interface CommentType {
+  author: string;
+  body: string;
+}
+
+// header
 
 export type HeaderNav = {
   [key: string]: string;
