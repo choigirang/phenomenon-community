@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, logout } from '@/redux/actions/user';
+import AddPostBtn from '../Community/AddPostBtn';
 
 export default function Login() {
   // 로그인 아이디
@@ -22,6 +23,7 @@ export default function Login() {
 
   // 유저 reducer
   const user = useSelector((state: RootState) => state.user.user);
+  const loginState = user.login && user.name;
   const dispatch = useDispatch();
 
   // 토큰에 따른 유저 받아오기
@@ -116,12 +118,13 @@ export default function Login() {
           </LoginUserBox>
         )}
       </LoginBox>
+      {loginState && <AddPostBtn />}
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 100%;
+  width: 300px;
   height: 150px;
 `;
 
