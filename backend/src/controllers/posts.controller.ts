@@ -11,11 +11,10 @@ export async function showPostsByPage(req: Request, res: Response) {
 
   try {
     const totalPosts = await Post.countDocuments();
-    const posts = await Post.find().skip(startIndex).limit(itemsPerPage);
+    const posts = await Post.find().skip(startIndex).limit(itemsPerPage).sort({ postNumber: -1 });
 
     return res.status(200).json({ posts, totalPosts });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: '에러 발생' });
   }
 }
@@ -24,9 +23,10 @@ export async function showPostsByPage(req: Request, res: Response) {
 export async function showEachPost(req: Request, res: Response) {
   const { id } = req.params;
 
-  const findPostData = await Post.findOne({ postNumber: parseInt(id) });
+  if (!id) return;
+  const findPostData = await Post.findOne({ postNumber: id });
   try {
-    return res.status(200).send({ findPostData });
+    return res.status(200).send(findPostData);
   } catch (err) {
     return res.status(404).send('게시글이 존재하지 않습니다.');
   }
@@ -36,9 +36,9 @@ export async function showEachPost(req: Request, res: Response) {
 export async function addPost(req: Request, res: Response) {
   const { title, body, date, author } = req.body;
 
-  const postNumber = await Post.countDocuments();
-
   try {
+    const postNumber = await Post.countDocuments();
+
     const createdPost = new Post({
       postNumber: postNumber + 1,
       author,
