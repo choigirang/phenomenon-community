@@ -1,49 +1,31 @@
 import { PostType } from '@/types/type';
 import { api } from '@/util/api';
-import axios, { AxiosError } from 'axios';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import EachPost from '../Community/EachPost';
+import EachPost from './EachPost';
+import { usePostDetail } from '@/hooks/usePostDetail';
+import usePostAll from '@/hooks/usePostAll';
 
 const POST_PAGE = 10;
 
+/** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {
-  // 게시글 페이지네이션
+  /**  게시글 페이지네이션 */
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // const [post, setPost] = useState<PostType[]>();
   const [curIndex, setCurIndex] = useState<number>(0);
-  // 카테고리 가져오기
-  const category = ['임시'];
-  const tem = Array(30).fill(category).flat();
 
-  // 데이터 함수
-  // 게시글 데이터 함수
-  async function fetchPosts(page: number): Promise<PostType[]> {
-    const res = await api.get(`/all-posts?page=${page}`);
-    return res.data.posts;
-  }
-  const { isLoading, data, isError, error } = useQuery(['posts', currentPage], () => fetchPosts(currentPage), {
-    staleTime: 2000,
-  });
+  /** 게시글 데이터 함수 */
+  const { data } = usePostAll(currentPage);
+
+  const posts: PostType[] = data.posts;
 
   return (
-    <Container>
-      <CategoryBox>
-        <Category>
-          <p className="sub-title">전체보기</p>
-          <CategoryList>
-            {tem.map((item, idx) => (
-              <CategoryItem key={idx}>
-                <span>{item}</span>
-              </CategoryItem>
-            ))}
-          </CategoryList>
-        </Category>
-      </CategoryBox>
+    <React.Fragment>
+      {/* 게시글 페이지 네이션 */}
       <PostTitle>
         <p className="sub-title">실시간 게시글</p>
         <div className="btn-box">
@@ -58,56 +40,11 @@ export default function PostList() {
           </button>
         </div>
       </PostTitle>
-      <ShowAllPost>{data && data.map(item => <EachPost key={item.postNumber} posts={item} />)}</ShowAllPost>
-    </Container>
+      {/* 개별 글 목록 */}
+      <ShowAllPost>{data && posts.map(item => <EachPost key={item.postNumber} posts={item} />)}</ShowAllPost>
+    </React.Fragment>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-// 카테고리 상자
-const CategoryBox = styled.div`
-  width: 100%;
-  height: 170px;
-  padding: var(--padding-solo) 0;
-`;
-
-const Category = styled.div`
-  width: 100%;
-  height: 100%;
-  border: var(--border-content);
-  padding: var(--padding-content);
-
-  .sub-title {
-    width: 100%;
-    font-weight: 500;
-    font-size: 12px;
-    padding-bottom: var(--padding-solo);
-    border-bottom: var(--border-dash);
-  }
-`;
-
-// 카테고리 목록
-const CategoryList = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const CategoryItem = styled.li`
-  padding: var(--padding-content);
-  padding-left: 0;
-  font-size: var(--size-text);
-
-  span:hover {
-    cursor: pointer;
-    border-bottom: var(--border-text);
-    font-weight: 400;
-  }
-`;
 
 // 게시글 목록
 const PostTitle = styled.div`
