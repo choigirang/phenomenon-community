@@ -3,6 +3,7 @@ import React from 'react';
 import { AiFillEye, AiFillLike, AiOutlineComment } from 'react-icons/ai';
 import styled from 'styled-components';
 
+/** 홈 화면 시 개별 게시글 목록 */
 export default function EachPost(props: EachPostProps) {
   const { postNumber, author, title, body, date, views, likes, comments } = props.posts;
 
