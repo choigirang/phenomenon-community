@@ -5,6 +5,7 @@ import RightBox from '@/components/Common/RightBox';
 
 import styled from 'styled-components';
 import { Container } from '@/styles/GlobalComponents';
+import Category from '@/components/Community/Category';
 import PostList from '@/components/Community/PostList';
 
 export default function Home() {
@@ -14,9 +15,17 @@ export default function Home() {
         <title>이왜진</title>
       </Head>
       <Container>
-        <PostList />
+        <LeftSide>
+          <Category />
+          <PostList />
+        </LeftSide>
         <RightBox />
       </Container>
     </>
   );
 }
+
+const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
