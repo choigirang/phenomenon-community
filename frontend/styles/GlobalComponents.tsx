@@ -46,7 +46,7 @@ export const Container = styled.div`
   padding: 0 calc((100% - 1280px) / 2);
   padding-top: 10px;
   display: grid;
-  grid-template-columns: calc(100% - 300px) 300px;
+  grid-template-columns: calc(100% - 200px) 200px;
   justify-content: space-between;
 
   .sub-title {
