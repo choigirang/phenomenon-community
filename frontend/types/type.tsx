@@ -16,13 +16,18 @@ export interface PostType {
 
 export type EachPostProps = {
   posts: PostType;
-  totlePost?: number;
+  totalPost?: number;
 };
 
 interface CommentType {
   author: string;
   body: string;
 }
+
+// 게시글 단일 조회 props
+export type PostTopProps = {
+  findPostData: PostType;
+};
 
 // header
 
