@@ -15,11 +15,11 @@ export interface PostType {
 }
 
 export type EachPostProps = {
-  posts: PostType;
+  posts: PostType[];
   totalPost?: number;
 };
 
-interface CommentType {
+export interface CommentType {
   author: string;
   body: string;
 }
