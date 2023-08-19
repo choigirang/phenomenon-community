@@ -21,5 +21,10 @@ export interface PostType extends Document {
   date: string;
   views: number;
   likes: number;
-  comments?: Object;
+  comments: Array<CommentData>;
+}
+
+export interface CommentData {
+  author: string;
+  content: string;
 }
