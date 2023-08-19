@@ -1,4 +1,4 @@
-import { PostType } from '@/types/type';
+import { EachPostProps, PostType } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
@@ -19,9 +19,9 @@ export default function PostList() {
   const [curIndex, setCurIndex] = useState<number>(0);
 
   /** 게시글 데이터 함수 */
-  const { data } = usePostAll(currentPage);
+  const queryResult = usePostAll(currentPage);
 
-  const posts: PostType[] = data.posts;
+  const posts: EachPostProps = queryResult.data;
 
   return (
     <React.Fragment>
@@ -41,7 +41,7 @@ export default function PostList() {
         </div>
       </PostTitle>
       {/* 개별 글 목록 */}
-      <ShowAllPost>{data && posts.map(item => <EachPost key={item.postNumber} posts={item} />)}</ShowAllPost>
+      <ShowAllPost>{posts && posts.posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
     </React.Fragment>
   );
 }
