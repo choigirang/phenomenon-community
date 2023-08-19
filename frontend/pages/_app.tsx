@@ -47,7 +47,8 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 const Container = styled.div`
-  display: flex;
+  /* display: flex; */
+  width: 100%;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
 `;
