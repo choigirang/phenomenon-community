@@ -1,18 +1,17 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 import { api } from '@/util/api';
 import useInputs from '@/hooks/useInputs';
 import { deleteToken, setToken } from '@/util/cookie/localStorage';
+import AddPostBtn from '../Community/AddPostBtn';
+import { loginSuccess, logout } from '@/redux/actions/user';
 
+import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useDispatch } from 'react-redux';
-import { loginSuccess, logout } from '@/redux/actions/user';
-import AddPostBtn from '../Community/AddPostBtn';
 
 export default function Login() {
   // 로그인 아이디
@@ -124,14 +123,13 @@ export default function Login() {
 }
 
 const Container = styled.div`
-  width: 300px;
-  height: 150px;
+  width: 100%;
+  padding: var(--padding-content);
 `;
 
 // 로그인
 const LoginBox = styled.div`
   width: 100%;
-  height: 100%;
   padding: var(--padding-solo);
   border: var(--border-content);
 `;
