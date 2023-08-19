@@ -1,5 +1,5 @@
 import express from 'express';
-import { addPost, showEachPost, showPostsByPage } from '../controllers/posts.controller';
+import { addComment, addPost, showEachPost, showPostsByPage } from '../controllers/posts.controller';
 
 const postRouter = express.Router();
 
@@ -12,4 +12,6 @@ postRouter.get('/post/:id', showEachPost);
 // 게시글 추가
 postRouter.post('/posts', addPost);
 
+// 게시글 댓글 추가
+postRouter.post('/post/comment', addComment);
 export default postRouter;
