@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import axios from 'axios';
 
-import RightBox from '@/components/Common/RightBox';
+import Login from '@/components/Common/Login';
+import Category from '@/components/Community/Category';
+import PostList from '@/components/Community/PostList';
 
 import styled from 'styled-components';
 import { Container } from '@/styles/GlobalComponents';
-import Category from '@/components/Community/Category';
-import PostList from '@/components/Community/PostList';
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
           <Category />
           <PostList />
         </LeftSide>
-        <RightBox />
+        <Login />
       </Container>
     </>
   );
