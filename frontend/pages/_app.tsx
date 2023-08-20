@@ -8,6 +8,8 @@ import Header from '@/components/Common/Header';
 import styled from 'styled-components';
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
+import Login from '@/components/Common/Login';
+import { useEffect, useState } from 'react';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,13 +24,21 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
+  const [hideComponent, setHideComponent] = useState(true);
+
+  useEffect(() => {
+    const shouldHide = !router.asPath.includes('/signup') && !router.asPath.includes('/findUser');
+    setHideComponent(shouldHide);
+  }, [router.asPath]);
+
   return (
     <CookiesProvider>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          {!router.asPath.includes('/signup') && !router.asPath.includes('/findUser') && <Header />}
+          {hideComponent && <Header />}
           <Container>
             <Component {...pageProps} />
+            {/* {hideComponent && <Login />} refactor 예정 */}
           </Container>
         </QueryClientProvider>
       </Provider>
@@ -37,6 +47,8 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 const Container = styled.div`
+  /* display: flex; */
+  width: 100%;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
 `;

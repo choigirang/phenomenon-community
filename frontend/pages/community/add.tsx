@@ -52,12 +52,12 @@ export default function add() {
         <EditorContainer>
           <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
         </EditorContainer>
+        <NextPage>
+          <button className="btn" onClick={e => postHandler(e)}>
+            제출
+          </button>
+        </NextPage>
       </PostContainer>
-      <NextPage>
-        <button className="btn" onClick={e => postHandler(e)}>
-          제출
-        </button>
-      </NextPage>
     </React.Fragment>
   );
 }

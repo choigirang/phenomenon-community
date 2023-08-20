@@ -1,7 +1,8 @@
-import RightBox from '@/components/Common/RightBox';
-import Login from '@/components/Common/Login';
-import { Container } from '@/styles/GlobalComponents';
 import React from 'react';
+
+import Login from '@/components/Common/Login';
+
+import { Container } from '@/styles/GlobalComponents';
 import styled from 'styled-components';
 
 export default function index() {
@@ -12,7 +13,7 @@ export default function index() {
           <p className="sub-title">개념글</p>
         </BestPost>
       </CommunityContainer>
-      <RightBox />
+      <Login />
     </Container>
   );
 }

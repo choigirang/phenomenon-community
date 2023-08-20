@@ -12,9 +12,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(usersRouter, postRouter);
-app.listen(port, () => {
-  console.log('서버 실행');
-});
+app.listen(port);
 
 mongoose
   .connect('mongodb+srv://chlrlfkd:chlrlfkd5633@phenomenon-community.zyo8dzo.mongodb.net/?retryWrites=true&w=majority')

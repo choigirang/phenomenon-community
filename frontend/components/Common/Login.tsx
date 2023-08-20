@@ -1,17 +1,17 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 import { api } from '@/util/api';
 import useInputs from '@/hooks/useInputs';
 import { deleteToken, setToken } from '@/util/cookie/localStorage';
+import AddPostBtn from '../Community/AddPostBtn';
+import { loginSuccess, logout } from '@/redux/actions/user';
 
+import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useDispatch } from 'react-redux';
-import { loginSuccess, logout } from '@/redux/actions/user';
 
 export default function Login() {
   // 로그인 아이디
@@ -22,6 +22,7 @@ export default function Login() {
 
   // 유저 reducer
   const user = useSelector((state: RootState) => state.user.user);
+  const loginState = user.login && user.name;
   const dispatch = useDispatch();
 
   // 토큰에 따른 유저 받아오기
@@ -116,19 +117,19 @@ export default function Login() {
           </LoginUserBox>
         )}
       </LoginBox>
+      {loginState && <AddPostBtn />}
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  height: 150px;
+  padding: var(--padding-content);
 `;
 
 // 로그인
 const LoginBox = styled.div`
   width: 100%;
-  height: 100%;
   padding: var(--padding-solo);
   border: var(--border-content);
 `;

@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
-import AutoIncrement from 'mongoose-sequence';
+import { PostType } from '../../type/type';
 
 const postSchema = new mongoose.Schema({
   postNumber: {
     type: Number,
-    unique: true, // Make sure the postNumber is unique
+    required: true,
   },
   author: {
-    // 사용자의 object ID와 필드 연결
     type: String,
     required: true,
   },
@@ -37,7 +36,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      content: {
+      comment: {
         type: String,
         required: true,
       },
@@ -45,8 +44,6 @@ const postSchema = new mongoose.Schema({
   ],
 });
 
-postSchema.plugin(AutoIncrement, { inc_field: 'postNumber' });
-
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model<PostType>('Post', postSchema);
 
 export default Post;

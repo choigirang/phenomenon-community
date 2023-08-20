@@ -22,7 +22,7 @@ export default function index() {
 
   return (
     <Container>
-      <PostContainer>{data && data.map(res => <PostList key={res.memberId}></PostList>)}</PostContainer>
+      {/* <PostContainer>{data && data.map(res => <PostList key={res.memberId}></PostList>)}</PostContainer> */}
     </Container>
   );
 }

@@ -25,6 +25,11 @@ a {
   cursor: pointer;
 }
 
+a:link,
+a:visited {
+  color: black;
+}
+
 :root {
   width: 100%;
   --color-white: #ffffff;
