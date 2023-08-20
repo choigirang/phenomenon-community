@@ -11,11 +11,9 @@ export default function AddComment({ postNumber, author }: { postNumber: number;
 
   const user = useSelector((state: RootState) => state.user.user);
 
-  console.log(user);
-
   const fetchCommentData = () => {
     if (content) {
-      const postData = { postNumber, author, content };
+      const postData = { postNumber, author, comment: content };
       api.post('/post/comment', postData).then(res => console.log(res));
     }
   };
@@ -23,7 +21,9 @@ export default function AddComment({ postNumber, author }: { postNumber: number;
   return (
     <Container>
       <Input onChange={onChange} />
-      <button onClick={fetchCommentData}>제출</button>
+      <button onClick={fetchCommentData} disabled={!user.login}>
+        제출
+      </button>
     </Container>
   );
 }
