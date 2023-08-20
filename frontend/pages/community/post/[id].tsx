@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import Login from '@/components/Common/Login';
 import PostDetail from '@/components/Community/PostDetail';
-import { usePostDetail } from '@/hooks/usePostDetail';
-import { PostType } from '@/types/type';
 
 import styled from 'styled-components';
 
