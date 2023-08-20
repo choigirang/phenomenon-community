@@ -1,4 +1,5 @@
 import { EachPostProps, PostType } from '@/types/type';
+import Link from 'next/link';
 import React from 'react';
 import { AiFillEye, AiFillLike, AiOutlineComment } from 'react-icons/ai';
 import styled from 'styled-components';
@@ -31,7 +32,7 @@ export default function EachPost({ item }: { item: PostType }) {
   );
 }
 
-const Post = styled.a`
+const Post = styled(Link)`
   width: 100%;
   height: 20px;
   display: flex;
