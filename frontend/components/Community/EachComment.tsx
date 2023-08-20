@@ -5,11 +5,11 @@ import { CommentType } from '@/types/type';
 import styled from 'styled-components';
 
 /** 댓글 */
-export default function PostComment({ comment }: { comment: CommentType }) {
+export default function EachComment({ comment }: { comment: CommentType }) {
   return (
     <Container>
       <p className="author">{comment.author}</p>
-      <p className="body">{comment.body}</p>
+      <p className="body">{comment.comment}</p>
     </Container>
   );
 }
