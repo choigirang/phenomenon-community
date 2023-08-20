@@ -58,23 +58,18 @@ export async function addPost(req: Request, res: Response) {
 
 // 게시글 댓글 추가
 export async function addComment(req: Request, res: Response) {
-  const { postNumber, author, content } = req.body;
-
-  console.log(req.body);
+  const { postNumber, author, comment } = req.body;
 
   try {
-    // 게시글을 찾기 위해 postNumber를 사용하여 해당 게시글을 조회합니다.
     const findPost: PostType | null = await Post.findOne({ postNumber });
 
     if (!findPost) {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    // 해당 게시글의 comments 배열에 새로운 댓글을 추가합니다.
-    const newComment: CommentData = { author, content };
+    const newComment: CommentData = { author, comment };
     findPost.comments.push(newComment);
 
-    // 변경된 게시글을 저장합니다.
     await findPost.save();
 
     return res.status(200).json({ message: '댓글이 추가되었습니다.', post: findPost });

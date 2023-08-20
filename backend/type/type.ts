@@ -26,5 +26,5 @@ export interface PostType extends Document {
 
 export interface CommentData {
   author: string;
-  content: string;
+  comment: string;
 }
