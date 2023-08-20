@@ -21,12 +21,19 @@ export type EachPostProps = {
 
 export interface CommentType {
   author: string;
-  body: string;
+  comment: string;
 }
 
 // 게시글 단일 조회 props
 export type PostTopProps = {
   findPostData: PostType;
+};
+
+// comment api 타입
+export type CommentAPI = {
+  postNumber: number;
+  author: string;
+  comment: string;
 };
 
 // header
