@@ -39,16 +39,6 @@ export default function Login() {
       .catch(error => {
         console.error('사용자 정보를 가져올 수 없습니다.');
       });
-
-    if (!loginState) {
-      const getLocalData = localStorage.getItem('user');
-      if (getLocalData) {
-        const parsedLocalData = JSON.parse(getLocalData);
-        console.log(parsedLocalData);
-
-        dispatch(loginSuccess(parsedLocalData));
-      }
-    }
   }, []);
 
   // 아이디,비밀번호 입력 제출 이벤트
