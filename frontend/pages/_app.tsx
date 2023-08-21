@@ -2,14 +2,17 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CookiesProvider } from 'react-cookie';
-
-import '@/styles/App.css';
-import Header from '@/components/Common/Header';
-import styled from 'styled-components';
+import { ReactNode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import store from '@/redux/store';
-import Login from '@/components/Common/Login';
-import { useEffect, useState } from 'react';
+
+import Header from '@/components/Common/Header';
+
+import styled from 'styled-components';
+import '@/styles/App.css';
+import store, { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '@/redux/actions/user';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const shouldHide = !router.asPath.includes('/signup') && !router.asPath.includes('/findUser');
     setHideComponent(shouldHide);
-  }, [router.asPath]);
+
+    const user = localStorage.getItem('user');
+  }, [router]);
 
   return (
     <CookiesProvider>
@@ -37,8 +42,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           {hideComponent && <Header />}
           <Container>
-            <Component {...pageProps} />
-            {/* {hideComponent && <Login />} refactor 예정 */}
+            <LoginState>
+              <Component {...pageProps} />
+              {/* {hideComponent && <Login />} refactor 예정 */}
+            </LoginState>
           </Container>
         </QueryClientProvider>
       </Provider>
@@ -52,3 +59,23 @@ const Container = styled.div`
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
 `;
+
+function LoginState({ children }: { children: ReactNode }) {
+  // 컴포넌트 리렌더 시 로그인 데이터 확인하여 로그인 유지
+  const loginData = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!loginData.login) {
+      const getLocalData = localStorage.getItem('user');
+      if (getLocalData) {
+        const parsedLocalData = JSON.parse(getLocalData);
+        console.log(parsedLocalData);
+
+        dispatch(loginSuccess(parsedLocalData));
+      }
+    }
+  }, []);
+
+  return <>{children}</>;
+}
