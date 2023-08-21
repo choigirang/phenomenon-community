@@ -10,6 +10,7 @@ export const setCookie = (name: string, value: string, minutes: number) => {
 };
 
 export const getCookie = (name: string): string | null => {
+  console.log(name);
   return cookies.get(name) || null;
 };
 
