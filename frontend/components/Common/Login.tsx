@@ -5,7 +5,7 @@ import { RootState } from '@/redux/store';
 
 import { api } from '@/util/api';
 import useInputs from '@/hooks/useInputs';
-import { deleteToken, setToken } from '@/util/cookie/localStorage';
+import { deleteLoginData, deleteToken, saveLoginData, setToken } from '@/util/cookie/localStorage';
 import AddPostBtn from '../Community/AddPostBtn';
 import { loginSuccess, logout } from '@/redux/actions/user';
 
@@ -39,6 +39,16 @@ export default function Login() {
       .catch(error => {
         console.error('사용자 정보를 가져올 수 없습니다.');
       });
+
+    if (!loginState) {
+      const getLocalData = localStorage.getItem('user');
+      if (getLocalData) {
+        const parsedLocalData = JSON.parse(getLocalData);
+        console.log(parsedLocalData);
+
+        dispatch(loginSuccess(parsedLocalData));
+      }
+    }
   }, []);
 
   // 아이디,비밀번호 입력 제출 이벤트
@@ -55,6 +65,7 @@ export default function Login() {
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
+          saveLoginData(userData);
         })
         .catch(res => {
           alert('일치하지 않는 사용자입니다.');
@@ -67,6 +78,7 @@ export default function Login() {
   const logOut = () => {
     dispatch(logout());
     deleteToken();
+    deleteLoginData();
     alert('로그아웃 되었습니다.');
   };
 
