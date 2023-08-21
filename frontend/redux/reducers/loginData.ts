@@ -1,4 +1,3 @@
-// reducers.js
 import { UserAction } from '@/types/type';
 import { LOGIN_SUCCESS, LOGOUT } from '../actions/user';
 
