@@ -12,7 +12,7 @@ export async function userAllData(req: Request, res: Response) {
   const userComments = await Post.find({ 'comments.author': user });
 
   try {
-    return res.status(200).send({ user, userPosts, userComments });
+    return res.status(200).send({ userPosts, userComments });
   } catch (err) {
     return res.status(404).send(err);
   }
