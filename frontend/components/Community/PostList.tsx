@@ -5,8 +5,7 @@ import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import EachPost from './EachPost';
-import { usePostDetail } from '@/hooks/usePostDetail';
-import usePostAll from '@/hooks/usePostAll';
+import usePostAll from '@/hooks/post/usePostAll';
 
 const POST_PAGE = 10;
 
