@@ -6,43 +6,31 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import UserCard from '../../components/User/UserCard';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '@/redux/actions/user';
-
-const userFetchData = async (user: string) => {
-  const res = await api.get(`/my=${user}`);
-  return res.data;
-};
+import { User } from '@/types/type';
+import UserData from '@/components/User/UserData';
 
 export default function index() {
-  const [data, setData] = useState();
+  const [data, setData] = useState<User>();
 
+  // app 컴포넌트에서 localStrage활용하여 유저 데이터 저장
   const user = useSelector((state: RootState) => state.user.user);
-  const dispatch = useDispatch();
-
   const router = useRouter();
 
   useEffect(() => {
-    if (user.login) {
-      const fetchData = async () => {
-        const result = await userFetchData(user.id);
-        setData(result);
-      };
-      fetchData();
-    } else {
-      /** redux 초기화 임시 */
-      const localUserData = localStorage.getItem('user');
-
-      // 초기화 시, 저장 데이터 있으면 redux 상태저장
-      // 없으면 홈 이동
-
-      if (localUserData) dispatch(loginSuccess(JSON.parse(localUserData)));
-      else router.push('/');
+    if (!user.login) {
+      router.push('/');
     }
+    setData(user);
   }, [router]);
 
   return (
     <Container>
-      <UserCard />
+      {data && (
+        <>
+          <UserCard data={data} />
+          <UserData data={data} />
+        </>
+      )}
     </Container>
   );
 }
@@ -50,4 +38,5 @@ export default function index() {
 const Container = styled.div`
   display: grid;
   grid-template-columns: 300px calc(100% - 300px);
+  gap: 20px;
 `;
