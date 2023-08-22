@@ -82,3 +82,9 @@ export interface AuthData {
   user: UserType;
   token: string;
 }
+
+// 개인 작성 데이터
+export interface UserDataLogType {
+  userPosts: PostType[];
+  userComments: CommentType[];
+}

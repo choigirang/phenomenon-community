@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { api } from '@/util/api';
 
 import ShowWritingData from './ShowWritingData';
-import { usePostDetail } from '@/hooks/usePostDetail';
 import { PostType } from '@/types/type';
 
 import styled from 'styled-components';
@@ -11,6 +10,7 @@ import AddComment from './AddComment';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import EachComment from './EachComment';
+import { usePostDetail } from '@/hooks/post/usePostDetail';
 
 /** 개별 게시글 페이지 */
 export default function PostDetail({ id }: { id: number }) {

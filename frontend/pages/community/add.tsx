@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect, FC } from 'react';
-import usePostForm from '@/hooks/usePostForm';
 
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
@@ -10,6 +9,7 @@ import { ContentState, EditorState } from 'draft-js';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import usePostForm from '@/hooks/post/usePostForm';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 

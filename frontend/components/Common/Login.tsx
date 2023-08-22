@@ -5,13 +5,14 @@ import { RootState } from '@/redux/store';
 
 import { api } from '@/util/api';
 import useInputs from '@/hooks/useInputs';
-import { deleteToken, setToken } from '@/util/cookie/localStorage';
+import { deleteLoginData, deleteToken, saveLoginData, setToken } from '@/util/cookie/localStorage';
 import AddPostBtn from '../Community/AddPostBtn';
 import { loginSuccess, logout } from '@/redux/actions/user';
 
 import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import Link from 'next/link';
 
 export default function Login() {
   // 로그인 아이디
@@ -52,9 +53,9 @@ export default function Login() {
           const { id, name, mail } = res.data.user;
           const userData = { id, name, mail };
 
-          console.log(userData);
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
+          saveLoginData(userData);
         })
         .catch(res => {
           alert('일치하지 않는 사용자입니다.');
@@ -67,6 +68,7 @@ export default function Login() {
   const logOut = () => {
     dispatch(logout());
     deleteToken();
+    deleteLoginData();
     alert('로그아웃 되었습니다.');
   };
 
@@ -110,6 +112,7 @@ export default function Login() {
               <span className="name">{user.name}</span>
               <span>님</span>
               <BsFillArrowRightCircleFill />
+              <MyInfo href={'/my'}> 내 정보</MyInfo>
             </div>
             <div className="log-out" onClick={logOut}>
               로그아웃
@@ -249,4 +252,9 @@ const LoginUserBox = styled.div`
     padding: var(--padding-half) var(--padding-solo);
     background-color: var(--color-blue);
   }
+`;
+
+const MyInfo = styled(Link)`
+  padding-left: 10px;
+  font-size: var(--size-text);
 `;
