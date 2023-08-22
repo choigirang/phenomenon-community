@@ -60,7 +60,7 @@ const Container = styled.div`
   padding-top: var(--padding-solo);
 `;
 
-function LoginState({ children }: { children: ReactNode }) {
+function LoginState({ children }: { children?: ReactNode }) {
   // 컴포넌트 리렌더 시 로그인 데이터 확인하여 로그인 유지
   const loginData = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
@@ -70,7 +70,6 @@ function LoginState({ children }: { children: ReactNode }) {
       const getLocalData = localStorage.getItem('user');
       if (getLocalData) {
         const parsedLocalData = JSON.parse(getLocalData);
-        console.log(parsedLocalData);
 
         dispatch(loginSuccess(parsedLocalData));
       }
