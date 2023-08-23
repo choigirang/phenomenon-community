@@ -22,6 +22,7 @@ export type EachPostProps = {
 export interface CommentType {
   author: string;
   comment: string;
+  date: string;
 }
 
 // 게시글 단일 조회 props
@@ -34,6 +35,7 @@ export type CommentAPI = {
   postNumber: number;
   author: string;
   comment: string;
+  date: string;
 };
 
 // header
@@ -83,8 +85,23 @@ export interface AuthData {
   token: string;
 }
 
-// 개인 작성 데이터
+interface Comment {
+  author: string;
+  comment: string;
+  date: string;
+  _id?: string;
+}
+
+export interface UserCommentsMap {
+  [postNumber: string]: Comment[];
+}
+
 export interface UserDataLogType {
   userPosts: PostType[];
-  userComments: CommentType[];
+  userCommentsMap: UserCommentsMap;
 }
+
+export type CommentProps = {
+  postNumber: string;
+  comment: Comment[];
+};
