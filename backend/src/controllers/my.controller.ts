@@ -37,8 +37,6 @@ export async function userAllData(req: Request, res: Response) {
       });
     });
 
-    console.log(userCommentsMap);
-
     // 댓글 데이터 형태
     // const allPosts: PostType[] = await Post.find();
 
