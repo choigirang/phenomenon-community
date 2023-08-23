@@ -58,7 +58,7 @@ export async function addPost(req: Request, res: Response) {
 
 // 게시글 댓글 추가
 export async function addComment(req: Request, res: Response) {
-  const { postNumber, author, comment } = req.body;
+  const { postNumber, author, comment, date } = req.body;
 
   try {
     const findPost: PostType | null = await Post.findOne({ postNumber });
@@ -67,7 +67,7 @@ export async function addComment(req: Request, res: Response) {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    const newComment: CommentData = { author, comment };
+    const newComment: CommentData = { author, comment, date };
     findPost.comments.push(newComment);
 
     await findPost.save();
