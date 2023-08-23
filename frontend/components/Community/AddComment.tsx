@@ -1,3 +1,4 @@
+import usePostForm from '@/hooks/post/usePostForm';
 import useInputs from '@/hooks/useInputs';
 import { RootState } from '@/redux/store';
 import { api } from '@/util/api';
@@ -8,14 +9,16 @@ import styled from 'styled-components';
 /** 댓글 추가하기 */
 export default function AddComment({ postNumber, author }: { postNumber: number; author: string }) {
   const [content, onChange] = useInputs('');
+  const { dateHandler } = usePostForm();
 
   const user = useSelector((state: RootState) => state.user.user);
 
   const fetchCommentData = () => {
     if (content) {
-      const postData = { postNumber, author, comment: content };
+      const postData = { postNumber, author, comment: content, date: dateHandler() };
       api.post('/post/comment', postData).then(res => console.log(res));
     }
+    console.log({ date: dateHandler() });
   };
 
   return (
