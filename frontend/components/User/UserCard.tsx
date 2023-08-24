@@ -35,4 +35,8 @@ const Container = styled.div`
   .weight {
     font-weight: 500;
   }
+
+  .name {
+    display: flex;
+  }
 `;
