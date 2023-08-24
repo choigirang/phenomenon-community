@@ -25,8 +25,18 @@ export async function showEachPost(req: Request, res: Response) {
   const { id } = req.params;
 
   if (!id) return;
-  const findPostData = await Post.findOne({ postNumber: id });
   try {
+    // 게시글 조회
+    const findPostData = await Post.findOne({ postNumber: id });
+
+    if (!findPostData) {
+      return res.status(404).send('게시글이 존재하지 않습니다.');
+    }
+
+    // 게시글의 views를 1 증가
+    findPostData.views += 1;
+    await findPostData.save();
+
     return res.status(200).send(findPostData);
   } catch (err) {
     return res.status(404).send('게시글이 존재하지 않습니다.');
