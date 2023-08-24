@@ -85,23 +85,16 @@ export interface AuthData {
   token: string;
 }
 
-interface Comment {
+// my type
+export interface UserDataLogType {
+  userPosts: PostType[];
+  // userCommentsMap:
+}
+
+export interface Comment {
   author: string;
   comment: string;
   date: string;
   _id?: string;
-}
-
-export interface UserCommentsMap {
-  [postNumber: string]: Comment[];
-}
-
-export interface UserDataLogType {
-  userPosts: PostType[];
-  userCommentsMap: UserCommentsMap;
-}
-
-export type CommentProps = {
   postNumber: string;
-  comment: Comment[];
-};
+}
