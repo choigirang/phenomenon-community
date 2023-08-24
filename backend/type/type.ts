@@ -28,4 +28,5 @@ export interface CommentData {
   author: string;
   comment: string;
   date: string;
+  postNumber?: string | number;
 }
