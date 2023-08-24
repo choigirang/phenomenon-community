@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Post from '../models/posts.model';
-import { PostType } from '../../type/type';
 import { CommentData } from '../../type/type';
 
 type UserComment = {
@@ -18,20 +17,19 @@ export async function userAllData(req: Request, res: Response) {
     // 해당 user가 작성한 모든 포스트의 comments에서 해당 user의 데이터 가져오기
     const userComments = await Post.find({ 'comments.author': user });
 
-    const userCommentsMap: Record<number, UserComment[]> = {};
+    const userAllComments: CommentData[] = [];
 
+    // Iterate through all posts and their comments
     const allPosts = await Post.find();
-
     allPosts.forEach(post => {
       post.comments.forEach(comment => {
         if (comment.author === user) {
-          if (!userCommentsMap[post.postNumber]) {
-            userCommentsMap[post.postNumber] = [];
-          }
-          userCommentsMap[post.postNumber].push({
+          // Push relevant comment data into the userAllComments array
+          userAllComments.push({
+            postNumber: post.postNumber,
+            author: post.author,
             comment: comment.comment,
             date: comment.date,
-            postNumber: post.postNumber,
           });
         }
       });
@@ -52,7 +50,9 @@ export async function userAllData(req: Request, res: Response) {
     //   }
     // });
 
-    return res.status(200).send({ userPosts, userCommentsMap });
+    console.log(userAllComments);
+
+    return res.status(200).send({ userPosts, userAllComments });
   } catch (err) {
     return res.status(404).send(err);
   }
