@@ -10,7 +10,6 @@ export default function EachPost({ item }: { item: PostType }) {
 
   return (
     <Post href={`/community/post/${postNumber}`}>
-      <p className="post-num">{postNumber}</p>
       <p className="title">{title}</p>
       <p className="author">{author}</p>
       <div className="info">
