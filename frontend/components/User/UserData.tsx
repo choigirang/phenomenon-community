@@ -1,4 +1,4 @@
-import { CommentType, PostType, User, UserCommentsMap, UserDataLogType } from '@/types/type';
+import { Comment, CommentType, PostType, User } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import useDataLog from '@/hooks/user/useDataLog';
 
 export default function UserData({ data }: { data: User }) {
   const [postsData, setPostsData] = useState<PostType[]>();
-  const [commentsData, setCommentsData] = useState<UserCommentsMap>();
+  const [commentsData, setCommentsData] = useState<Comment[]>();
   const { id, name, mail } = data;
 
   const userDataLogQuery = useDataLog(id);
@@ -16,13 +16,11 @@ export default function UserData({ data }: { data: User }) {
   useEffect(() => {
     // userData가 로드된 후에 userPosts와 userComments
     if (userDataLogQuery.data) {
-      const { userPosts, userCommentsMap }: UserDataLogType = userDataLogQuery.data;
-      setPostsData(userPosts.sort());
-      setCommentsData(userCommentsMap);
+      const { userPosts, userAllComments } = userDataLogQuery.data;
+      setPostsData(userPosts);
+      setCommentsData(userAllComments);
     }
   }, [userDataLogQuery.data]);
-
-  console.log(commentsData);
 
   return (
     <Container>
@@ -32,10 +30,7 @@ export default function UserData({ data }: { data: User }) {
       </List>
       <List>
         <p className="sub-title">내가 작성한 댓글</p>
-        {commentsData &&
-          Object.keys(commentsData).map(key => (
-            <UserCommentData key={key} postNumber={key} comment={commentsData[key]} />
-          ))}
+        {commentsData && commentsData.map((comment, idx) => <UserCommentData key={idx} {...comment} />)}
       </List>
     </Container>
   );
