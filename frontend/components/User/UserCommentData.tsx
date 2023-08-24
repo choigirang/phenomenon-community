@@ -1,22 +1,17 @@
-import { CommentProps, CommentType } from '@/types/type';
+import { Comment, CommentType } from '@/types/type';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-export default function UserCommentData({ postNumber, comment }: CommentProps) {
-  const viewContainerRef = React.useRef<HTMLDivElement>(null);
-
-  console.log(comment);
-
+export default function UserCommentData({ author, comment, postNumber, date }: Comment) {
   return (
     <Container>
-      {/* <Linked href={`/community/post/${post.postNumber}`}>
+      <Linked href={`/community/post/${postNumber}`}>
         <Top>
           <p className="title">{comment}</p>
           <p className="date">{date}</p>
         </Top>
-      <div className="body" ref={viewContainerRef} />
-      </Linked> */}
+      </Linked>
     </Container>
   );
 }
