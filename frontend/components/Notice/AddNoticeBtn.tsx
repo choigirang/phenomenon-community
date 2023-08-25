@@ -1,22 +1,24 @@
-import { RootState } from '@/redux/store';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 export default function AddNoticeBtn() {
-  const router = useRouter();
-
-  function moveNotice() {
-    return router.push('/notice/add');
-  }
-  return <NoticeBtn onClick={moveNotice}>공지사항 작성</NoticeBtn>;
+  return <NoticeBtn href="/notice/add">공지사항 작성</NoticeBtn>;
 }
 
-const NoticeBtn = styled.button`
+const NoticeBtn = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 30px;
-  margin-top: var(--margin-solo);
+  margin-top: var(--margin-small);
   background-color: var(--color-blue);
   color: white;
+  font-size: var(--size-text);
+  font-weight: 400;
+
+  :visited {
+    color: white;
+  }
 `;
