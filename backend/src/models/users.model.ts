@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  super: {
+    type: Boolean,
+  },
 });
 
 userSchema.methods.comparePassword = function (password: string) {
