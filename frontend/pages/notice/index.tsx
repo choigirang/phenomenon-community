@@ -18,7 +18,7 @@ export default function index() {
     <Contaner>
       <Title>공지사항</Title>
       <ListDivision />
-      <List>{data && data.map(item => <EachNotice {...item} />)}</List>
+      <List>{data && data.map(item => <EachNotice key={item.noticeNumber} {...item} />)}</List>
     </Contaner>
   );
 }
