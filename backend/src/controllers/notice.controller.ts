@@ -14,6 +14,19 @@ export async function showNotice(req: Request, res: Response) {
   }
 }
 
+/** 공지사항 개별 조회 */
+export async function eachNotice(req: Request, res: Response) {
+  const { id } = req.params;
+
+  const notice = await Notice.find({ noticeNumber: id });
+
+  try {
+    return res.status(200).send(notice);
+  } catch (err) {
+    return res.status(404).send(err);
+  }
+}
+
 /** 권한 계정에 따른 공지사항 추가 */
 export async function addNotice(req: Request, res: Response) {
   const { title, content, date } = req.body;
