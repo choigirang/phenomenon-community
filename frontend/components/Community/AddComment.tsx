@@ -1,5 +1,5 @@
 import usePostForm from '@/hooks/post/usePostForm';
-import useInputs from '@/hooks/useInputs';
+import useInputs from '@/hooks/common/useInputs';
 import { RootState } from '@/redux/store';
 import { api } from '@/util/api';
 import React, { useEffect } from 'react';
