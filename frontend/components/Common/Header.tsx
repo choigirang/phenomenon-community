@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
-import useInputs from '@/hooks/useInputs';
+import useInputs from '@/hooks/common/useInputs';
 
 import { HEADER_NAV } from '@/constant/constant';
 import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 export default function Header() {
   // Header 카테고리
@@ -31,7 +32,7 @@ export default function Header() {
       <Bar>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">
-            <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
+            <Linked href={HEADER_NAV[each]}>{each}</Linked>
           </li>
         ))}
       </Bar>
@@ -101,5 +102,13 @@ const Bar = styled.ul`
     :first-child {
       padding-left: 0;
     }
+  }
+`;
+
+const Linked = styled(Link)`
+  color: white;
+
+  :visited {
+    color: white !important;
   }
 `;
