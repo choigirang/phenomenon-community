@@ -82,6 +82,7 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
       password,
       name,
       mail,
+      super: false,
     });
 
     await createUser.save();
