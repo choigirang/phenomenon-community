@@ -30,6 +30,26 @@ const userSchema = new mongoose.Schema({
   super: {
     type: Boolean,
   },
+  likes: [
+    {
+      author: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      body: {
+        type: String,
+        required: true,
+      },
+      postNumber: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.methods.comparePassword = function (password: string) {
