@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Post from '../models/posts.model';
 import { CommentData, PostType } from '../../type/type';
+import User from '../models/users.model';
 
 // 기본 페이지 게시글 조회
 export async function showPostsByPage(req: Request, res: Response) {
@@ -86,5 +87,46 @@ export async function addComment(req: Request, res: Response) {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: '서버 에러' });
+  }
+}
+
+/** 게시글 좋아요 */
+export async function addLikes(req: Request, res: Response) {
+  const { id, postNumber } = req.body;
+
+  try {
+    // 게시글 조회
+    const findPostData = await Post.findOne({ postNumber: postNumber });
+
+    if (!findPostData) {
+      return res.status(404).send('게시글이 존재하지 않습니다.');
+    }
+    // 게시글 좋아요 수
+    findPostData.likes += 1;
+    await findPostData.save();
+
+    const findUserData = await User.findOne({ id: id });
+
+    if (!findUserData) {
+      return res.status(404).send('사용자가 존재하지 않습니다.');
+    }
+
+    // 이미 좋아요 했을 시 삭제
+    if (findUserData.likes.find(user => user.postNumber === postNumber)) {
+      const updatedLikes = findUserData.likes.filter(like => like.postNumber !== postNumber);
+      findUserData.likes = updatedLikes;
+      console.log(1);
+    } else {
+      findUserData.likes.push({
+        author: findPostData.author,
+        title: findPostData.title,
+        body: findPostData.body,
+        postNumber: findPostData.postNumber,
+      });
+    }
+    await findUserData.save();
+    return res.status(200).send(findUserData);
+  } catch (err) {
+    return res.status(404).send('게시글이 존재하지 않습니다.');
   }
 }
