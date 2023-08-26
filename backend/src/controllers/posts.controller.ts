@@ -25,8 +25,18 @@ export async function showEachPost(req: Request, res: Response) {
   const { id } = req.params;
 
   if (!id) return;
-  const findPostData = await Post.findOne({ postNumber: id });
   try {
+    // 게시글 조회
+    const findPostData = await Post.findOne({ postNumber: id });
+
+    if (!findPostData) {
+      return res.status(404).send('게시글이 존재하지 않습니다.');
+    }
+
+    // 게시글의 views를 1 증가
+    findPostData.views += 1;
+    await findPostData.save();
+
     return res.status(200).send(findPostData);
   } catch (err) {
     return res.status(404).send('게시글이 존재하지 않습니다.');
@@ -58,7 +68,7 @@ export async function addPost(req: Request, res: Response) {
 
 // 게시글 댓글 추가
 export async function addComment(req: Request, res: Response) {
-  const { postNumber, author, comment } = req.body;
+  const { postNumber, author, comment, date } = req.body;
 
   try {
     const findPost: PostType | null = await Post.findOne({ postNumber });
@@ -67,7 +77,7 @@ export async function addComment(req: Request, res: Response) {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    const newComment: CommentData = { author, comment };
+    const newComment: CommentData = { author, comment, date };
     findPost.comments.push(newComment);
 
     await findPost.save();

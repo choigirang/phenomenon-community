@@ -6,6 +6,7 @@ export interface UserType extends Document {
   name: string;
   mail: string;
   refreshToken: string;
+  super: boolean;
 }
 
 export interface AuthData {
@@ -27,4 +28,14 @@ export interface PostType extends Document {
 export interface CommentData {
   author: string;
   comment: string;
+  date: string;
+  postNumber?: string | number;
+}
+
+/** 공지사항 타입 */
+export interface Notice {
+  title: string;
+  content: string;
+  date: string;
+  noticeNumber: number;
 }

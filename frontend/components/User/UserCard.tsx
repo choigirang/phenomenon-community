@@ -30,9 +30,13 @@ const Container = styled.div`
   flex-direction: column;
   gap: 10px;
   font-size: var(--size-sub-title);
-  padding: var(--padding-content);
+  padding: var(--padding-side);
 
   .weight {
     font-weight: 500;
+  }
+
+  .name {
+    display: flex;
   }
 `;

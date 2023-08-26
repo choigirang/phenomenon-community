@@ -5,6 +5,7 @@ import { usersRouter } from './routes/users.router';
 import cookieParser from 'cookie-parser';
 import postRouter from './routes/post.router';
 import { myRouter } from './routes/my.router';
+import { noticeRouter } from './routes/notice.router';
 
 const app = express();
 const port = 3001;
@@ -12,7 +13,7 @@ const port = 3001;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(usersRouter, postRouter, myRouter);
+app.use(usersRouter, postRouter, myRouter, noticeRouter);
 app.listen(port);
 
 mongoose

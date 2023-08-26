@@ -1,11 +1,12 @@
-import { UserAction } from '@/types/type';
+import { InitialState, UserAction } from '@/types/type';
 import { LOGIN_SUCCESS, LOGOUT } from '../actions/user';
 
-const initialState = {
+const initialState: InitialState = {
   user: {
     id: '',
     name: '',
     mail: '',
+    super: false,
     login: false,
   },
 };
@@ -19,6 +20,7 @@ const userReducer = (state = initialState, action: UserAction) => {
           id: action.payload.id,
           name: action.payload.name,
           mail: action.payload.mail,
+          super: action.payload.super,
           login: true,
         },
       };

@@ -22,6 +22,7 @@ export type EachPostProps = {
 export interface CommentType {
   author: string;
   comment: string;
+  date: string;
 }
 
 // 게시글 단일 조회 props
@@ -34,6 +35,7 @@ export type CommentAPI = {
   postNumber: number;
   author: string;
   comment: string;
+  date: string;
 };
 
 // header
@@ -53,6 +55,12 @@ export interface UserType extends Document {
   name: string;
   mail: string;
   refreshToken: string;
+  super: boolean;
+}
+
+/** redux 초기 데이터 */
+export interface InitialState {
+  user: User;
 }
 
 // redux 로그인 유저 데이터
@@ -61,6 +69,7 @@ export interface User {
   name: string;
   mail: string;
   login?: boolean;
+  super: boolean;
 }
 
 interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
@@ -83,8 +92,24 @@ export interface AuthData {
   token: string;
 }
 
-// 개인 작성 데이터
+// my type
 export interface UserDataLogType {
   userPosts: PostType[];
-  userComments: CommentType[];
+  // userCommentsMap:
 }
+
+export interface Comment {
+  author: string;
+  comment: string;
+  date: string;
+  _id?: string;
+  postNumber: string;
+}
+
+/** 공지사항 res 타입 */
+export type Notice = {
+  title: string;
+  content: string;
+  date: string;
+  noticeNumber: number;
+};
