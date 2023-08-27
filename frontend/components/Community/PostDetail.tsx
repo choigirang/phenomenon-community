@@ -28,6 +28,15 @@ export default function PostDetail({ id }: { id: number }) {
   // if (findLike) setLikes(true);
   // else setLikes(false);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     const checkLike = user.likes.filter(like => like.postNumber === id);
+  //     setLikes(checkLike.length > 0);
+  //   } else {
+  //     setLikes(false); // user가 없을 때 likes를 false로 설정
+  //   }
+  // }, [user, id]);
+
   if (queryResult.isLoading) {
     return <div>Loading...</div>;
   }
