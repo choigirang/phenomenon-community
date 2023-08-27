@@ -8,6 +8,7 @@ type UserComment = {
   comment: string;
 };
 
+/** 유저가 작성한 데이터 res */
 export async function userAllData(req: Request, res: Response) {
   const user = req.params.user;
 
@@ -25,7 +26,7 @@ export async function userAllData(req: Request, res: Response) {
       post.comments.forEach(comment => {
         if (comment.author === user) {
           // Push relevant comment data into the userAllComments array
-          userAllComments.push({
+          userAllComments.unshift({
             postNumber: post.postNumber,
             author: post.author,
             comment: comment.comment,
@@ -34,23 +35,6 @@ export async function userAllData(req: Request, res: Response) {
         }
       });
     });
-
-    // 댓글 데이터 형태
-    // const allPosts: PostType[] = await Post.find();
-
-    // const userCommentsMap: Record<number, CommentData[]> = {};
-
-    // allPosts.forEach(post => {
-    //   const userComments = post.comments.filter(comment => comment.author === user);
-    //   if (userComments.length > 0) {
-    //     if (!userCommentsMap[post.postNumber]) {
-    //       userCommentsMap[post.postNumber] = [];
-    //     }
-    //     userCommentsMap[post.postNumber].push(...userComments);
-    //   }
-    // });
-
-    console.log(userAllComments);
 
     return res.status(200).send({ userPosts, userAllComments });
   } catch (err) {
