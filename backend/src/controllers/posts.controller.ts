@@ -79,7 +79,7 @@ export async function addComment(req: Request, res: Response) {
     }
 
     const newComment: CommentData = { author, comment, date };
-    findPost.comments.push(newComment);
+    findPost.comments.unshift(newComment);
 
     await findPost.save();
 
@@ -101,9 +101,6 @@ export async function addLikes(req: Request, res: Response) {
     if (!findPostData) {
       return res.status(404).send('게시글이 존재하지 않습니다.');
     }
-    // 게시글 좋아요 수
-    findPostData.likes += 1;
-    await findPostData.save();
 
     const findUserData = await User.findOne({ id: id });
 
@@ -111,22 +108,50 @@ export async function addLikes(req: Request, res: Response) {
       return res.status(404).send('사용자가 존재하지 않습니다.');
     }
 
+    // find 안 돼서 보류
     // 이미 좋아요 했을 시 삭제
-    if (findUserData.likes.find(user => user.postNumber === postNumber)) {
-      const updatedLikes = findUserData.likes.filter(like => like.postNumber !== postNumber);
-      findUserData.likes = updatedLikes;
-      console.log(1);
+    // const updatedLikes = findUserData.likes.filter(like => like.postNumber !== postNumber);
+    // findUserData.likes = updatedLikes;
+
+    const findLikesData = findUserData.likes.filter(like => like.postNumber === postNumber);
+
+    // postNumber와 일치하는 데이터 있을 시 삭제
+    if (findLikesData.length > 0) {
+      findUserData.likes = findUserData.likes.filter(like => like.postNumber !== postNumber);
+      findPostData.likes -= 1;
+      await findPostData.save();
     } else {
-      findUserData.likes.push({
+      // postNumber와 일치하는 데이터 없을 시 추가
+      findUserData.likes.unshift({
         author: findPostData.author,
         title: findPostData.title,
         body: findPostData.body,
         postNumber: findPostData.postNumber,
       });
+      findPostData.likes += 1;
+      await findPostData.save();
     }
+
     await findUserData.save();
     return res.status(200).send(findUserData);
   } catch (err) {
     return res.status(404).send('게시글이 존재하지 않습니다.');
+  }
+}
+
+/** 특정 게시글 검색 */
+export async function searchPost(req: Request, res: Response) {
+  try {
+    const keyword = req.query.keyword;
+
+    // 키워드를 포함하는 데이터 검색
+    const searchResults = await Post.find({
+      $or: [{ title: { $regex: keyword, $options: 'i' } }, { content: { $regex: keyword, $options: 'i' } }],
+    });
+
+    res.json(searchResults);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
