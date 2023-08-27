@@ -64,7 +64,7 @@ export interface InitialState {
 }
 
 /** 좋아요 타입 */
-interface Likes {
+export interface Likes {
   author: string;
   title: string;
   body: string;
