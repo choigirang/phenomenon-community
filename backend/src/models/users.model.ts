@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         required: true,
       },
       postNumber: {
-        type: String,
+        type: Number,
         required: true,
       },
     },
