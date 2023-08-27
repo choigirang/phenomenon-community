@@ -14,7 +14,20 @@ export default function Header() {
   // 링크 연결
   const router = useRouter();
   // 검색어 저장
-  const [keywords, setKeywords] = useInputs('');
+  const [keyword, setkeyword] = useInputs('');
+
+  function searchKeybordHandler(e: React.KeyboardEvent<HTMLElement>) {
+    if (e.key === 'Enter') {
+      if (!keyword) return alert('검색어가 필요합니다.');
+      e.preventDefault();
+      router.push(`/community/search?keyword=${keyword}`);
+    }
+  }
+
+  function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
+    if (!keyword) return alert('검색어가 필요합니다.');
+    router.push(`/community/search?keyword=${keyword}`);
+  }
 
   return (
     <>
@@ -24,8 +37,12 @@ export default function Header() {
           logo
         </div>
         <InputBox>
-          <Input placeholder="게시글 통합 검색" value={keywords} onChange={setKeywords}></Input>
-          <FaSearch color="var(--color-blue)" />
+          <Input
+            placeholder="게시글 통합 검색"
+            value={keyword}
+            onChange={setkeyword}
+            onKeyDown={searchKeybordHandler}></Input>
+          <FaSearch color="var(--color-blue)" onClick={searchMouseHandler} />
         </InputBox>
       </Nav>
       {/* 하단바 */}

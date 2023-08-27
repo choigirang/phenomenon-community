@@ -5,11 +5,16 @@ import styled from 'styled-components';
 import UserPostData from './UserPostData';
 import UserCommentData from './UserCommentData';
 import useDataLog from '@/hooks/user/useDataLog';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import UserLikes from './UserLikes';
 
 export default function UserData({ data }: { data: User }) {
   const [postsData, setPostsData] = useState<PostType[]>();
   const [commentsData, setCommentsData] = useState<Comment[]>();
   const { id, name, mail } = data;
+
+  const userLikes = useSelector((state: RootState) => state.user.user.likes);
 
   const userDataLogQuery = useDataLog(id);
 
@@ -31,6 +36,10 @@ export default function UserData({ data }: { data: User }) {
       <List>
         <p className="sub-title">내가 작성한 댓글</p>
         {commentsData && commentsData.map((comment, idx) => <UserCommentData key={idx} {...comment} />)}
+      </List>
+      <List>
+        <p className="sub-title">좋아요 누른 글</p>
+        {userLikes && userLikes.map(user => <UserLikes key={user.postNumber} {...user} />)}
       </List>
     </Container>
   );

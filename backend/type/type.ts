@@ -1,5 +1,13 @@
 import { Document } from 'mongoose';
 
+/** 좋아요 타입 */
+interface Likes {
+  author: string;
+  title: string;
+  body: string;
+  postNumber: number;
+}
+
 export interface UserType extends Document {
   id: string;
   password: string;
@@ -7,6 +15,7 @@ export interface UserType extends Document {
   mail: string;
   refreshToken: string;
   super: boolean;
+  likes: Array<Likes>;
 }
 
 export interface AuthData {

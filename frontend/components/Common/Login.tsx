@@ -52,8 +52,8 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const { id, name, mail, super: isSuper }: User = res.data.user;
-          const userData = { id, name, mail, super: isSuper };
+          const { id, name, mail, super: isSuper, likes }: User = res.data.user;
+          const userData = { id, name, mail, super: isSuper, likes };
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
@@ -105,7 +105,6 @@ export default function Login() {
                 <span className="border-Span"></span>
                 <span className="btm-Text">이이디·비밀번호 찾기</span>
               </FontBox>
-              <FaBell color="orange" />
             </BottomBox>
           </>
         )}

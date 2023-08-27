@@ -12,6 +12,7 @@ async function loginUser(req: Request, res: Response) {
   try {
     const { id, password } = req.body;
     const user: UserType | null = await User.findOne({ id });
+    console.log(user);
 
     if (!user) {
       return res.status(401).send('일치하는 유저가 없습니다.');

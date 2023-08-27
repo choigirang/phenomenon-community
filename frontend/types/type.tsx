@@ -63,6 +63,14 @@ export interface InitialState {
   user: User;
 }
 
+/** 좋아요 타입 */
+export interface Likes {
+  author: string;
+  title: string;
+  body: string;
+  postNumber: number;
+}
+
 // redux 로그인 유저 데이터
 export interface User {
   id: string;
@@ -70,6 +78,7 @@ export interface User {
   mail: string;
   login?: boolean;
   super: boolean;
+  likes: Array<Likes>;
 }
 
 interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
