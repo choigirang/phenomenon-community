@@ -2,7 +2,7 @@ import Head from 'next/head';
 import axios from 'axios';
 
 import Login from '@/components/Common/Login';
-import Category from '@/components/Community/Category';
+import Category from '@/components/Common/Category';
 import PostList from '@/components/Community/PostList';
 
 import styled from 'styled-components';
