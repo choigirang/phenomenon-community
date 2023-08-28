@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import usePostForm from '@/hooks/post/usePostForm';
+import { CATEGORY } from '@/constant/constant';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
@@ -39,16 +40,26 @@ export default function add() {
     }
   };
 
+  /** 카테고리 선택 */
+  const category = Object.keys(CATEGORY);
+
   return (
     <React.Fragment>
       <PostContainer>
-        <Title
-          type="text"
-          className="title"
-          placeholder="제목을 입력하세요."
-          onChange={e => titleHandler(e)}
-          required
-        />
+        <Top>
+          <Title
+            type="text"
+            className="title"
+            placeholder="제목을 입력하세요."
+            onChange={e => titleHandler(e)}
+            required
+          />
+          <SelectBox>
+            {category.map(item => (
+              <li key={item}>{item}</li>
+            ))}
+          </SelectBox>
+        </Top>
         <EditorContainer>
           <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
         </EditorContainer>
@@ -70,16 +81,27 @@ const PostContainer = styled.div`
   border: var(--border-solid1) var(--color-blue);
 `;
 
+const Top = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
 const Title = styled.input`
   width: 500px;
   height: 50px;
-  border: var(--border-solid1) var(--color-dark-white);
+  border: var(--border-solid1) var(--color-light-gray);
   padding: 0 var(--padding-side);
   margin-bottom: var(--margin-solo);
 
   ::placeholder {
     color: var(--color-gray);
   }
+`;
+
+const SelectBox = styled.select`
+  width: 100px;
+  height: 50px;
 `;
 
 const EditorContainer = styled.div`
