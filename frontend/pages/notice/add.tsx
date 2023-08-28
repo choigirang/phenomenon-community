@@ -69,7 +69,7 @@ const PostContainer = styled.div`
 const Title = styled.input`
   width: 500px;
   height: 50px;
-  border: var(--border-solid1) var(--color-dark-white);
+  border: var(--border-solid1) var(--color-light-gray);
   padding: 0 var(--padding-side);
   margin-bottom: var(--margin-solo);
 
