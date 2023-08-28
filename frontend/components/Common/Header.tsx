@@ -14,18 +14,20 @@ export default function Header() {
   // 링크 연결
   const router = useRouter();
   // 검색어 저장
-  const [keyword, setkeyword] = useInputs('');
+  const [keyword, setkeyword, setInit] = useInputs('');
 
   function searchKeybordHandler(e: React.KeyboardEvent<HTMLElement>) {
     if (e.key === 'Enter') {
       if (!keyword) return alert('검색어가 필요합니다.');
       e.preventDefault();
-      router.push(`/community/search?keyword=${keyword}`);
     }
+    setInit();
+    router.push(`/community/search?keyword=${keyword}`);
   }
 
   function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
     if (!keyword) return alert('검색어가 필요합니다.');
+    setInit();
     router.push(`/community/search?keyword=${keyword}`);
   }
 
