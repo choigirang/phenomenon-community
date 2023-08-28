@@ -46,6 +46,10 @@ const postSchema = new mongoose.Schema({
       },
     },
   ],
+  category: {
+    type: String,
+    required: true,
+  },
 });
 
 const Post = mongoose.model<PostType>('Post', postSchema);
