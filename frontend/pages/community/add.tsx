@@ -56,7 +56,7 @@ export default function add() {
           />
           <SelectBox>
             {category.map(item => (
-              <li key={item}>{item}</li>
+              <option key={item}>{item}</option>
             ))}
           </SelectBox>
         </Top>
@@ -85,6 +85,7 @@ const Top = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-bottom: var(--margin-solo);
 `;
 
 const Title = styled.input`
@@ -92,7 +93,6 @@ const Title = styled.input`
   height: 50px;
   border: var(--border-solid1) var(--color-light-gray);
   padding: 0 var(--padding-side);
-  margin-bottom: var(--margin-solo);
 
   ::placeholder {
     color: var(--color-gray);
@@ -100,8 +100,10 @@ const Title = styled.input`
 `;
 
 const SelectBox = styled.select`
-  width: 100px;
+  width: 150px;
   height: 50px;
+  border: var(--border-solid1) var(--color-light-gray);
+  padding: var(--padding-text);
 `;
 
 const EditorContainer = styled.div`
