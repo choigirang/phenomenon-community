@@ -14,9 +14,12 @@ export default function index() {
 
   // app 컴포넌트에서 localStrage활용하여 유저 데이터 저장
   const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
+    api.get(`/user=${user.id}`).then(res => dispatch(res.data));
+
     if (!user.login) {
       router.push('/');
     }
