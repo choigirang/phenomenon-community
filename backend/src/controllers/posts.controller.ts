@@ -46,7 +46,7 @@ export async function showEachPost(req: Request, res: Response) {
 
 // 게시글 추가
 export async function addPost(req: Request, res: Response) {
-  const { title, body, date, author } = req.body;
+  const { title, body, date, author, category } = req.body;
 
   try {
     const postNumber = await Post.countDocuments();
@@ -57,6 +57,7 @@ export async function addPost(req: Request, res: Response) {
       title,
       body,
       date,
+      category,
     });
 
     await createdPost.save();
