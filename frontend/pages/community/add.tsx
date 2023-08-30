@@ -17,6 +17,8 @@ const Editor = dynamic(() => import('../../components/Community/PostEditor'), { 
 export default function add() {
   // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
+  // 카테고리 선택
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const router = useRouter();
 
   // 로그인한 유저의 정보 reducer
@@ -28,7 +30,7 @@ export default function add() {
     e.preventDefault();
     if (user.login && user.name) {
       await api
-        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id })
+        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id, category: selectedCategory })
         .then(res => {
           alert('작성이 완료되었습니다.');
           router.push('/');
@@ -38,6 +40,11 @@ export default function add() {
           router.push('/');
         });
     }
+  };
+
+  // 카테고리 핸들러
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
   };
 
   /** 카테고리 선택 */
@@ -54,7 +61,10 @@ export default function add() {
             onChange={e => titleHandler(e)}
             required
           />
-          <SelectBox>
+          <SelectBox onChange={handleCategoryChange}>
+            <option selected disabled>
+              카테고리 선택
+            </option>
             {category.map(item => (
               <option key={item}>{item}</option>
             ))}
