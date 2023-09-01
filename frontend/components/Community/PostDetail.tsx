@@ -13,6 +13,7 @@ import { usePostDetail } from '@/hooks/post/usePostDetail';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/redux/actions/user';
+import { useRouter } from 'next/router';
 
 /** 개별 게시글 페이지 */
 export default function PostDetail({ id }: { id: number }) {
@@ -22,6 +23,8 @@ export default function PostDetail({ id }: { id: number }) {
   // 로그인 상태 확인 (댓글 기능)
   const user = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   // const findLike = user.likes.find(like => like.postNumber === id);
   // if (findLike) setLikes(true);
@@ -52,10 +55,25 @@ export default function PostDetail({ id }: { id: number }) {
   // 게시글 데이터
   const data: PostType = queryResult.data;
 
+  // 좋아요
   const likesHadnler = () => {
     api.post('/likes', { id: user.id, postNumber: id }).then(res => {
       dispatch(loginSuccess(res.data));
     });
+  };
+
+  // 글 삭제
+  const deleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    api.delete(`/post/${data.postNumber}`).then(res => {
+      alert('게시글이 삭제되었습니다.');
+      router.push('/');
+    });
+  };
+
+  // 글 수정
+  const editHandler = () => {
+    router.push(`/community/edit/${data.postNumber}`);
   };
 
   return (
@@ -65,10 +83,23 @@ export default function PostDetail({ id }: { id: number }) {
         {/* 작성자, 타이틀, 날짜, 조회수 등 */}
         <div className="info-top">
           <p className="title">{data.title}</p>
-          <p className="likse" onClick={likesHadnler}>
-            {likes ? <AiFillLike size="18px" /> : <AiOutlineLike size="18px" />}
-          </p>
+          <div className="right-side">
+            {data.author === user.id && (
+              <React.Fragment>
+                <button className="edit-btn" onClick={editHandler}>
+                  수정
+                </button>
+                <button className="delete-btn" onClick={e => deleteHandler(e)}>
+                  삭제
+                </button>
+              </React.Fragment>
+            )}
+            <p className="likse" onClick={likesHadnler}>
+              {likes ? <AiFillLike size="18px" /> : <AiOutlineLike size="18px" />}
+            </p>
+          </div>
         </div>
+        {/* 작성글 */}
         <div className="info-bottom">
           <div className="author-date">
             <span className="author">{data.author}</span>|<span className="date">{data.date}</span>
@@ -112,6 +143,26 @@ const PostInfo = styled.div`
   .title {
     font-size: var(--size-title);
     font-weight: 400;
+  }
+
+  .right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    /* edit, delete btn */
+    button {
+      background-color: white;
+      color: var(--color-dark-blue);
+      border: var(--border-solid1) var(--color-dark-blue);
+      border-radius: 3px;
+      padding: var(--padding-text);
+
+      :hover {
+        background-color: var(--color-blue);
+        color: white;
+      }
+    }
   }
 
   .likse {
