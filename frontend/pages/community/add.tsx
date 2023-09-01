@@ -26,13 +26,24 @@ export default function add() {
 
   const { title, titleHandler, dateHandler, submitHandler } = usePostForm();
 
+  // 카테고리 핸들러
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  /** 카테고리 선택 */
+  const category = Object.keys(CATEGORY);
+
   const postHandler = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (selectedCategory === '') return alert('카테고리 선택이 필요합니다.');
+
     if (user.login && user.name) {
       await api
         .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id, category: selectedCategory })
         .then(res => {
           alert('작성이 완료되었습니다.');
+          console.log(1);
           router.push('/');
         })
         .catch(err => {
@@ -41,14 +52,6 @@ export default function add() {
         });
     }
   };
-
-  // 카테고리 핸들러
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-  };
-
-  /** 카테고리 선택 */
-  const category = Object.keys(CATEGORY);
 
   return (
     <React.Fragment>
@@ -62,11 +65,11 @@ export default function add() {
             required
           />
           <SelectBox onChange={handleCategoryChange}>
-            <option selected disabled>
-              카테고리 선택
-            </option>
+            <option value="">카테고리 선택</option>
             {category.map(item => (
-              <option key={item}>{item}</option>
+              <option key={item} value={item}>
+                {item}
+              </option>
             ))}
           </SelectBox>
         </Top>
