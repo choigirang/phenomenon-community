@@ -68,6 +68,51 @@ export async function addPost(req: Request, res: Response) {
   }
 }
 
+// 게시글 삭제
+export async function deletePost(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const deletePost = await Post.deleteOne({ postNumber: id });
+
+    if (deletePost.deletedCount === 1) return res.status(200).json('삭제되었습니다.');
+    else return res.status(404).json('게시글을 찾을 수 없습니다.');
+  } catch (err) {
+    console.log(err);
+    return res.status(404);
+  }
+}
+
+// 게시글 수정
+export async function editPost(req: Request, res: Response) {
+  const { id } = req.params;
+  const { title, body, date, author, category } = req.body;
+
+  try {
+    // postNumber가 id와 일치하는 게시물을 찾습니다.
+    const existingPost = await Post.findOne({ postNumber: id });
+
+    if (!existingPost) {
+      return res.status(404).json({ message: '게시물을 찾을 수 없습니다.' });
+    }
+
+    // 요청 데이터로 게시물 업데이트
+    existingPost.title = title;
+    existingPost.body = body;
+    existingPost.date = date;
+    existingPost.author = author;
+    existingPost.category = category;
+
+    // 업데이트를 저장하고 응답
+    const updatedPost = await existingPost.save();
+
+    return res.status(200).json({ message: '게시물이 수정되었습니다.', data: updatedPost });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '서버 오류 발생' });
+  }
+}
+
 // 게시글 댓글 추가
 export async function addComment(req: Request, res: Response) {
   const { postNumber, author, comment, date } = req.body;
