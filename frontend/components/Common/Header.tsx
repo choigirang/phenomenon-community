@@ -20,9 +20,9 @@ export default function Header() {
     if (e.key === 'Enter') {
       if (!keyword) return alert('검색어가 필요합니다.');
       e.preventDefault();
+      router.push(`/community/search?keyword=${keyword}`);
     }
     // setInit();
-    router.push(`/community/search?keyword=${keyword}`);
   }
 
   function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
@@ -126,6 +126,10 @@ const Bar = styled.ul`
 
 const Linked = styled(Link)`
   color: white;
+
+  :link {
+    color: white;
+  }
 
   :visited {
     color: white !important;
