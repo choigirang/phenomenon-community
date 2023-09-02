@@ -5,6 +5,7 @@ export const HEADER_NAV: HeaderNav = {
   전체보기: '/',
   게시글: 'community',
   공지사항: 'notice',
+  유저검색: 'user',
 };
 
 // 회원가입 링크
