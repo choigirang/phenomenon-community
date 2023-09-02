@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Bottom() {
+export default function Footer() {
   return <Container>Bottom</Container>;
 }
 
