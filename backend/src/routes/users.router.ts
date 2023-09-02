@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, sendSecurityCode, loginUser, checkUser } from '../controllers/users.controller';
+import { createUser, sendSecurityCode, loginUser, checkUser, allUser } from '../controllers/users.controller';
 import { refreshToken } from '../controllers/token.controller';
 const usersRouter = express.Router();
 
@@ -8,6 +8,9 @@ usersRouter.post('/login', loginUser);
 
 // 로그인 유지
 usersRouter.get('/user', checkUser);
+
+// 전체 유저
+usersRouter.get('/users', allUser);
 
 // 회원가입
 usersRouter.post('/signin', createUser);
