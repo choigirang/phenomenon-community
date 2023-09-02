@@ -2,26 +2,27 @@ import { PostType } from '@/types/type';
 import { api } from '@/util/api';
 import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import EachPost from './EachPost';
+import EachPost from '../Community/EachPost';
+import { CATEGORY } from '@/constant/constant';
+import Link from 'next/link';
 
 export default function Category() {
   // 카테고리 가져오기
-  const categoryList = ['임시'];
-  const tem = Array(30).fill(categoryList).flat();
+  const category = useMemo(() => Object.keys(CATEGORY), []);
 
   return (
     <Container>
       <CategoryBox>
         <CategoryAll>
-          <p className="sub-title">전체보기</p>
+          <p className="sub-title">카테고리</p>
           <CategoryList>
-            {tem.map((item, idx) => (
+            {category.map((item, idx) => (
               <CategoryItem key={idx}>
-                <span>{item}</span>
+                <Link href={`/community/${item}`}>{item}</Link>
               </CategoryItem>
             ))}
           </CategoryList>
@@ -70,7 +71,7 @@ const CategoryItem = styled.li`
   padding-left: 0;
   font-size: var(--size-text);
 
-  span:hover {
+  a:hover {
     cursor: pointer;
     border-bottom: var(--border-text);
     font-weight: 400;

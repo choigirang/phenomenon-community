@@ -11,8 +11,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import usePostForm from '@/hooks/post/usePostForm';
 import { CATEGORY } from '@/constant/constant';
+import { PostType } from '@/types/type';
 
-const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
+const Editor = dynamic(() => import('../../../components/Community/PostEditor'), { ssr: false });
 
 export default function add() {
   // 작성한 데이터 (markdown)
@@ -21,10 +22,22 @@ export default function add() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const router = useRouter();
 
+  // 포스팅 데이터
+  const [data, setData] = useState<PostType>();
+
   // 로그인한 유저의 정보 reducer
   const user = useSelector((state: RootState) => state.user.user);
 
   const { title, titleHandler, dateHandler, submitHandler } = usePostForm();
+
+  // 게시글 받아오기
+  useEffect(() => {
+    if (router.query.id !== undefined) {
+      api.get(`/post/${router.query.id}`).then(res => {
+        setData(res.data);
+      });
+    }
+  }, [router.query.id]);
 
   // 카테고리 핸들러
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +53,15 @@ export default function add() {
 
     if (user.login && user.name) {
       await api
-        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id, category: selectedCategory })
+        .post(`/edit/${router.query.id}`, {
+          title,
+          body: htmlStr,
+          date: dateHandler(),
+          author: user.id,
+          category: selectedCategory,
+        })
         .then(res => {
-          alert('작성이 완료되었습니다.');
+          alert('수정이 완료되었습니다.');
           console.log(1);
           router.push('/');
         })
@@ -53,6 +72,8 @@ export default function add() {
     }
   };
 
+  console.log(htmlStr);
+
   return (
     <React.Fragment>
       <PostContainer>
@@ -61,6 +82,7 @@ export default function add() {
             type="text"
             className="title"
             placeholder="제목을 입력하세요."
+            value={data && data.title}
             onChange={e => titleHandler(e)}
             required
           />
@@ -74,11 +96,11 @@ export default function add() {
           </SelectBox>
         </Top>
         <EditorContainer>
-          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
+          <Editor htmlStr={(data && data.body) || ''} setHtmlStr={setHtmlStr} />
         </EditorContainer>
         <NextPage>
           <button className="btn" onClick={e => postHandler(e)}>
-            제출
+            수정
           </button>
         </NextPage>
       </PostContainer>

@@ -18,9 +18,9 @@ import AddNoticeBtn from '../Notice/AddNoticeBtn';
 
 export default function Login() {
   // 로그인 아이디
-  const [id, setId] = useInputs<string>('');
+  const [id, setId] = useInputs('');
   // 로그인 패스워드
-  const [pass, setPass] = useInputs<string>('');
+  const [pass, setPass] = useInputs('');
   const router = useRouter();
 
   // 유저 reducer
@@ -58,7 +58,6 @@ export default function Login() {
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
           saveLoginData(userData);
-          console.log(userData);
         })
         .catch(res => {
           alert('일치하지 않는 사용자입니다.');

@@ -6,6 +6,8 @@ import {
   showEachPost,
   showPostsByPage,
   searchPost,
+  deletePost,
+  editPost,
 } from '../controllers/posts.controller';
 
 const postRouter = express.Router();
@@ -18,6 +20,12 @@ postRouter.get('/post/:id', showEachPost);
 
 // 게시글 추가
 postRouter.post('/posts', addPost);
+
+// 게시글 삭제
+postRouter.delete('/post/:id', deletePost);
+
+// 게시글 수정
+postRouter.post('/edit/:id', editPost);
 
 // 게시글 댓글 추가
 postRouter.post('/post/comment', addComment);

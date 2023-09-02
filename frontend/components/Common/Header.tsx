@@ -22,10 +22,12 @@ export default function Header() {
       e.preventDefault();
       router.push(`/community/search?keyword=${keyword}`);
     }
+    // setInit();
   }
 
   function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
     if (!keyword) return alert('검색어가 필요합니다.');
+    // setInit();
     router.push(`/community/search?keyword=${keyword}`);
   }
 
@@ -124,6 +126,10 @@ const Bar = styled.ul`
 
 const Linked = styled(Link)`
   color: white;
+
+  :link {
+    color: white;
+  }
 
   :visited {
     color: white !important;

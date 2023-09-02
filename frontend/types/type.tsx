@@ -12,6 +12,7 @@ export interface PostType {
   views: number;
   likes: number;
   comments: CommentType[];
+  category: string;
 }
 
 export type EachPostProps = {

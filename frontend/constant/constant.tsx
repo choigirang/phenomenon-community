@@ -3,9 +3,9 @@ import { HeaderNav } from '@/types/type';
 // 카테고리
 export const HEADER_NAV: HeaderNav = {
   전체보기: '/',
-  명예의전당: 'hof',
   게시글: 'community',
   공지사항: 'notice',
+  유저검색: 'user',
 };
 
 // 회원가입 링크
@@ -18,6 +18,16 @@ export const SIGN_UP: HeaderNav = {
   약관동의: '/agree',
   정보입력: '/info',
   가입완료: '/',
+};
+
+export const CATEGORY: HeaderNav = {
+  생활: '/life',
+  체육: '/athletic',
+  과학: '/science',
+  음악: '/music',
+  종교: '/religion',
+  미스테리: '/mystery',
+  성인: '/adult',
 };
 
 export const SERVICE_TEXT: string = `

@@ -31,6 +31,7 @@ export interface PostType extends Document {
   date: string;
   views: number;
   likes: number;
+  category: string;
   comments: Array<CommentData>;
 }
 

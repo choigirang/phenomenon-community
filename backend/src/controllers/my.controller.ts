@@ -20,12 +20,11 @@ export async function userAllData(req: Request, res: Response) {
 
     const userAllComments: CommentData[] = [];
 
-    // Iterate through all posts and their comments
+    // 유저가 작성한 댓글 데이터
     const allPosts = await Post.find();
     allPosts.forEach(post => {
       post.comments.forEach(comment => {
         if (comment.author === user) {
-          // Push relevant comment data into the userAllComments array
           userAllComments.unshift({
             postNumber: post.postNumber,
             author: post.author,

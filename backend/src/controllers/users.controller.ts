@@ -70,6 +70,19 @@ async function checkUser(req: Request, res: Response) {
   }
 }
 
+// 전체 유저
+async function allUser(req: Request, res: Response) {
+  try {
+    const findAllUser = await User.find();
+
+    const usersData = findAllUser.map(user => user.id);
+
+    res.status(200).json({ usersData });
+  } catch (err) {
+    res.status(500).json({ error: '서버오류' });
+  }
+}
+
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
@@ -131,4 +144,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, sendSecurityCode, createUser, checkUser };
+export { loginUser, allUser, sendSecurityCode, createUser, checkUser };
