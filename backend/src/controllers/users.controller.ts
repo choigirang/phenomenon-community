@@ -84,6 +84,26 @@ async function allUser(req: Request, res: Response) {
   }
 }
 
+// 개별 유저 검색
+async function searchUser(req: Request, res: Response) {
+  try {
+    const id = req.query.id;
+
+    const findUser = await User.find({ id: { $regex: id, $options: 'i' } });
+    const allUser = await User.find();
+
+    const userData = findUser.map(user => user.id);
+    const allUserData = allUser.map(user => user.id);
+
+    if (id === 'all') return res.status(200).json({ allUserData });
+    if (findUser.length === 0) return res.status(200).send('검색된 유저가 없습니다.');
+
+    res.status(200).json({ userData });
+  } catch (err) {
+    res.status(500).json({ error: '서버오류' });
+  }
+}
+
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
@@ -145,4 +165,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, allUser, sendSecurityCode, createUser, checkUser };
+export { loginUser, allUser, searchUser, sendSecurityCode, createUser, checkUser };
