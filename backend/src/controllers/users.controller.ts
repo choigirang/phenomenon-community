@@ -6,13 +6,13 @@ import brcypt from 'bcrypt';
 
 import User from '../models/users.model';
 import { UserType } from '../../type/type';
+import Post from '../models/posts.model';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
   try {
     const { id, password } = req.body;
     const user: UserType | null = await User.findOne({ id });
-    console.log(user);
 
     if (!user) {
       return res.status(401).send('일치하는 유저가 없습니다.');
@@ -74,10 +74,11 @@ async function checkUser(req: Request, res: Response) {
 async function allUser(req: Request, res: Response) {
   try {
     const findAllUser = await User.find();
+    const findUserPosts = await Post.find({ id: findAllUser });
 
     const usersData = findAllUser.map(user => user.id);
 
-    res.status(200).json({ usersData });
+    res.status(200).json({ usersData, findUserPosts: findUserPosts.length });
   } catch (err) {
     res.status(500).json({ error: '서버오류' });
   }
