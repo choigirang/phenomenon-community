@@ -1,9 +1,9 @@
-import { User } from '@/types/type';
+import { SearchUser, User } from '@/types/type';
 import React from 'react';
 import styled from 'styled-components';
 
-export default function UserCard({ data }: { data: User }) {
-  const { id, name, mail } = data;
+export default function UserCard({ data }: { data: User | SearchUser }) {
+  const { id, name } = data;
 
   return (
     <Container>
@@ -13,10 +13,12 @@ export default function UserCard({ data }: { data: User }) {
       <div className="name">
         <span className="weight">닉네임 :</span> {name}
       </div>
-      <div className="mail">
-        <span className="weight">이메일 : </span>
-        {mail}
-      </div>
+      {'mail' in data && (
+        <div className="mail">
+          <span className="weight">이메일 : </span>
+          {data.mail}
+        </div>
+      )}
     </Container>
   );
 }
