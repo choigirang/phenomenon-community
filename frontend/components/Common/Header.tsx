@@ -7,6 +7,7 @@ import { HEADER_NAV } from '@/constant/constant';
 import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Logo from './Logo';
 
 export default function Header() {
   // Header 카테고리
@@ -35,9 +36,7 @@ export default function Header() {
     <>
       {/* 상단 */}
       <Nav>
-        <div className="logo" onClick={() => router.push('/')}>
-          logo
-        </div>
+        <Logo />
         <InputBox>
           <Input
             placeholder="게시글 통합 검색"
