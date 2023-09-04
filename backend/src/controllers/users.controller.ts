@@ -104,6 +104,26 @@ async function searchUser(req: Request, res: Response) {
   }
 }
 
+// 개별 유저 작성 게시글
+async function searchUserData(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    const findPost = await Post.find({ author: id });
+    const findUser = await User.findOne({ id });
+
+    if (!findUser) return res.status(404).json('일치하는 유저가 존재하지 않습니다.');
+    const userData = {
+      id: findUser.id,
+      name: findUser.name,
+      posts: findPost,
+    };
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(500).json({ error: '데이터가 존재하지 않습니다.' });
+  }
+}
+
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
@@ -165,4 +185,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, allUser, searchUser, sendSecurityCode, createUser, checkUser };
+export { loginUser, allUser, searchUser, searchUserData, sendSecurityCode, createUser, checkUser };
