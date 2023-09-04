@@ -3,6 +3,7 @@ import { LOGIN_SUCCESS, LOGOUT } from '../actions/user';
 
 const initialState: InitialState = {
   user: {
+    img: '',
     id: '',
     name: '',
     mail: '',
@@ -18,6 +19,7 @@ const userReducer = (state = initialState, action: UserAction) => {
       return {
         ...state,
         user: {
+          img: action.payload.img,
           id: action.payload.id,
           name: action.payload.name,
           mail: action.payload.mail,

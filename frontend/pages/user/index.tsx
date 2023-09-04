@@ -10,17 +10,16 @@ export default function index() {
   // 검색한 유저 데이터
   const [users, setUsers] = useState<string[]>([]);
   // 검색값
-  const [userName, setUserName] = useInputs('');
+  const [userName, setUserName, setInit] = useInputs('');
   // 검색 내용
   const [msg, setMsg] = useState<string | number>('');
   // 유저 쿼리
-  const queryResult = useUserName('all');
-
-  console.log(queryResult);
+  // const queryResult = useUserName('all');
 
   // 전체 유저 데이터
   useEffect(() => {
     // setUsers(queryResult);
+    api.get('/user?id=all').then(res => setUsers(res.data.allUserData));
   }, []);
 
   // enter 눌렀을 시 검색
@@ -41,19 +40,28 @@ export default function index() {
     setMsg(userName);
   }
 
+  // 검색어 초기화
+  function initHandler(e: React.MouseEvent<HTMLOrSVGElement>) {
+    api.get(`/user?id=all`).then(res => setUsers(res.data.allUserData));
+    setMsg('');
+    setInit();
+  }
+
   return (
     <Container>
       {/* 유저 검색 */}
       <InputBox>
         <Inputs
-          placeholder="게시글 통합 검색"
+          placeholder="아이디를 입력해주세요."
           value={userName}
           onChange={setUserName}
           onKeyDown={searchKeybordHandler}></Inputs>
         <button type="button" color="var(--color-blue)" onClick={searchMouseHandler}>
           검색
         </button>
-        {/* <BsArrowRepeat onClick={}/> */}
+        <div className="icon">
+          <BsArrowRepeat onClick={initHandler} />
+        </div>
       </InputBox>
       {/* 검색 결과 */}
       {msg && (
@@ -87,7 +95,8 @@ const InputBox = styled.div`
   gap: 10px;
   margin: var(--margin-solo) 0;
 
-  button {
+  button,
+  .icon {
     height: 100%;
     padding: var(--padding-text);
     border-radius: 3px;

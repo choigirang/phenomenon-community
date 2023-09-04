@@ -15,6 +15,7 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import Link from 'next/link';
 import { User, UserType } from '@/types/type';
 import AddNoticeBtn from '../Notice/AddNoticeBtn';
+import Image from 'next/image';
 
 export default function Login() {
   // 로그인 아이디
@@ -52,8 +53,8 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const { id, name, mail, super: isSuper, likes }: User = res.data.user;
-          const userData = { id, name, mail, super: isSuper, likes };
+          const { id, name, mail, img, super: isSuper, likes }: User = res.data.user;
+          const userData = { id, name, mail, img, super: isSuper, likes };
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
@@ -109,15 +110,18 @@ export default function Login() {
         )}
         {user.login && (
           <LoginUserBox>
-            <div className="user-box">
-              <span className="name">{user.name}</span>
-              <span>님</span>
-              <BsFillArrowRightCircleFill />
-              <MyInfo href={'/my'}> 내 정보</MyInfo>
-            </div>
-            <div className="log-out" onClick={logOut}>
-              로그아웃
-            </div>
+            <Image src={user.img} width={100} height={100} alt="profile-img" />
+            <InfoBox>
+              <div className="user-box">
+                <span className="name">{user.name}</span>
+                <span>님</span>
+                <BsFillArrowRightCircleFill />
+                <MyInfo href={'/my'}> 내 정보</MyInfo>
+              </div>
+              <div className="log-out" onClick={logOut}>
+                로그아웃
+              </div>
+            </InfoBox>
           </LoginUserBox>
         )}
       </LoginBox>
@@ -230,6 +234,14 @@ const LoginUserBox = styled.div`
   font-size: var(--size-sub-title);
   display: flex;
   justify-content: space-between;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 10px;
 
   .user-box {
     display: flex;

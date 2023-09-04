@@ -13,6 +13,7 @@ export interface UserType extends Document {
   password: string;
   name: string;
   mail: string;
+  img: string;
   refreshToken: string;
   super: boolean;
   likes: Array<Likes>;

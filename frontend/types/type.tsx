@@ -51,6 +51,7 @@ export type UserInfo = {
 };
 
 export interface UserType extends Document {
+  img: string;
   id: string;
   password: string;
   name: string;
@@ -76,10 +77,11 @@ export interface Likes {
 export interface User {
   id: string;
   name: string;
-  mail: string;
+  mail?: string;
+  img: string;
   login?: boolean;
-  super: boolean;
-  likes: Array<Likes>;
+  super?: boolean;
+  likes?: Array<Likes>;
 }
 
 interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
@@ -123,3 +125,11 @@ export type Notice = {
   date: string;
   noticeNumber: number;
 };
+
+/** 유저 검색 데이터 타입 */
+export interface SearchUser {
+  id: string;
+  name: string;
+  mail: string;
+  posts: PostType[];
+}
