@@ -116,6 +116,7 @@ async function searchUserData(req: Request, res: Response) {
     const userData = {
       id: findUser.id,
       name: findUser.name,
+      img: findUser.img,
       posts: findPost,
     };
     res.status(200).json(userData);
