@@ -1,13 +1,13 @@
 import { api } from '@/util/api';
 import React from 'react';
-import { useQuery } from 'react-query';
+import { UseQueryResult, useQuery } from 'react-query';
 
-export default function useUserName(id: string | number) {
+export default function useUserName(id: string | number): UseQueryResult<string[]> {
   async function fetchUserName() {
     try {
       if (id === 'all') {
         const res = await api.get(`/user?id=${id}`);
-        return res.data;
+        return res.data.allUserData;
       }
       const res = await api.get(`/user?id=${id}`);
       return res.data.userData;
