@@ -51,6 +51,7 @@ export type UserInfo = {
 };
 
 export interface UserType extends Document {
+  img: string;
   id: string;
   password: string;
   name: string;
@@ -77,6 +78,7 @@ export interface User {
   id: string;
   name: string;
   mail?: string;
+  img: string;
   login?: boolean;
   super?: boolean;
   likes?: Array<Likes>;
