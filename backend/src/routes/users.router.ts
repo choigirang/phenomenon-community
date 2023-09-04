@@ -6,6 +6,7 @@ import {
   checkUser,
   allUser,
   searchUser,
+  searchUserData,
 } from '../controllers/users.controller';
 import { refreshToken } from '../controllers/token.controller';
 const usersRouter = express.Router();
@@ -21,6 +22,9 @@ usersRouter.get('/users', allUser);
 
 // 개별 유저 검색
 usersRouter.get('/user', searchUser);
+
+// 개별 유저 데이터
+usersRouter.get('/user/:id', searchUserData);
 
 // 회원가입
 usersRouter.post('/signin', createUser);
