@@ -47,6 +47,9 @@ const options: InputType = {
 export default function info() {
   const router = useRouter();
 
+  // 이미지
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
   // 아이디
   const [id, setId] = useState<Check>({
     userId: '',
@@ -83,6 +86,15 @@ export default function info() {
       check: (data: string) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(data),
     },
   ];
+
+  {
+    /* 이미지 핸들러 */
+  }
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
 
   const checkIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -245,7 +257,7 @@ export default function info() {
   // 보안 코드 전송
   const sendCodeHandler = () => {
     api
-      .post('/signin/security-code', userMail)
+      .post('/signup/security-code', userMail)
       .then(res => {
         alert('보안 코드가 전송되었습니다.');
         setSecurity(prev => ({
@@ -278,16 +290,18 @@ export default function info() {
   //  제출
   const agreementCheck = (e: FormEvent) => {
     e.preventDefault();
+
     const userInfo = {
       id: id.userId,
       password: checkPass.secondPass,
       name: nickname.name,
       mail: `${userMail.mail}@${userMail.domain}`,
+      profileImage: selectedImage,
     };
 
     const signIn = () =>
       api
-        .post('/signin', userInfo)
+        .post('/signup', userInfo)
         .then(res => {
           alert('회원가입이 완료되었습니다.');
           console.log(res);
@@ -308,6 +322,16 @@ export default function info() {
           <div className="title">기본 정보 입력</div>
           <InputBox validatePass={validatePass} leastPass={confirmPass && checkPass.secondPass.length >= 8}>
             {/* leastNickname={nickname.checkName} */}
+            {/* 이미지 */}
+            <div className="each-data">
+              <label htmlFor="img" className="sub-title">
+                프로필
+              </label>
+              <div className="img-box">
+                <input name="userId" type="file" accept="image/*" onChange={handleImageChange} />
+                <span>선택하지 않을 시 기본 이미지로 설정됩니다.</span>
+              </div>
+            </div>
             {/* 아이디 */}
             <div className="each-data">
               <label htmlFor="id" className="sub-title">
@@ -487,6 +511,21 @@ const InputBox = styled.div<InputData>`
       border: solid 2px var(--color-light-blue);
       /* 밀림 방지 */
       /* margin: -1; */
+    }
+  }
+
+  .img-box {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      border: none;
+      padding-left: 0;
+    }
+
+    span {
+      font-size: var(--size-text);
+      color: var(--color-gray);
     }
   }
 
