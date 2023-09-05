@@ -7,6 +7,7 @@ import brcypt from 'bcrypt';
 import User from '../models/users.model';
 import { UserType } from '../../type/type';
 import Post from '../models/posts.model';
+import { Multer } from 'multer';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
@@ -129,9 +130,7 @@ async function searchUserData(req: Request, res: Response) {
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
   try {
-    const profileImageUrl = req.file;
-    console.log(profileImageUrl);
-
+    const data = (req.file as Express.MulterS3.File).location;
     // 비밀번호 해싱 추후 예정
     // let hashedPassword;
     // hashedPassword = await brcypt.hash(password, 12);
@@ -142,13 +141,14 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
       name,
       mail,
       super: false,
+      // img
     });
 
     await createUser.save();
 
     let token;
     token = jwt.sign({ id: createUser.id }, 'supersecret', { expiresIn: '1h' });
-    return res.status(200).json({ token });
+    return res.status(200).json({ data });
   } catch (err) {
     next(err);
   }
