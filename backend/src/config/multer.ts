@@ -23,7 +23,7 @@ export const upload = multer({
     }),
     bucket: 'choigirang-why-community', // 객체를 업로드할 버킷 이름
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req, file: Express.MulterS3.File, cb) {
+    key: function (req, file, cb) {
       // id 랜덤 생성
       const fileId = shortId.generate();
       const type = file.mimetype.split('/')[1];
