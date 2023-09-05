@@ -129,6 +129,9 @@ async function searchUserData(req: Request, res: Response) {
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
   try {
+    const profileImageUrl = req.file;
+    console.log(profileImageUrl);
+
     // 비밀번호 해싱 추후 예정
     // let hashedPassword;
     // hashedPassword = await brcypt.hash(password, 12);
