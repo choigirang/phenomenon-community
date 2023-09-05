@@ -31,7 +31,7 @@ export default function PostDetail({ id }: { id: number }) {
   // else setLikes(false);
 
   useEffect(() => {
-    if (user) {
+    if (user.likes) {
       const checkLike = user.likes.filter(like => like.postNumber === id);
       setLikes(checkLike.length > 0);
     } else {
@@ -85,15 +85,16 @@ export default function PostDetail({ id }: { id: number }) {
           <p className="title">{data.title}</p>
           <div className="right-side">
             {data.author === user.id && (
-              <React.Fragment>
-                <button className="edit-btn" onClick={editHandler}>
-                  수정
-                </button>
+              <button className="edit-btn" onClick={editHandler}>
+                수정
+              </button>
+            )}
+            {data.author === user.id ||
+              (user.super && (
                 <button className="delete-btn" onClick={e => deleteHandler(e)}>
                   삭제
                 </button>
-              </React.Fragment>
-            )}
+              ))}
             <p className="likse" onClick={likesHadnler}>
               {likes ? <AiFillLike size="18px" /> : <AiOutlineLike size="18px" />}
             </p>
