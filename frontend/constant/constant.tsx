@@ -316,3 +316,7 @@ export const PRIVATE_TEXT: string = `
 
 
 ▶ 경찰청 사이버안전국 : 182 (http://cyberbureau.police.go.kr)`;
+
+export const PROFILE_URL = (img: string) => {
+  return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/${img}`;
+};
