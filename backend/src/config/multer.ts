@@ -27,7 +27,7 @@ export const upload = multer({
       // id 랜덤 생성
       const fileId = shortId.generate();
       const type = file.mimetype.split('/')[1];
-      const fileName = `${fileId}.${type}`;
+      const fileName = `profile/${fileId}.${type}`;
       cb(null, fileName);
     },
     acl: 'public-read-write',
