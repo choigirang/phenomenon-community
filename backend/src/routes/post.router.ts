@@ -10,7 +10,7 @@ import {
   editPost,
 } from '../controllers/posts.controller';
 
-const postRouter = express.Router();
+export const postRouter = express.Router();
 
 // 게시글 조회
 postRouter.get('/all-posts', showPostsByPage);
@@ -35,4 +35,3 @@ postRouter.post('/likes', addLikes);
 
 // 게시글 검색
 postRouter.get('/search', searchPost);
-export default postRouter;
