@@ -301,8 +301,6 @@ export default function info() {
     // 이미지를 추가
     if (selectedImage) {
       formData.append('profileImage', selectedImage);
-      console.log(1);
-      console.log(selectedImage);
     }
 
     // 다른 입력 데이터 추가
@@ -320,14 +318,12 @@ export default function info() {
         })
         .then(res => {
           alert('회원가입이 완료되었습니다.');
-          console.log(res);
-          console.log(formData);
         })
         .catch(err => console.log(err));
 
     if (checkSecurity.compareSecurityCode) {
       signIn();
-      // return router.push('/signup/complete');
+      return router.push('/signup/complete');
     } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
 
