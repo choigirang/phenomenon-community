@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { User, UserType } from '@/types/type';
 import AddNoticeBtn from '../Notice/AddNoticeBtn';
 import Image from 'next/image';
+import { PROFILE_URL } from '@/constant/constant';
 
 export default function Login() {
   // 로그인 아이디
@@ -110,7 +111,7 @@ export default function Login() {
         )}
         {user.login && (
           <LoginUserBox>
-            <Image src={user.img} width={100} height={100} alt="profile-img" />
+            <Image src={PROFILE_URL(user.img)} width={100} height={100} alt="profile-img" />
             <InfoBox>
               <div className="user-box">
                 <span className="name">{user.name}</span>
