@@ -8,6 +8,7 @@ import { api } from '@/util/api';
 import styled from 'styled-components';
 import { Bottom, NextPage } from '@/styles/GlobalComponents';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import { headers } from 'next/dist/client/components/headers';
 
 interface InputType {
   [key: string]: string;
@@ -18,8 +19,14 @@ interface AxiosSecurityCode {
   userCode: string;
 }
 
-type Check = {
-  [key: string]: string | boolean;
+type CheckId = {
+  userId: string;
+  required: boolean;
+};
+
+type CheckName = {
+  name: string;
+  checkName: boolean;
 };
 
 type ValidationItem = {
@@ -51,7 +58,7 @@ export default function info() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // 아이디
-  const [id, setId] = useState<Check>({
+  const [id, setId] = useState<CheckId>({
     userId: '',
     required: false,
   });
@@ -87,9 +94,7 @@ export default function info() {
     },
   ];
 
-  {
-    /* 이미지 핸들러 */
-  }
+  /* 이미지 핸들러 */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
@@ -144,7 +149,7 @@ export default function info() {
   }, [checkPass.secondPass]);
 
   // 닉네임 유효성 검사
-  const [nickname, setNickName] = useState<Check>({
+  const [nickname, setNickName] = useState<CheckName>({
     name: '',
     checkName: false,
   });
@@ -291,20 +296,32 @@ export default function info() {
   const agreementCheck = (e: FormEvent) => {
     e.preventDefault();
 
-    const userInfo = {
-      id: id.userId,
-      password: checkPass.secondPass,
-      name: nickname.name,
-      mail: `${userMail.mail}@${userMail.domain}`,
-      profileImage: selectedImage,
-    };
+    const formData = new FormData();
+
+    // 이미지를 추가
+    if (selectedImage) {
+      formData.append('profileImage', selectedImage);
+      console.log(1);
+      console.log(selectedImage);
+    }
+
+    // 다른 입력 데이터 추가
+    formData.append('id', id.userId);
+    formData.append('password', checkPass.secondPass);
+    formData.append('name', nickname.name);
+    formData.append('mail', `${userMail.mail}@${userMail.domain}`);
 
     const signIn = () =>
       api
-        .post('/signup', userInfo)
+        .post('/signup', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data', // 이 부분은 중요합니다.
+          },
+        })
         .then(res => {
           alert('회원가입이 완료되었습니다.');
           console.log(res);
+          console.log(formData);
         })
         .catch(err => console.log(err));
 
@@ -313,22 +330,22 @@ export default function info() {
       // return router.push('/signup/complete');
     } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
+
   return (
     <>
       <SignHeader />
       <SignProgress />
-      <Bottom onSubmit={agreementCheck}>
+      <Bottom onSubmit={agreementCheck} method="post" encType="multipart/form-data">
         <InputContainer>
           <div className="title">기본 정보 입력</div>
           <InputBox validatePass={validatePass} leastPass={confirmPass && checkPass.secondPass.length >= 8}>
-            {/* leastNickname={nickname.checkName} */}
             {/* 이미지 */}
             <div className="each-data">
               <label htmlFor="img" className="sub-title">
                 프로필
               </label>
               <div className="img-box">
-                <input name="userId" type="file" accept="image/*" onChange={handleImageChange} />
+                <input name="profileImage" type="file" accept="image/*" onChange={handleImageChange} />
                 <span>선택하지 않을 시 기본 이미지로 설정됩니다.</span>
               </div>
             </div>
