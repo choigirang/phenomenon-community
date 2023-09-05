@@ -128,12 +128,17 @@ async function searchUserData(req: Request, res: Response) {
 
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
+  // 비밀번호 해싱 추후 예정
+  // let hashedPassword;
+  // hashedPassword = await brcypt.hash(password, 12);
   const { id, password, name, mail } = req.body;
+
   try {
     const data = (req.file as Express.MulterS3.File).location;
-    // 비밀번호 해싱 추후 예정
-    // let hashedPassword;
-    // hashedPassword = await brcypt.hash(password, 12);
+    const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/';
+    let img = data.replace(baseUrl, '');
+
+    if (!data) img = 'default.jpg';
 
     const createUser = new User({
       id,
@@ -141,7 +146,7 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
       name,
       mail,
       super: false,
-      // img
+      img,
     });
 
     await createUser.save();
