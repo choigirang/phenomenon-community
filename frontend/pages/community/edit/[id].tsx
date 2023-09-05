@@ -4,8 +4,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { NextPage } from '@/styles/GlobalComponents';
 import { api } from '@/util/api';
-import htmlToDraft from 'html-to-draftjs';
-import { ContentState, EditorState } from 'draft-js';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -62,7 +60,6 @@ export default function add() {
         })
         .then(res => {
           alert('수정이 완료되었습니다.');
-          console.log(1);
           router.push('/');
         })
         .catch(err => {
@@ -71,8 +68,6 @@ export default function add() {
         });
     }
   };
-
-  console.log(htmlStr);
 
   return (
     <React.Fragment>
