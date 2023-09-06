@@ -21,7 +21,7 @@ export default function add() {
 
   const postHandler = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (user.login && user.name) {
+    if (user.login && user.name && user.super) {
       await api
         .post('/notice', { title, content: htmlStr, date: dateHandler() })
         .then(res => {
