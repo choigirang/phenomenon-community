@@ -167,7 +167,63 @@ export async function addComment(req: Request, res: Response) {
   }
 }
 
-export async function editComment(req: Request, res: Response) {}
+// 댓글 수정
+export async function editComment(req: Request, res: Response) {
+  const { postNumber, commentNumber } = req.params;
+  const { comment: newComment } = req.body;
+
+  try {
+    const findPost: PostType | null = await Post.findOne({ postNumber });
+
+    if (!findPost) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const commentFind = findPost.comments.findIndex((comment: CommentData) => comment.commentNumber === +commentNumber);
+
+    if (commentFind === -1) {
+      return res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
+    }
+
+    // Update the comment
+    findPost.comments[commentFind].comment = newComment;
+
+    await findPost.save();
+
+    return res.status(200).json({ message: '댓글이 수정되었습니다.', post: findPost });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: '서버 에러' });
+  }
+}
+
+// 댓글 삭제
+export async function deleteComment(req: Request, res: Response) {
+  const { postNumber, commentNumber } = req.params;
+
+  try {
+    const findPost: PostType | null = await Post.findOne({ postNumber });
+
+    if (!findPost) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const commentFind = findPost.comments.findIndex((comment: CommentData) => comment.commentNumber === +commentNumber);
+
+    if (commentFind === -1) {
+      return res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
+    }
+
+    findPost.comments.splice(commentFind, 1);
+
+    await findPost.save();
+
+    return res.status(200).json({ message: '댓글이 삭제되었습니다.', post: findPost });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: '서버 에러' });
+  }
+}
 
 /** 게시글 좋아요 */
 export async function addLikes(req: Request, res: Response) {
