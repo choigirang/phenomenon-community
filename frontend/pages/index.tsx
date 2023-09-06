@@ -21,7 +21,6 @@ export default function Home() {
       </Head>
       <Container>
         <LeftSide>
-          <Category />
           <PostList />
         </LeftSide>
         <Login />

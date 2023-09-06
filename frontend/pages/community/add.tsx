@@ -28,7 +28,7 @@ export default function add() {
 
   // 카테고리 핸들러
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
+    setSelectedCategory(CATEGORY[e.target.value]);
   };
 
   /** 카테고리 선택 */
@@ -40,10 +40,16 @@ export default function add() {
 
     if (user.login && user.name) {
       await api
-        .post('/posts', { title, body: htmlStr, date: dateHandler(), author: user.id, category: selectedCategory })
+        .post('/posts', {
+          title,
+          body: htmlStr,
+          date: dateHandler(),
+          author: user.id,
+          name: user.name,
+          category: selectedCategory,
+        })
         .then(res => {
           alert('작성이 완료되었습니다.');
-          console.log(1);
           router.push('/');
         })
         .catch(err => {

@@ -14,7 +14,7 @@ export default function SignHeader() {
 
   return (
     <Top>
-      <Logo />
+      {/* <Logo /> */}
       <Category>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">

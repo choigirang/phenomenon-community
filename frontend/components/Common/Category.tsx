@@ -22,7 +22,7 @@ export default function Category() {
           <CategoryList>
             {category.map((item, idx) => (
               <CategoryItem key={idx}>
-                <Link href={`/community/${item}`}>{item}</Link>
+                <Link href={item === '전체' ? '/community' : `/community?category=${CATEGORY[item]}`}>{item}</Link>
               </CategoryItem>
             ))}
           </CategoryList>
@@ -34,7 +34,6 @@ export default function Category() {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
 `;
 
 // 카테고리 상자

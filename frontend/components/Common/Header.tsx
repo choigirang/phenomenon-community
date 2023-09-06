@@ -36,7 +36,7 @@ export default function Header() {
     <>
       {/* 상단 */}
       <Nav>
-        <Logo />
+        {/* <Logo /> */}
         <InputBox>
           <Input
             placeholder="게시글 통합 검색"

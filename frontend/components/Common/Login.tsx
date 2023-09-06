@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { User, UserType } from '@/types/type';
 import AddNoticeBtn from '../Notice/AddNoticeBtn';
 import Image from 'next/image';
+import { PROFILE_URL } from '@/constant/constant';
 
 export default function Login() {
   // 로그인 아이디
@@ -110,12 +111,14 @@ export default function Login() {
         )}
         {user.login && (
           <LoginUserBox>
-            <Image src={user.img} width={100} height={100} alt="profile-img" />
+            <Image src={PROFILE_URL(user.img)} priority={true} width={100} height={100} alt="profile-img" />
             <InfoBox>
               <div className="user-box">
-                <span className="name">{user.name}</span>
-                <span>님</span>
-                <BsFillArrowRightCircleFill />
+                <div className="name-box">
+                  <span className="name">{user.name}</span>
+                  <span>님</span>
+                  <BsFillArrowRightCircleFill />
+                </div>
                 <MyInfo href={'/my'}> 내 정보</MyInfo>
               </div>
               <div className="log-out" onClick={logOut}>
@@ -245,8 +248,20 @@ const InfoBox = styled.div`
 
   .user-box {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+
     cursor: pointer;
+
+    .name-box {
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-left: 10px;
+      }
+    }
 
     .name {
       color: var(--color-blue);
@@ -259,6 +274,8 @@ const InfoBox = styled.div`
   }
 
   .log-out {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     font-size: var(--size-text);
     font-weight: 400;
@@ -269,6 +286,5 @@ const InfoBox = styled.div`
 `;
 
 const MyInfo = styled(Link)`
-  padding-left: 10px;
   font-size: var(--size-text);
 `;

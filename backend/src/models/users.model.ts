@@ -2,11 +2,6 @@ import mongoose from 'mongoose';
 import { UserType } from '../../type/type';
 
 const userSchema = new mongoose.Schema({
-  // userNum: {
-  //   type: Number,
-  //   unique: true,
-  //   required: true,
-  // },
   id: {
     type: String,
     required: true,
@@ -29,7 +24,6 @@ const userSchema = new mongoose.Schema({
   },
   refreshToken: {
     type: String,
-    required: true,
   },
   super: {
     type: Boolean,

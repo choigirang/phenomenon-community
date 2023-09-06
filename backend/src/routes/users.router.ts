@@ -9,6 +9,7 @@ import {
   searchUserData,
 } from '../controllers/users.controller';
 import { refreshToken } from '../controllers/token.controller';
+import { upload } from '../config/multer';
 const usersRouter = express.Router();
 
 // 로그인
@@ -27,10 +28,10 @@ usersRouter.get('/user', searchUser);
 usersRouter.get('/user/:id', searchUserData);
 
 // 회원가입
-usersRouter.post('/signin', createUser);
+usersRouter.post('/signup', upload.single('profileImage'), createUser);
 
 // 보안메일
-usersRouter.post('/signin/security-code', sendSecurityCode);
+usersRouter.post('/signup/security-code', sendSecurityCode);
 
 // 토큰 재발급
 usersRouter.post('/refresh', refreshToken);

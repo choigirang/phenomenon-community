@@ -5,10 +5,12 @@ import Link from 'next/link';
 import useInputs from '@/hooks/common/useInputs';
 import { BsArrowRepeat } from 'react-icons/bs';
 import useUserName from '@/hooks/user/useUserName';
+import { UserType } from '@/types/type';
+import { PROFILE_URL } from '@/constant/constant';
 
 export default function index() {
   // 검색한 유저 데이터
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   // 검색값
   const [userName, setUserName, setInit] = useInputs('');
   // 검색 내용
@@ -19,7 +21,7 @@ export default function index() {
   // 전체 유저 데이터
   useEffect(() => {
     // setUsers(queryResult);
-    api.get('/user?id=all').then(res => setUsers(res.data.allUserData));
+    api.get('/user?id=all').then(res => setUsers(res.data.allUser));
   }, []);
 
   // enter 눌렀을 시 검색
@@ -28,7 +30,7 @@ export default function index() {
       if (!userName) return alert('검색어가 필요합니다.');
       e.preventDefault();
 
-      api.get(`/user?id=${userName}`).then(res => setUsers(res.data.userData));
+      api.get(`/user?id=${userName}`).then(res => setUsers(res.data.findUser));
       setMsg(userName);
     }
   }
@@ -36,16 +38,18 @@ export default function index() {
   // 검색 눌렀을 시 검색
   function searchMouseHandler(e: React.MouseEvent<HTMLButtonElement>) {
     if (!userName) return alert('검색어가 필요합니다.');
-    api.get(`/user?id=${userName}`).then(res => setUsers(res.data.userData));
+    api.get(`/user?id=${userName}`).then(res => setUsers(res.data.findUser));
     setMsg(userName);
   }
 
   // 검색어 초기화
   function initHandler(e: React.MouseEvent<HTMLOrSVGElement>) {
-    api.get(`/user?id=all`).then(res => setUsers(res.data.allUserData));
+    api.get(`/user?id=all`).then(res => setUsers(res.data.allUser));
     setMsg('');
     setInit();
   }
+
+  console.log(users);
 
   return (
     <Container>
@@ -73,8 +77,9 @@ export default function index() {
       <UserBox>
         {users &&
           users.map(user => (
-            <UserCard key={user} href={`/user/${user}`}>
-              {user}
+            <UserCard key={user.name} href={`/user/${user.id}`}>
+              <img src={PROFILE_URL(user.img)} alt="userImg" />
+              {user.id}
             </UserCard>
           ))}
       </UserBox>
@@ -129,6 +134,7 @@ const UserBox = styled.div`
 const UserCard = styled(Link)`
   height: 150px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -136,4 +142,9 @@ const UserCard = styled(Link)`
   border: var(--border-solid1) var(--color-dark-blue);
   border-radius: 3px;
   box-shadow: 3px var(--color-gray);
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
 `;

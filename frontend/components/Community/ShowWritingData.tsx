@@ -34,12 +34,10 @@ const Contents = {
 
     & > div {
       width: 100%;
-
       padding: 16px;
-
       box-sizing: border-box;
-
       line-break: anywhere;
+      line-height: 1.5;
     }
   `,
 
@@ -50,6 +48,6 @@ const Contents = {
   ViewContainer: styled.div`
     border: 2px solid var(--color-blue);
     border-radius: 3px;
-    background-color: var(--color-dark-white);
+    background-color: var(--color-white);
   `,
 };

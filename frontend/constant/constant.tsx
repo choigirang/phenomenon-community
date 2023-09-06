@@ -21,13 +21,14 @@ export const SIGN_UP: HeaderNav = {
 };
 
 export const CATEGORY: HeaderNav = {
-  생활: '/life',
-  체육: '/athletic',
-  과학: '/science',
-  음악: '/music',
-  종교: '/religion',
-  미스테리: '/mystery',
-  성인: '/adult',
+  전체: '',
+  생활: 'life',
+  체육: 'athletic',
+  과학: 'science',
+  음악: 'music',
+  종교: 'religion',
+  미스테리: 'mystery',
+  성인: 'adult',
 };
 
 export const SERVICE_TEXT: string = `
@@ -316,3 +317,7 @@ export const PRIVATE_TEXT: string = `
 
 
 ▶ 경찰청 사이버안전국 : 182 (http://cyberbureau.police.go.kr)`;
+
+export const PROFILE_URL = (img: string) => {
+  return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/${img}`;
+};

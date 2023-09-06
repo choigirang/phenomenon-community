@@ -10,6 +10,10 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -42,6 +46,11 @@ const postSchema = new mongoose.Schema({
       },
       date: {
         type: String,
+        required: true,
+      },
+      commentNumber: {
+        type: Number,
+        unique: true,
         required: true,
       },
     },
