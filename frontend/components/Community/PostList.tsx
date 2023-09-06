@@ -1,32 +1,26 @@
 import { EachPostProps, PostType } from '@/types/type';
 import { api } from '@/util/api';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import EachPost from './EachPost';
 import usePostAll from '@/hooks/post/usePostAll';
 
-const POST_PAGE = 10;
-
 /** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {
-  /**  게시글 페이지네이션 */
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  // const [post, setPost] = useState<PostType[]>();
-  const [curIndex, setCurIndex] = useState<number>(0);
-
-  /** 게시글 데이터 함수 */
-  const queryResult = usePostAll(currentPage);
-
-  const posts: EachPostProps = queryResult.data;
+  const [posts, setPosts] = useState<PostType[]>([]);
+  useEffect(() => {
+    api.get('/posts/latest').then(res => {
+      setPosts(res.data);
+    });
+  }, []);
 
   return (
     <React.Fragment>
       {/* 게시글 페이지 네이션 */}
       <PostTitle>
-        <p className="sub-title">실시간 게시글</p>
+        <span className="sub-title">최근 게시글</span>
         {/* 페이지네이션 */}
         {/* <div className="btn-box">
           <div className="text-box">
@@ -41,7 +35,7 @@ export default function PostList() {
         </div> */}
       </PostTitle>
       {/* 개별 글 목록 */}
-      <ShowAllPost>{posts && posts.posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
+      <ShowAllPost>{posts && posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
     </React.Fragment>
   );
 }
@@ -51,9 +45,9 @@ const PostTitle = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .sub-title {
-    width: 100%;
     color: var(--color-black);
     font-weight: 400;
     font-size: 15px;
