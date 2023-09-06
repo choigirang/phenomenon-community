@@ -89,12 +89,11 @@ export default function PostDetail({ id }: { id: number }) {
                 수정
               </button>
             )}
-            {data.author === user.id ||
-              (user.super && (
-                <button className="delete-btn" onClick={e => deleteHandler(e)}>
-                  삭제
-                </button>
-              ))}
+            {(data.author === user.id || user.super) && (
+              <button className="delete-btn" onClick={e => deleteHandler(e)}>
+                삭제
+              </button>
+            )}
             <p className="likse" onClick={likesHadnler}>
               {likes ? <AiFillLike size="18px" /> : <AiOutlineLike size="18px" />}
             </p>
@@ -116,7 +115,7 @@ export default function PostDetail({ id }: { id: number }) {
       {<AddComment postNumber={data.postNumber} author={user.id} />}
       {/* 댓글 */}
       {data.comments.map((comment, idx) => (
-        <EachComment key={idx} comment={comment} />
+        <EachComment key={idx} comment={comment} number={data.postNumber} />
       ))}
     </Container>
   );
