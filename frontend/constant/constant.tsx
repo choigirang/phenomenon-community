@@ -21,13 +21,14 @@ export const SIGN_UP: HeaderNav = {
 };
 
 export const CATEGORY: HeaderNav = {
-  생활: '/life',
-  체육: '/athletic',
-  과학: '/science',
-  음악: '/music',
-  종교: '/religion',
-  미스테리: '/mystery',
-  성인: '/adult',
+  전체: '',
+  생활: 'life',
+  체육: 'athletic',
+  과학: 'science',
+  음악: 'music',
+  종교: 'religion',
+  미스테리: 'mystery',
+  성인: 'adult',
 };
 
 export const SERVICE_TEXT: string = `
