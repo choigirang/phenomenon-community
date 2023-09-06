@@ -48,6 +48,11 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      commentNumber: {
+        type: Number,
+        unique: true,
+        required: true,
+      },
     },
   ],
   category: {
