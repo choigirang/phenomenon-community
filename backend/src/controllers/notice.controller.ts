@@ -16,7 +16,7 @@ export async function showNotice(req: Request, res: Response) {
 export async function eachNotice(req: Request, res: Response) {
   const { id } = req.params;
 
-  const notice = await Notice.find({ noticeNumber: id });
+  const notice = await Notice.findOne({ noticeNumber: id });
 
   try {
     return res.status(200).send(notice);
