@@ -22,7 +22,7 @@ export default function Category() {
           <CategoryList>
             {category.map((item, idx) => (
               <CategoryItem key={idx}>
-                <Link href={`/community/${item}`}>{item}</Link>
+                <Link href={item === '전체' ? '/community' : `/community?category=${CATEGORY[item]}`}>{item}</Link>
               </CategoryItem>
             ))}
           </CategoryList>
