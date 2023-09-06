@@ -25,6 +25,7 @@ export interface CommentType {
   author: string;
   comment: string;
   date: string;
+  commentNumber?: number;
 }
 
 // 게시글 단일 조회 props
