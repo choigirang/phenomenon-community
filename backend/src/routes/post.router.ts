@@ -8,6 +8,7 @@ import {
   searchPost,
   deletePost,
   editPost,
+  categoryPost,
 } from '../controllers/posts.controller';
 
 export const postRouter = express.Router();
@@ -17,6 +18,9 @@ postRouter.get('/all-posts', showPostsByPage);
 
 // 개별 게시글 조회
 postRouter.get('/post/:id', showEachPost);
+
+// 카테고리 게시글 조회
+postRouter.get('/posts/:category', categoryPost);
 
 // 게시글 추가
 postRouter.post('/posts', addPost);
