@@ -34,7 +34,6 @@ export default function Category() {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
 `;
 
 // 카테고리 상자
