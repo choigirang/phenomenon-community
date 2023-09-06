@@ -27,7 +27,8 @@ export default function PostList() {
       {/* 게시글 페이지 네이션 */}
       <PostTitle>
         <p className="sub-title">실시간 게시글</p>
-        <div className="btn-box">
+        {/* 페이지네이션 */}
+        {/* <div className="btn-box">
           <div className="text-box">
             <span className="cur-page">{currentPage}</span>/<span className="total-page">{POST_PAGE}</span>
           </div>
@@ -37,7 +38,7 @@ export default function PostList() {
           <button disabled={currentPage >= POST_PAGE} onClick={() => setCurrentPage(pre => pre + 1)}>
             <AiFillRightSquare />
           </button>
-        </div>
+        </div> */}
       </PostTitle>
       {/* 개별 글 목록 */}
       <ShowAllPost>{posts && posts.posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
