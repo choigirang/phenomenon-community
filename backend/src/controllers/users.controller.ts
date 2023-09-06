@@ -75,11 +75,8 @@ async function checkUser(req: Request, res: Response) {
 async function allUser(req: Request, res: Response) {
   try {
     const findAllUser = await User.find();
-    const findUserPosts = await Post.find({ id: findAllUser });
 
-    const usersData = findAllUser.map(user => user.id);
-
-    res.status(200).json({ usersData, findUserPosts: findUserPosts.length });
+    res.status(200).json({ findAllUser });
   } catch (err) {
     res.status(500).json({ error: '서버오류' });
   }
@@ -93,13 +90,13 @@ async function searchUser(req: Request, res: Response) {
     const findUser = await User.find({ id: { $regex: id, $options: 'i' } });
     const allUser = await User.find();
 
-    const userData = findUser.map(user => user.id);
-    const allUserData = allUser.map(user => user.id);
+    // const userData = findUser.map(user => user.id);
+    // const allUserData = allUser.map(user => user.id);
 
-    if (id === 'all') return res.status(200).json({ allUserData });
+    if (id === 'all') return res.status(200).json({ allUser });
     if (findUser.length === 0) return res.status(200).send('검색된 유저가 없습니다.');
 
-    res.status(200).json({ userData });
+    res.status(200).json({ findUser });
   } catch (err) {
     res.status(500).json({ error: '서버오류' });
   }
