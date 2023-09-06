@@ -17,7 +17,7 @@ export default function EachComment({ comment, number }: { comment: CommentType;
   const handleEdit = async () => {
     try {
       const response = await api.post(`/posts/${number}/comments/${comment.commentNumber}`, {
-        body: newBody,
+        comment: newBody,
       });
       if (response.status === 200) {
         setEditMode(false);
@@ -30,9 +30,7 @@ export default function EachComment({ comment, number }: { comment: CommentType;
   const handleDelete = async () => {
     try {
       const response = await api.delete(`/posts/${number}/comments/${comment.commentNumber}`);
-      if (response.status === 200) {
-        // handle successful deletion here
-      }
+      return response;
     } catch (error) {
       console.error(error);
     }
@@ -46,22 +44,29 @@ export default function EachComment({ comment, number }: { comment: CommentType;
           <p className="date">{comment.date}</p>
         </div>
         {editMode ? (
-          <div>
-            <textarea
-              rows={4} // 원하는 행의 수를 지정합니다.
-              value={comment.comment}
-              onChange={e => setNewBody(e.target.value)}
-            />
-            <button onClick={handleEdit}>Submit</button>
-          </div>
+          <textarea
+            rows={3} // 원하는 행의 수를 지정합니다.
+            defaultValue={comment.comment}
+            onChange={e => setNewBody(e.target.value)}
+          />
         ) : (
           <p className="body">{comment.comment}</p>
         )}
       </BodyContainer>
       {user.id === comment.author && (
         <BtnBox>
-          <button onClick={() => setEditMode(!editMode)}>수정</button>
-          {user.super && <button onClick={handleDelete}>삭제</button>}
+          {!editMode ? (
+            <button onClick={() => setEditMode(!editMode)}>수정</button>
+          ) : (
+            <button
+              onClick={() => {
+                setEditMode(!editMode);
+                handleEdit();
+              }}>
+              수정완료
+            </button>
+          )}
+          {(user.super || user.id === comment.author) && <button onClick={handleDelete}>삭제</button>}
         </BtnBox>
       )}
     </Container>
@@ -101,6 +106,11 @@ const Container = styled.div`
 
 const BodyContainer = styled.div`
   width: 100%;
+
+  textarea {
+    width: 100%;
+    padding: var(--padding-text);
+  }
 `;
 
 const BtnBox = styled.div`
