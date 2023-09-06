@@ -37,8 +37,6 @@ const Title = styled.p`
   margin-bottom: var(--margin-solo);
 `;
 
-const Category = styled.div``;
-
 const List = styled.ul`
   display: flex;
   flex-direction: column;
