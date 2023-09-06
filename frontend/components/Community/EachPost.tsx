@@ -38,6 +38,13 @@ const Post = styled(Link)`
   padding: var(--padding-text);
   font-size: var(--size-text);
   position: relative;
+  color: var(--color-gray);
+  margin: var(--margin-small) 0 0;
+
+  :hover {
+    color: var(--color-blue);
+    font-weight: 700 !important;
+  }
 
   div {
     display: flex;
