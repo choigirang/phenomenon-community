@@ -39,7 +39,7 @@ const Container = styled.li`
   font-size: var(--size-text);
 
   .title {
-    font-weight: 400;
+    font-weight: 500;
     color: var(--color-dark-gray);
   }
 
