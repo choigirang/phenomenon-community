@@ -3,17 +3,30 @@ import Post from '../models/posts.model';
 import { CommentData, PostType } from '../../type/type';
 import User from '../models/users.model';
 
-// 기본 페이지 게시글 조회
-export async function showPostsByPage(req: Request, res: Response) {
-  const { page } = req.query; // 페이지 번호를 쿼리 파라미터로 받아옴
-  const itemsPerPage = 10; // 페이지당 게시글 수
+// 최신 게시글 조회
+export async function latestPost(req: Request, res: Response) {
+  const posts = await Post.find().sort({ postNumber: -1 }).limit(10);
 
+  try {
+    return res.status(200).json(posts);
+  } catch (err) {
+    return res.status(500).json({ message: '에러 발생' });
+  }
+}
+
+// 페이지네이션 게시글 조회
+export async function showPosts(req: Request, res: Response) {
+  const { page, category } = req.query;
+  const itemsPerPage = 10;
   const currentPage = parseInt(page as string, 10) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
 
   try {
-    const totalPosts = await Post.countDocuments();
-    const posts = await Post.find().skip(startIndex).limit(itemsPerPage).sort({ postNumber: -1 });
+    // 카테고리가 'all'이면 모든 게시글 조회, 그렇지 않으면 해당 카테고리의 게시글 조회
+    const totalPosts = await (category === 'all' ? Post.countDocuments() : Post.countDocuments({ category }));
+    const posts = await (category === 'all'
+      ? Post.find().sort({ postNumber: -1 }).skip(startIndex).limit(itemsPerPage)
+      : Post.find({ category }).sort({ postNumber: -1 }).skip(startIndex).limit(itemsPerPage));
 
     return res.status(200).json({ posts, totalPosts });
   } catch (err) {
@@ -140,7 +153,9 @@ export async function addComment(req: Request, res: Response) {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    const newComment: CommentData = { author, comment, date };
+    const commentNumber = findPost.comments.length;
+
+    const newComment: CommentData = { commentNumber: commentNumber + 1, author, comment, date };
     findPost.comments.unshift(newComment);
 
     await findPost.save();
@@ -151,6 +166,8 @@ export async function addComment(req: Request, res: Response) {
     return res.status(500).json({ message: '서버 에러' });
   }
 }
+
+export async function editComment(req: Request, res: Response) {}
 
 /** 게시글 좋아요 */
 export async function addLikes(req: Request, res: Response) {
