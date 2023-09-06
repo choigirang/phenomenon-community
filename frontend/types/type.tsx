@@ -6,6 +6,7 @@ import { Action } from 'redux';
 export interface PostType {
   postNumber: number;
   author: string;
+  name: string;
   title: string;
   body: string;
   date: string;
@@ -107,7 +108,7 @@ export interface AuthData {
 // my type
 export interface UserDataLogType {
   userPosts: PostType[];
-  // userCommentsMap:
+  userAllComments: CommentType[];
 }
 
 export interface Comment {
@@ -131,5 +132,6 @@ export interface SearchUser {
   id: string;
   name: string;
   mail: string;
+  img: string;
   posts: PostType[];
 }
