@@ -18,12 +18,10 @@ export default function index() {
   const router = useRouter();
 
   useEffect(() => {
-    api.get(`/my=${user.id}`);
-    // .then(res => dispatch((res.data)));
-
     if (!user.login) {
       router.push('/');
     }
+
     setData(user);
   }, [router]);
 
