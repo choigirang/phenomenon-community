@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 /** id에 따른 개별 페이지 데이터*/
-export function useNoticeDetail(id: number) {
+export function useNoticeDetail(id: string) {
   const fetchPost = async (): Promise<Notice> => {
     const response = await api.get<Notice>(`/notice/${id}`);
     return response.data;
