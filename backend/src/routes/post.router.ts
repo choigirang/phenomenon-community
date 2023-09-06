@@ -10,6 +10,8 @@ import {
   categoryPost,
   latestPost,
   showPosts,
+  editComment,
+  deleteComment,
 } from '../controllers/posts.controller';
 
 export const postRouter = express.Router();
@@ -37,6 +39,12 @@ postRouter.post('/edit/:id', editPost);
 
 // 게시글 댓글 추가
 postRouter.post('/post/comment', addComment);
+
+// 게시글 댓글 수정
+postRouter.post('/posts/:postNumber/comments/:commentNumber', editComment);
+
+// 게시글 댓글 수정
+postRouter.delete('/posts/:postNumber/comments/:commentNumber', deleteComment);
 
 // 게시글 좋아요
 postRouter.post('/likes', addLikes);
