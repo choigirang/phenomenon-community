@@ -37,6 +37,7 @@ export interface PostType extends Document {
 }
 
 export interface CommentData {
+  commentNumber?: number;
   author: string;
   comment: string;
   date: string;
