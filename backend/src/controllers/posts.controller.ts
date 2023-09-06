@@ -44,9 +44,24 @@ export async function showEachPost(req: Request, res: Response) {
   }
 }
 
+// 카테고리 게시글 조회
+export async function categoryPost(req: Request, res: Response) {
+  const { category } = req.params;
+
+  try {
+    const findPosts = await Post.find({ category }).sort({ postNumber: -1 });
+    const allData = await Post.find().sort({ postNumber: -1 });
+    if (category === 'all') return res.status(200).send(allData);
+
+    res.status(200).send(findPosts);
+  } catch (err) {
+    res.status(404).send('일치하는 데이터가 없습니다.');
+  }
+}
+
 // 게시글 추가
 export async function addPost(req: Request, res: Response) {
-  const { title, body, date, author, category } = req.body;
+  const { title, body, date, author, name, category } = req.body;
 
   try {
     const postNumber = await Post.countDocuments();
@@ -54,6 +69,7 @@ export async function addPost(req: Request, res: Response) {
     const createdPost = new Post({
       postNumber: postNumber + 1,
       author,
+      name,
       title,
       body,
       date,
