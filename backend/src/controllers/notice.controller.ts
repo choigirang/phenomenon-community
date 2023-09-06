@@ -5,8 +5,6 @@ import { Request, Response } from 'express';
 export async function showNotice(req: Request, res: Response) {
   const allNotice = await Notice.find();
 
-  console.log(allNotice);
-
   try {
     return res.status(200).send(allNotice);
   } catch (err) {
