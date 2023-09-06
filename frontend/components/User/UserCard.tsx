@@ -9,7 +9,7 @@ export default function UserCard({ data }: { data: User | SearchUser }) {
 
   return (
     <Container>
-      <Image src={PROFILE_URL(img)} alt="profile" width={200} height={200} />
+      <Image src={PROFILE_URL(img)} alt="profile" width={200} height={200} priority={true} />
       <div className="id">
         <span className="weight">아이디 :</span> {id}
       </div>
