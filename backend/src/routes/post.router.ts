@@ -4,17 +4,21 @@ import {
   addLikes,
   addPost,
   showEachPost,
-  showPostsByPage,
   searchPost,
   deletePost,
   editPost,
   categoryPost,
+  latestPost,
+  showPosts,
 } from '../controllers/posts.controller';
 
 export const postRouter = express.Router();
 
-// 게시글 조회
-postRouter.get('/all-posts', showPostsByPage);
+// 최신 게시글 조회
+postRouter.get('/posts/latest', latestPost);
+
+// 페이지네이션 게시글 조회
+postRouter.get('/posts', showPosts);
 
 // 개별 게시글 조회
 postRouter.get('/post/:id', showEachPost);
