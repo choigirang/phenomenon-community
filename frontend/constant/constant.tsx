@@ -4,6 +4,7 @@ import { HeaderNav } from '@/types/type';
 export const HEADER_NAV: HeaderNav = {
   전체보기: '/',
   게시글: '/community',
+  갤러리: '/gallery',
   공지사항: '/notice',
   유저검색: '/user',
 };
@@ -320,4 +321,8 @@ export const PRIVATE_TEXT: string = `
 
 export const PROFILE_URL = (img: string) => {
   return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/${img}`;
+};
+
+export const GALLERY_URL = (img: string) => {
+  return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/${img}`;
 };
