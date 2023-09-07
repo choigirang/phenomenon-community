@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
   super: {
     type: Boolean,
   },
-  likes: [
+  postLikes: [
     {
       author: {
         type: String,
@@ -43,6 +43,22 @@ const userSchema = new mongoose.Schema({
         required: true,
       },
       postNumber: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  galleryLikes: [
+    {
+      author: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      galleryNumber: {
         type: Number,
         required: true,
       },
