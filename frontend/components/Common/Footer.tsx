@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default function Footer() {
-  return <Container>Bottom</Container>;
+  return <Container></Container>;
 }
 
 const Container = styled.div`
@@ -11,7 +11,5 @@ const Container = styled.div`
   padding: 0 calc((100% - 1280px) / 2);
   background-color: var(--color-blue);
   color: white;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  margin-top: 50px;
 `;
