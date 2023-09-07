@@ -18,6 +18,14 @@ const gallerySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  views: {
+    type: Number,
+    required: true,
+  },
+  likes: {
+    type: Number,
+    required: true,
+  },
   images: [
     {
       src: {
