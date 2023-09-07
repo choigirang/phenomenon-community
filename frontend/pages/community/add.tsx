@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import usePostForm from '@/hooks/post/usePostForm';
 import { CATEGORY } from '@/constant/constant';
+import { AxiosResponse } from 'axios';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
@@ -19,6 +20,16 @@ export default function add() {
   const [htmlStr, setHtmlStr] = useState<string>('');
   // 카테고리 선택
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  // 갤러리 선택
+  const [checkGallery, setCheckGallery] = useState(false);
+  // 이미지 파일 선택
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  // 이미지 미리 보기
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  // 이미지 파일 크기
+  const [totalFileSize, setTotalFileSize] = useState<number>(0);
+  // 이미지 파일 진행 상황
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
 
   // 로그인한 유저의 정보 reducer
@@ -59,6 +70,71 @@ export default function add() {
     }
   };
 
+  // 이미지 파일 변경
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputFiles: FileList | null = e.target.files;
+
+    if (!inputFiles) return;
+
+    // FileList를 Array로 변환
+    const files: File[] = Array.from(inputFiles);
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    const selectedValidFiles: File[] = files.filter(file => {
+      return allowedTypes.includes(file.type) && file.size <= maxSize;
+    });
+
+    setSelectedFiles(selectedValidFiles);
+
+    const totalSize = selectedValidFiles.reduce((total, file) => total + file.size, 0);
+    setTotalFileSize(totalSize);
+
+    const imagePreviews = selectedValidFiles.map(file => URL.createObjectURL(file));
+    setPreviewImages(imagePreviews);
+  };
+
+  // 이미지 업로드
+  const handleUpload = async () => {
+    console.log(1);
+
+    if (selectedFiles.length === 0) {
+      alert('이미지를 선택하세요.');
+      return;
+    }
+
+    // 이미지 업로드 요청 보내기
+    const formData = new FormData();
+    selectedFiles.forEach(file => {
+      formData.append('images', file);
+    });
+
+    formData.append('title', title); // 제목
+    formData.append('date', dateHandler()); // 날짜
+    formData.append('author', user.id); // 작성자 ID
+
+    try {
+      const res: AxiosResponse<{ imageUrls: string[] }> = await api.post('/gallery', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: progressEvent => {
+          // 업로드 진행 상황 감지
+          const progress = Math.round((progressEvent.loaded / totalFileSize) * 100);
+          setUploadProgress(progress);
+        },
+      });
+
+      if (res.status === 200) {
+        alert('이미지 업로드 성공');
+        router.push('/');
+      }
+    } catch (error) {
+      alert('이미지 업로드 실패');
+    }
+  };
+
   return (
     <React.Fragment>
       <PostContainer>
@@ -70,20 +146,46 @@ export default function add() {
             onChange={e => titleHandler(e)}
             required
           />
-          <SelectBox onChange={handleCategoryChange}>
+          <SelectBox onChange={handleCategoryChange} disabled={checkGallery}>
             <option value="">카테고리 선택</option>
-            {category.map(item => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
+            {category
+              .filter(item => item !== '전체')
+              .map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
           </SelectBox>
+          <CheckGallery>
+            <input type="checkbox" id="gallery" onClick={() => setCheckGallery(!checkGallery)} />{' '}
+            <label htmlFor="gallery">갤러리에 올리기</label>
+          </CheckGallery>
         </Top>
-        <EditorContainer>
-          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
-        </EditorContainer>
+        {!checkGallery ? (
+          <EditorContainer>
+            <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr} />
+          </EditorContainer>
+        ) : (
+          <InputImg>
+            <input type="file" accept="image/*" multiple onChange={handleFileChange} />
+            {selectedFiles.length > 0 && (
+              <div className="preview-box">
+                <p className="preview">선택한 이미지 미리보기:</p>
+                {previewImages.map((preview, index) => (
+                  <img key={index} src={preview} alt={`미리보기 ${index}`} style={{ maxWidth: '500px' }} />
+                ))}
+              </div>
+            )}
+            {uploadProgress > 0 && (
+              <div>
+                <h3>업로드 진행 상황</h3>
+                <p>진행률: {uploadProgress}%</p>
+              </div>
+            )}
+          </InputImg>
+        )}
         <NextPage>
-          <button className="btn" onClick={e => postHandler(e)}>
+          <button className="btn" onClick={e => (!checkGallery ? postHandler(e) : handleUpload())}>
             제출
           </button>
         </NextPage>
@@ -123,6 +225,23 @@ const SelectBox = styled.select`
   height: 50px;
   border: var(--border-solid1) var(--color-light-gray);
   padding: var(--padding-text);
+`;
+
+const CheckGallery = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const InputImg = styled.div`
+  .preview-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview {
+    margin: var(--margin-side) 0;
+  }
 `;
 
 const EditorContainer = styled.div`
