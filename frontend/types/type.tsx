@@ -141,7 +141,7 @@ export interface SearchUser {
   posts: PostType[];
 }
 
-type ImageSrc = {
+export type ImageSrc = {
   src: string;
 };
 
