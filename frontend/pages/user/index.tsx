@@ -49,8 +49,6 @@ export default function index() {
     setInit();
   }
 
-  console.log(users);
-
   return (
     <Container>
       {/* 유저 검색 */}
