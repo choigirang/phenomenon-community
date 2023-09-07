@@ -226,7 +226,7 @@ export async function deleteComment(req: Request, res: Response) {
 }
 
 /** 게시글 좋아요 */
-export async function addLikes(req: Request, res: Response) {
+export async function postAddLikes(req: Request, res: Response) {
   const { id, postNumber } = req.body;
 
   try {
@@ -248,16 +248,16 @@ export async function addLikes(req: Request, res: Response) {
     // const updatedLikes = findUserData.likes.filter(like => like.postNumber !== postNumber);
     // findUserData.likes = updatedLikes;
 
-    const findLikesData = findUserData.likes.filter(like => like.postNumber === postNumber);
+    const findLikesData = findUserData.postLikes.filter(like => like.postNumber === postNumber);
 
     // postNumber와 일치하는 데이터 있을 시 삭제
     if (findLikesData.length > 0) {
-      findUserData.likes = findUserData.likes.filter(like => like.postNumber !== postNumber);
+      findUserData.postLikes = findUserData.postLikes.filter(like => like.postNumber !== postNumber);
       findPostData.likes -= 1;
       await findPostData.save();
     } else {
       // postNumber와 일치하는 데이터 없을 시 추가
-      findUserData.likes.unshift({
+      findUserData.postLikes.unshift({
         author: findPostData.author,
         title: findPostData.title,
         body: findPostData.body,
