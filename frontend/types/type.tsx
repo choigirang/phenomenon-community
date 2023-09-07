@@ -136,3 +136,16 @@ export interface SearchUser {
   img: string;
   posts: PostType[];
 }
+
+type ImageSrc = {
+  src: string;
+};
+
+/** 갤러리 res data 타입 */
+export type GalleryData = {
+  title: string;
+  author: string;
+  date: string;
+  galleryNumber: number;
+  images: ImageSrc[];
+};
