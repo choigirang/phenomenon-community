@@ -31,8 +31,8 @@ export default function PostDetail({ id }: { id: number }) {
   // else setLikes(false);
 
   useEffect(() => {
-    if (user.likes) {
-      const checkLike = user.likes.filter(like => like.postNumber === id);
+    if (user.postLikes) {
+      const checkLike = user.postLikes.filter(like => like.postNumber === id);
       setLikes(checkLike.length > 0);
     } else {
       setLikes(false); // user가 없을 때 likes를 false로 설정
