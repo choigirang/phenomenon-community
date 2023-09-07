@@ -16,7 +16,6 @@ import Pagination from '@/components/Common/Pagenation';
 export default function index() {
   const [postList, setPostList] = useState<PostType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
   const router = useRouter();
   let category = router.query.category as string;
@@ -32,7 +31,6 @@ export default function index() {
     // 페이지네이션과 함께 카테고리도 고려하여 요청 보내기
     api.get(`/posts?category=${category}&page=${currentPage}`).then(res => {
       setPostList(res.data.posts);
-      setPageCount(res.data.totalPosts / 10);
       setTotalPosts(res.data.totalPosts);
     });
   }, [router.query, currentPage]);
@@ -56,13 +54,15 @@ export default function index() {
         <Category />
         <BestPost>
           <p className="sub-title">{findCategory} 전체보기</p>
-          <p className="post-total">
-            {pageCount * 10}/{totalPosts}
-          </p>
+          <p className="post-total">{/* {pageCount * 10}/{totalPosts} */}</p>
         </BestPost>
         {postList && postList.map(post => <EachPost key={post.postNumber} item={post} />)}
         {/* 페이지네이션 컴포넌트 */}
-        <Pagination pageCount={pageCount} onPageChange={handlePageChange} />
+        <Pagination
+          pageCount={Math.ceil(totalPosts / 10)}
+          initialPageCount={Math.ceil(totalPosts / 10)}
+          onPageChange={handlePageChange}
+        />
       </CommunityContainer>
       <Login />
     </Container>
