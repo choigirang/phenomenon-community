@@ -51,3 +51,10 @@ export interface Notice {
   date: string;
   noticeNumber: number;
 }
+
+export interface Gallery {
+  title: string;
+  author: string;
+  date: string;
+  img: Array<string>;
+}
