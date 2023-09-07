@@ -9,15 +9,14 @@ import styled from 'styled-components';
 import { Container } from '@/styles/GlobalComponents';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import Footer from '@/components/Common/Footer';
 import { useEffect, useState } from 'react';
 import { api } from '@/util/api';
-import { GalleryData } from '@/types/type';
+import { GalleryType } from '@/types/type';
 import GalleryItem from '@/components/Gallery/GalleryItem';
 import Link from 'next/link';
 
 export default function Home() {
-  const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
+  const [galleryData, setGalleryData] = useState<GalleryType[]>([]);
   const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
@@ -41,7 +40,6 @@ export default function Home() {
         </LeftSide>
         <Login />
       </Container>
-      <Footer />
     </>
   );
 }
