@@ -1,5 +1,19 @@
 import { Request, Response } from 'express';
 import Gallery from '../models/gallery.model';
+import User from '../models/users.model';
+
+// 갤러리 최근 조회
+export async function latestGallery(req: Request, res: Response) {
+  try {
+    const latestGallery = (await Gallery.find()).splice(0, 5);
+
+    if (!latestGallery) res.status(200).json('데이터가 없습니다.');
+
+    res.status(200).json(latestGallery);
+  } catch (err) {
+    res.status(500).json('서버 에러입니다.');
+  }
+}
 
 // 갤러리 조회
 export async function galleryList(req: Request, res: Response) {
@@ -40,4 +54,44 @@ export async function addImageToGallery(req: Request, res: Response) {
     console.error(err);
     res.status(500).json({ error: '갤러리 이미지 추가 실패' });
   }
+}
+
+// 개별 갤러리 조회
+export async function detailGallery(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const findGallery = await Gallery.findOne({ galleryNumber: id });
+
+    if (!findGallery) res.status(404).json('데이터가 존재하지 않습니다.');
+
+    res.status(200).json(findGallery);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+// 게시글 삭제
+export async function deleteGallery(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const deleteGallery = await Gallery.deleteOne({ galleryNumber: id });
+
+    if (!deleteGallery) res.status(404).json('데이터가 존재하지 않습니다.');
+
+    res.status(200).json(deleteGallery);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+// 게시글 좋아요
+export async function likesGallery(req: Request, res: Response) {
+  const { id, galleryNumber } = req.body;
+
+  try {
+    const findGallery = await Gallery.findOne({ galleryNumber });
+
+    const findUser = await User.findOne({ id });
+  } catch (err) {}
 }
