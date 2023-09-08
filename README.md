@@ -23,7 +23,7 @@
 ## 기술 목록
 ## FrontEnd
 
-| TypeScript | Next.js | React-Query |Redux|styled-components|
+| TypeScript | Next.js | React-Query |Redux|styled<br>components|
 | :---: | :---: | :---: | :---: |:---:|
 | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/nextdotjs/#61DAFB" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/reactquery/FF4154" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/redux/#61DAFB" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/styledcomponents/#61DAFB" alt="icon" width="75" height="75" /></div> 
 
