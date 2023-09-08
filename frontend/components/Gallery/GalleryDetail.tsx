@@ -99,14 +99,14 @@ export default function GalleryDetail({ id }: { id: number }) {
       <ImgContainer>
         {queryResult.data &&
           queryResult.data.images.map(img => (
-            <Image src={GALLERY_URL(img.src)} alt="image-data" max-width={500} max-height={500} />
+            <Image src={GALLERY_URL(img.src)} alt="image-data" width={500} height={500} />
           ))}
       </ImgContainer>
       {/* 댓글 작성하기 */}
-      {<AddComment postNumber={data.galleryNumber} author={user.id} />}
+      {<AddComment number={data.galleryNumber} author={user.id} src={'gallery'} />}
       {/* 댓글 */}
       {data.comments.map((comment, idx) => (
-        <EachComment key={idx} comment={comment} number={data.galleryNumber} />
+        <EachComment key={idx} comment={comment} number={data.galleryNumber} src={'gallery'} />
       ))}
     </Container>
   );
@@ -182,6 +182,8 @@ const PostInfo = styled.div`
 
 const ImgContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
   border: var(--border-solid1) var(--color-light-blue);
   border-radius: 5px;
   padding: var(--padding-content);
