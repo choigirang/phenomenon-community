@@ -28,7 +28,7 @@ usersRouter.get('/user', searchUser);
 usersRouter.get('/user/:id', searchUserData);
 
 // 회원가입
-usersRouter.post('/signup', upload.single('profileImage'), createUser);
+usersRouter.post('/signup', upload('profile').single('profileImage'), createUser);
 
 // 보안메일
 usersRouter.post('/signup/security-code', sendSecurityCode);

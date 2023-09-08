@@ -1,7 +1,6 @@
 import express from 'express';
 import {
   addComment,
-  addLikes,
   addPost,
   showEachPost,
   searchPost,
@@ -12,6 +11,7 @@ import {
   showPosts,
   editComment,
   deleteComment,
+  postAddLikes,
 } from '../controllers/posts.controller';
 
 export const postRouter = express.Router();
@@ -41,13 +41,13 @@ postRouter.post('/edit/:id', editPost);
 postRouter.post('/post/comment', addComment);
 
 // 게시글 댓글 수정
-postRouter.post('/posts/:postNumber/comments/:commentNumber', editComment);
+postRouter.post('/post/:postNumber/comments/:commentNumber', editComment);
 
-// 게시글 댓글 수정
-postRouter.delete('/posts/:postNumber/comments/:commentNumber', deleteComment);
+// 게시글 댓글 삭제
+postRouter.delete('/post/:postNumber/comments/:commentNumber', deleteComment);
 
 // 게시글 좋아요
-postRouter.post('/likes', addLikes);
+postRouter.post('/post/likes', postAddLikes);
 
 // 게시글 검색
 postRouter.get('/search', searchPost);

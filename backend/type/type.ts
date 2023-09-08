@@ -4,8 +4,9 @@ import { Document } from 'mongoose';
 interface Likes {
   author: string;
   title: string;
-  body: string;
-  postNumber: number;
+  body?: string;
+  postNumber?: number;
+  galleryNumber?: number;
 }
 
 export interface UserType extends Document {
@@ -16,7 +17,8 @@ export interface UserType extends Document {
   img: string;
   refreshToken: string;
   super: boolean;
-  likes: Array<Likes>;
+  postLikes: Array<Likes>;
+  galleryLikes: Array<Likes>;
 }
 
 export interface AuthData {
@@ -42,6 +44,7 @@ export interface CommentData {
   comment: string;
   date: string;
   postNumber?: string | number;
+  galleryNumber?: string | number;
 }
 
 /** 공지사항 타입 */
@@ -50,4 +53,18 @@ export interface Notice {
   content: string;
   date: string;
   noticeNumber: number;
+}
+
+type ImageSrc = {
+  src: string;
+};
+
+export interface GalleryType extends Document {
+  title: string;
+  author: string;
+  date: string;
+  img: ImageSrc[];
+  views: number;
+  likes: number;
+  comments: Array<CommentData>;
 }

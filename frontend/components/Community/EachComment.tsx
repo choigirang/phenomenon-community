@@ -9,14 +9,14 @@ import { RootState } from '@/redux/store';
 
 /** 댓글 */
 
-export default function EachComment({ comment, number }: { comment: CommentType; number: number }) {
+export default function EachComment({ comment, number, src }: { comment: CommentType; number: number; src: string }) {
   const [editMode, setEditMode] = useState(false);
   const [newBody, setNewBody] = useState('');
   const user = useSelector((state: RootState) => state.user.user);
 
   const handleEdit = async () => {
     try {
-      const response = await api.post(`/posts/${number}/comments/${comment.commentNumber}`, {
+      const response = await api.post(`/${src}/${number}/comments/${comment.commentNumber}`, {
         comment: newBody,
       });
       if (response.status === 200) {
@@ -29,7 +29,7 @@ export default function EachComment({ comment, number }: { comment: CommentType;
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`/posts/${number}/comments/${comment.commentNumber}`);
+      const response = await api.delete(`/${src}/${number}/comments/${comment.commentNumber}`);
       return response;
     } catch (error) {
       console.error(error);

@@ -1,38 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '@/util/api';
-
-import ShowWritingData from './ShowWritingData';
-import { PostType } from '@/types/type';
-
-import styled from 'styled-components';
-import AddComment from './AddComment';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import EachComment from './EachComment';
-import { usePostDetail } from '@/hooks/post/usePostDetail';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import useGalleryDetail from '@/hooks/gallery/useGalleryDetail';
 import { loginSuccess } from '@/redux/actions/user';
+import { RootState } from '@/redux/store';
+import { GalleryType, ImageSrc } from '@/types/type';
+import { api } from '@/util/api';
 import { useRouter } from 'next/router';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import AddComment from '../Community/AddComment';
+import EachComment from '../Community/EachComment';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+import Image from 'next/image';
+import { GALLERY_URL } from '@/constant/constant';
 
-/** 개별 게시글 페이지 */
-export default function PostDetail({ id }: { id: number }) {
+export default function GalleryDetail({ id }: { id: number }) {
+  // 좋아요 확인 , local저장 <=> server 비교
   const [likes, setLikes] = useState<boolean>();
-  // 게시글 받아오기
-  const queryResult = usePostDetail(id);
+  // 갤러리 데이터 받아오기
+  const queryResult = useGalleryDetail(id);
+
   // 로그인 상태 확인 (댓글 기능)
   const user = useSelector((state: RootState) => state.user.user);
-  const dispatch = useDispatch();
 
   const router = useRouter();
-
-  // const findLike = user.likes.find(like => like.postNumber === id);
-  // if (findLike) setLikes(true);
-  // else setLikes(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.postLikes) {
-      const checkLike = user.postLikes.filter(like => like.postNumber === id);
+    if (user.galleryLikes) {
+      const checkLike = user.galleryLikes.filter(like => like.galleryNumber === id);
       setLikes(checkLike.length > 0);
     } else {
       setLikes(false); // user가 없을 때 likes를 false로 설정
@@ -53,11 +49,11 @@ export default function PostDetail({ id }: { id: number }) {
   }
 
   // 게시글 데이터
-  const data: PostType = queryResult.data;
+  const data: GalleryType = queryResult.data;
 
   // 좋아요
   const likesHadnler = () => {
-    api.post('/likes', { id: user.id, postNumber: id }).then(res => {
+    api.post('post/likes', { id: user.id, galleryNumber: id }).then(res => {
       dispatch(loginSuccess(res.data));
     });
   };
@@ -65,15 +61,10 @@ export default function PostDetail({ id }: { id: number }) {
   // 글 삭제
   const deleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    api.delete(`/post/${data.postNumber}`).then(res => {
+    api.delete(`/gallery/${data.galleryNumber}`).then(res => {
       alert('게시글이 삭제되었습니다.');
       router.push('/');
     });
-  };
-
-  // 글 수정
-  const editHandler = () => {
-    router.push(`/community/edit/${data.postNumber}`);
   };
 
   return (
@@ -84,11 +75,6 @@ export default function PostDetail({ id }: { id: number }) {
         <div className="info-top">
           <p className="title">{data.title}</p>
           <div className="right-side">
-            {data.author === user.id && (
-              <button className="edit-btn" onClick={editHandler}>
-                수정
-              </button>
-            )}
             {(data.author === user.id || user.super) && (
               <button className="delete-btn" onClick={e => deleteHandler(e)}>
                 삭제
@@ -109,13 +95,18 @@ export default function PostDetail({ id }: { id: number }) {
           </div>
         </div>
       </PostInfo>
-      {/* 작성한 데이터 */}
-      <ShowWritingData data={data.body} />
+      {/* 사진 목록 */}
+      <ImgContainer>
+        {queryResult.data &&
+          queryResult.data.images.map(img => (
+            <Image src={GALLERY_URL(img.src)} alt="image-data" width={500} height={500} />
+          ))}
+      </ImgContainer>
       {/* 댓글 작성하기 */}
-      {<AddComment number={data.postNumber} author={user.id} src={'post'} />}
+      {<AddComment number={data.galleryNumber} author={user.id} src={'gallery'} />}
       {/* 댓글 */}
       {data.comments.map((comment, idx) => (
-        <EachComment key={idx} comment={comment} number={data.postNumber} src={'post'} />
+        <EachComment key={idx} comment={comment} number={data.galleryNumber} src={'gallery'} />
       ))}
     </Container>
   );
@@ -187,4 +178,14 @@ const PostInfo = styled.div`
     display: flex;
     gap: 5px;
   }
+`;
+
+const ImgContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-solid1) var(--color-light-blue);
+  border-radius: 5px;
+  padding: var(--padding-content);
+  margin: var(--margin-solo) 0;
 `;

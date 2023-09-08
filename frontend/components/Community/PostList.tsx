@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import EachPost from './EachPost';
 import usePostAll from '@/hooks/post/usePostAll';
+import Link from 'next/link';
 
 /** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {
@@ -20,7 +21,10 @@ export default function PostList() {
     <React.Fragment>
       {/* 게시글 페이지 네이션 */}
       <PostTitle>
-        <span className="sub-title">최근 게시글</span>
+        <p className="sub-title">최근 게시글</p>
+        <Link href={'/community'} className="more">
+          더 보기
+        </Link>
         {/* 페이지네이션 */}
         {/* <div className="btn-box">
           <div className="text-box">
@@ -46,13 +50,18 @@ const PostTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-black);
+  margin: var(--padding-side) 0;
+  margin-bottom: 0;
 
   .sub-title {
-    color: var(--color-black);
-    font-weight: 400;
-    font-size: 15px;
-    margin: var(--padding-side) 0;
-    margin-bottom: 0;
+    font-size: var(--size-sub-title) !important;
+  }
+
+  a {
+    white-space: nowrap;
   }
 
   .btn-box {

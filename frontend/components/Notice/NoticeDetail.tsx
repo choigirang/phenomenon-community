@@ -1,8 +1,10 @@
 import { useNoticeDetail } from '@/hooks/notice/useNoticeDetail';
 import { Notice } from '@/types/type';
 import React from 'react';
+import styled from 'styled-components';
+import ShowWritingData from '../Community/ShowWritingData';
 
-export default function NoticeDetail({ id }: { id: number }) {
+export default function NoticeDetail({ id }: { id: string }) {
   const queryResult = useNoticeDetail(id);
 
   if (queryResult.isLoading) {
@@ -21,5 +23,37 @@ export default function NoticeDetail({ id }: { id: number }) {
   // 게시글 데이터
   const data: Notice = queryResult.data;
 
-  return <div>NoticeDetail</div>;
+  return (
+    <Container>
+      <Top>
+        <p className="title">{data.title}</p>
+        <p className="date">작성일 : {data.date}</p>
+      </Top>
+      <ShowWritingData data={data.content} />
+    </Container>
+  );
 }
+
+const Container = styled.div`
+  width: 100%;
+  padding-top: var(--padding-solo);
+`;
+
+const Top = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--padding-content);
+  border: var(--border-solid1) var(--color-dark-blue);
+  background-color: var(--color-light-gray);
+  font-size: var(--size-title);
+
+  .title {
+    text-align: center;
+  }
+
+  .date {
+    font-size: var(--size-sub-title);
+    text-align: end;
+  }
+`;

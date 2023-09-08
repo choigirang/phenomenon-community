@@ -13,6 +13,7 @@ import store, { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/redux/actions/user';
+import Footer from '@/components/Common/Footer';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
               {/* {hideComponent && <Login />} refactor 예정 */}
             </LoginState>
           </Container>
+          <Footer />
         </QueryClientProvider>
       </Provider>
     </CookiesProvider>
@@ -56,8 +58,11 @@ export default function App({ Component, pageProps }: AppProps) {
 const Container = styled.div`
   /* display: flex; */
   width: 100%;
+  height: auto;
+  min-height: 100%;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
+  margin-bottom: 350px; // footer height
 `;
 
 function LoginState({ children }: { children?: ReactNode }) {

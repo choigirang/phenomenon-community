@@ -44,4 +44,8 @@ const Container = styled.div`
   .name {
     display: flex;
   }
+
+  img {
+    margin: 0 auto;
+  }
 `;

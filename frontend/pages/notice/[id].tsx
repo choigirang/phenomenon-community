@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export default function index() {
-  const [noticeNum, setNoticeNum] = useState<number | undefined>();
+  const [noticeNum, setNoticeNum] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
-    const id = Number(router.query.id);
+    const id = router.query.id as string;
     setNoticeNum(id);
   }, [router]);
 

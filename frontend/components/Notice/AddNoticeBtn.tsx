@@ -18,6 +18,7 @@ const NoticeBtn = styled(Link)`
   font-size: var(--size-text);
   font-weight: 400;
 
+  :link,
   :visited {
     color: white;
   }
