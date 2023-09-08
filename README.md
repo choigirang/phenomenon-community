@@ -72,6 +72,12 @@
 
 <img src="https://github.com/choigirang/why-community/assets/118104644/019b41fa-a9e4-4122-998c-0928f482cb00" align="center">
 
+### 유저페이지
+
+
+<img src="https://github.com/choigirang/why-community/assets/118104644/751f66d4-df49-4977-9cca-e4322ac41f27" align="center">
+
+
 ## Git Commit & PR Message
 
 | 태그이름 | 설명                                                  |
