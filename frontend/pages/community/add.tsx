@@ -196,6 +196,7 @@ export default function add() {
 
 const PostContainer = styled.div`
   width: 100%;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   padding: var(--padding-content);

@@ -6,7 +6,7 @@ import { CommentData, GalleryType } from '../../type/type';
 // 갤러리 최근 조회
 export async function latestGallery(req: Request, res: Response) {
   try {
-    const latestGallery = (await Gallery.find()).splice(0, 5);
+    const latestGallery = (await Gallery.find().sort({ galleryNumber: -1 })).splice(0, 5);
 
     if (!latestGallery) res.status(200).json('데이터가 없습니다.');
 
@@ -19,7 +19,7 @@ export async function latestGallery(req: Request, res: Response) {
 // 갤러리 조회
 export async function galleryList(req: Request, res: Response) {
   try {
-    const findGallery = await Gallery.find();
+    const findGallery = await Gallery.find().sort({ galleryNumber: -1 });
 
     res.status(200).json(findGallery);
   } catch (err) {
@@ -32,8 +32,10 @@ export async function addImageToGallery(req: Request, res: Response) {
   try {
     // 클라이언트로부터 받은 정보
     const { title, author, date } = req.body;
+    console.log(title, author, date);
 
     const files = req.files as Express.MulterS3.File[];
+    console.log(files);
 
     const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/';
 
@@ -44,9 +46,12 @@ export async function addImageToGallery(req: Request, res: Response) {
       title,
       author,
       date,
+      views: 0,
+      likes: 0,
       galleryNumber: galleryNumber.length + 1,
       images: files.map(file => ({ src: file.location.replace(baseUrl, '') })),
     });
+    console.log(gallery);
 
     await gallery.save();
 
@@ -63,7 +68,10 @@ export async function detailGallery(req: Request, res: Response) {
   try {
     const findGallery = await Gallery.findOne({ galleryNumber: id });
 
-    if (!findGallery) res.status(404).json('데이터가 존재하지 않습니다.');
+    if (!findGallery) return res.status(404).json('데이터가 존재하지 않습니다.');
+
+    findGallery.views += 1;
+    await findGallery.save();
 
     res.status(200).json(findGallery);
   } catch (err) {
@@ -91,10 +99,39 @@ export async function likesGallery(req: Request, res: Response) {
   const { id, galleryNumber } = req.body;
 
   try {
-    const findGallery = await Gallery.findOne({ galleryNumber });
+    const findGalleryData = await Gallery.findOne({ galleryNumber });
 
-    const findUser = await User.findOne({ id });
-  } catch (err) {}
+    if (!findGalleryData) return res.status(404).json('게시글이 존재하지 않습니다.');
+
+    const findUserData = await User.findOne({ id });
+
+    if (!findUserData) {
+      return res.status(404).send('사용자가 존재하지 않습니다.');
+    }
+
+    const findLikesData = findUserData.galleryLikes.filter(like => like.galleryNumber === galleryNumber);
+
+    // galleryNumber와 일치하는 데이터 있을 시 삭제
+    if (findLikesData.length > 0) {
+      findUserData.galleryLikes = findUserData.galleryLikes.filter(like => like.galleryNumber !== galleryNumber);
+      findGalleryData.likes -= 1;
+      await galleryNumber.save();
+    } else {
+      // galleryNumber와 일치하는 데이터 없을 시 추가
+      findUserData.galleryLikes.unshift({
+        author: findGalleryData.author,
+        title: findGalleryData.title,
+        galleryNumber: findGalleryData.galleryNumber,
+      });
+      findGalleryData.likes += 1;
+      await galleryNumber.save();
+    }
+
+    await findUserData.save();
+    return res.status(200).send(findUserData);
+  } catch (err) {
+    return res.status(404).send('게시글이 존재하지 않습니다.');
+  }
 }
 
 // 갤러리 댓글

@@ -1,12 +1,12 @@
 import Login from '@/components/Common/Login';
 import GalleryItem from '@/components/Gallery/GalleryItem';
-import { GalleryData } from '@/types/type';
+import { GalleryType } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export default function index() {
-  const [data, setData] = useState<GalleryData[]>([]);
+  const [data, setData] = useState<GalleryType[]>([]);
 
   useEffect(() => {
     api.get('/gallery').then(res => setData(res.data));
@@ -21,6 +21,7 @@ export default function index() {
 }
 
 const Container = styled.div`
+  min-height: 70vh;
   padding: 0 calc((100% - 1280px) / 2);
   padding-top: 10px;
   display: grid;

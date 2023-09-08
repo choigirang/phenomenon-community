@@ -21,6 +21,12 @@ export type EachPostProps = {
   totalPost?: number;
 };
 
+// search res type
+export type SearchKeyword = {
+  searchPostResults: PostType[];
+  searchGalleryResults: GalleryType[];
+};
+
 export interface CommentType {
   author: string;
   comment: string;

@@ -48,6 +48,8 @@ export default function index() {
     setCurrentPage(selectedPage.selected + 1);
   };
 
+  console.log(postList);
+
   return (
     <Container>
       <CommunityContainer>
@@ -57,6 +59,7 @@ export default function index() {
           <p className="post-total">{/* {pageCount * 10}/{totalPosts} */}</p>
         </BestPost>
         {postList && postList.map(post => <EachPost key={post.postNumber} item={post} />)}
+        {!postList.length && <div className="none-data">데이터가 없습니다.</div>}
         {/* 페이지네이션 컴포넌트 */}
         <Pagination
           pageCount={Math.ceil(totalPosts / 10)}
@@ -75,6 +78,14 @@ const CommunityContainer = styled.div`
   padding: var(--padding-content);
   padding-left: 0;
   padding-top: 0;
+
+  .none-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    font-size: var(--size-text);
+  }
 `;
 
 const BestPost = styled.div`

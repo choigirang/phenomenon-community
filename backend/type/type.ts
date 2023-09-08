@@ -60,6 +60,7 @@ type ImageSrc = {
 };
 
 export interface GalleryType extends Document {
+  galleryNumber: number;
   title: string;
   author: string;
   date: string;
