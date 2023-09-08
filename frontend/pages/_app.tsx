@@ -58,9 +58,11 @@ export default function App({ Component, pageProps }: AppProps) {
 const Container = styled.div`
   /* display: flex; */
   width: 100%;
-  min-height: 600px;
+  height: auto;
+  min-height: 100%;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
+  margin-bottom: 350px; // footer height
 `;
 
 function LoginState({ children }: { children?: ReactNode }) {
