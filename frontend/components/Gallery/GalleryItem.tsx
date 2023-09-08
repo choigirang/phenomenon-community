@@ -1,11 +1,11 @@
-import { GalleryData } from '@/types/type';
+import { GalleryType } from '@/types/type';
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { GALLERY_URL } from '@/constant/constant';
 import Link from 'next/link';
 
-export default function GalleryItem({ data }: { data: GalleryData }) {
+export default function GalleryItem({ data }: { data: GalleryType }) {
   return (
     <React.Fragment>
       <Container>
@@ -29,6 +29,8 @@ export default function GalleryItem({ data }: { data: GalleryData }) {
 
 const Container = styled.li`
   width: 100%;
+  overflow: hidden;
+  height: auto;
   border: var(--border-solid3) var(--color-light-blue);
   border-radius: 3px;
   box-shadow: 3px 3px 3px var(--color-light-gray);
