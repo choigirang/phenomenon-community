@@ -56,13 +56,11 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 const Container = styled.div`
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: auto;
-  min-height: 100%;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
-  margin-bottom: 350px; // footer height
 `;
 
 function LoginState({ children }: { children?: ReactNode }) {
