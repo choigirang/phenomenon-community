@@ -16,7 +16,7 @@ export default function Footer() {
       </div>
       <Info>
         <ul>
-          SITE MAP HEADER
+          SITE MAP
           {category.map(each => (
             <li key={HEADER_NAV[each]} className="nav-item">
               <Link href={HEADER_NAV[each]}>{each}</Link>
@@ -81,16 +81,16 @@ const Info = styled.div`
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    font-size: 21px;
+    gap: 12px;
+    font-size: 18px;
+    color: var(--color-dark-blue);
   }
 
   a {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: var(--size-title);
-    font-weight: 300;
+    font-size: 14px;
 
     :link,
     :visited {
