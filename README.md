@@ -9,51 +9,29 @@
 ---
 
 - **프로젝트 명 :** Why-Community
-- **프로젝트 소개 :**
-- **배포 링크 :** <a href='https://sidequest.co.kr' target='_blank'>SIDE QUEST</a>
+- **프로젝트 소개 :** 간단한 글을 작성하고 이미지를 올릴 수 있는 커뮤니티를 만들보았습니다.
+- **배포 링크 :** <a href='https://sidequest.co.kr' target='_blank'>Why-Community</a>
 
 <br>
 
-## 📋 About **SIDE QUEST**
+## Why-Community
 
-`사이드 프로젝트` 에서 착안한 서비스로, 각자의 목적에 맞는 사람들이 모여 다양한 경험을 통해 함께 성장할 수 있는 소통의 장을 제공합니다.
-
-<br>
-
-## 💻 Demo
-
-<p>
-<img src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/56e65563-1d71-4b89-89a3-477274bba7fa" align="center">
-</p>
-<p align="center">
-<img src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/24be1ff3-c00f-48b4-b94e-10762bf29622" align="center">
-</p>
+- `부트캠프`의 팀 프로젝트가 끝난 후, 팀원들과 여러 가지 기능과 페이지를 분담하여 진행하면서 내가 부족한 부분과 놓치고 넘어간 부분을 다시 작성해보고자 제작하였다.
 
 <br>
 
-## ✨ Pages & Features
+## 페이지
 
-|                                                                        **HOME**                                                                         |                                                                **LOGIN / SIGN IN**                                                                |
-| :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |
-|   <img width="100%" alt="첫 화면 gif" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/831c057a-1c0f-420f-ac47-60b49fb27972"/>    | <img width="100%" alt="로그인 gif" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/37039197-08a8-467d-9207-6e35331db1f2"/> |
-|                                                                       **PROJECT**                                                                       |                                                                   **COMMUNITY**                                                                   |
-| <img width="100%" alt="마이 룸 생성 gif" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/1d68313b-8fd1-4748-bdf3-aceb4f66f7bf"/> |         <img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/804b62df-1ece-41e6-af35-bd47a25b2136"/>          |
-|                                                                        **USERS**                                                                        |                                                                    **MY PAGE**                                                                    |
-|            <img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/5dc3cb94-93ce-4a8c-b889-3a10061365eb"/>             |         <img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/be4f5bf2-b1d9-41ac-bf6a-169a5acb70c9"/>          |
-|                                                                        **ERROR**                                                                        |                                                                     **ABOUT**                                                                     |
-|            <img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/baaf6523-f2b8-45a4-a36e-110c62313c22"/>             |         <img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/cf47ece3-8210-43b5-b003-5e0dc5c672f9"/>          |
+### 홈 화면
+
+<img src="https://github.com/choigirang/why-community/assets/118104644/d028abf6-e5f4-46b0-b0bb-0097488e3b12" align="center">
 
 <br>
 
-## 🔧 Skills
+### 회원가입
 
-<img width="100%" src="https://github.com/codestates-seb/seb43_main_032/assets/118104644/f1048e0d-6ecb-4b49-8e9c-a5a9aaadb13a" />
-
-### Tools
-
-|                                                    Git                                                     |                                                             Github                                                             |                                                                                       Discord                                                                                        |
-| :--------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img alt="git logo" src="https://git-scm.com/images/logos/logomark-orange@2x.png" width="65" height="65" > | <img alt="github logo" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |
+<img src="https://github.com/choigirang/why-community/assets/118104644/33e08e43-1ddf-4b32-a657-511ccf2b1f6c" align="center">
+<img src="https://github.com/choigirang/why-community/assets/118104644/c06b4991-9f3e-440d-a8cc-5e5f7f9ce472" align="center">
 
 ### Front-end
 
