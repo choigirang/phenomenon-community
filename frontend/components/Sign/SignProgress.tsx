@@ -40,6 +40,8 @@ export default function SignProgress() {
 const Container = styled.div`
   width: 100%;
   height: 100px;
+  margin-top: 100px;
+
   padding: var(--padding-base);
   display: flex;
   justify-content: space-around;
