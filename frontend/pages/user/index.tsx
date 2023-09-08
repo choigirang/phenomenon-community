@@ -88,6 +88,10 @@ export default function index() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+
+  .title {
+    margin-bottom: 20px;
+  }
 `;
 
 const InputBox = styled.div`
@@ -130,6 +134,7 @@ const UserBox = styled.div`
 `;
 
 const UserCard = styled(Link)`
+  width: 80%;
   height: 150px;
   display: flex;
   flex-direction: column;
