@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Gallery from '../models/gallery.model';
 import User from '../models/users.model';
+import { CommentData, GalleryType } from '../../type/type';
 
 // 갤러리 최근 조회
 export async function latestGallery(req: Request, res: Response) {
@@ -94,4 +95,87 @@ export async function likesGallery(req: Request, res: Response) {
 
     const findUser = await User.findOne({ id });
   } catch (err) {}
+}
+
+// 갤러리 댓글
+export async function galleryAddComment(req: Request, res: Response) {
+  const { galleryNumber, author, comment, date } = req.body;
+  try {
+    const findGallery: GalleryType | null = await Gallery.findOne({ galleryNumber });
+
+    if (!findGallery) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const commentNumber = findGallery.comments.length;
+
+    const newComment: CommentData = { commentNumber: commentNumber + 1, author, comment, date };
+    findGallery.comments.unshift(newComment);
+
+    await findGallery.save();
+
+    return res.status(200).json({ message: '댓글이 추가되었습니다.', gallery: findGallery });
+  } catch (err) {}
+}
+
+// 갤러리 댓글 수정
+export async function galleryEditComment(req: Request, res: Response) {
+  const { galleryNumber, commentNumber } = req.params;
+  const { comment: newComment } = req.body;
+
+  try {
+    const findGallery: GalleryType | null = await Gallery.findOne({ galleryNumber });
+
+    if (!findGallery) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const commentFind = findGallery.comments.findIndex(
+      (comment: CommentData) => comment.commentNumber === +commentNumber,
+    );
+
+    if (commentFind === -1) {
+      return res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
+    }
+
+    // Update the comment
+    findGallery.comments[commentFind].comment = newComment;
+
+    await findGallery.save();
+
+    return res.status(200).json({ message: '댓글이 수정되었습니다.', gallery: findGallery });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: '서버 에러' });
+  }
+}
+
+// 갤러리 댓글 삭제
+export async function galleryDeleteComment(req: Request, res: Response) {
+  const { galleryNumber, commentNumber } = req.params;
+
+  try {
+    const findGallery: GalleryType | null = await Gallery.findOne({ galleryNumber });
+
+    if (!findGallery) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const commentFind = findGallery.comments.findIndex(
+      (comment: CommentData) => comment.commentNumber === +commentNumber,
+    );
+
+    if (commentFind === -1) {
+      return res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
+    }
+
+    findGallery.comments.splice(commentFind, 1);
+
+    await findGallery.save();
+
+    return res.status(200).json({ message: '댓글이 삭제되었습니다.', gallery: findGallery });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '서버 에러' });
+  }
 }
