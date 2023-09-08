@@ -14,7 +14,7 @@ export default function SignHeader() {
 
   return (
     <Top>
-      <Logo />
+      {/* <Logo /> */}
       <Category>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">
@@ -36,6 +36,9 @@ const Top = styled.div`
   background-color: var(--color-blue);
   padding: var(--padding-base);
   color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const Category = styled.ul`

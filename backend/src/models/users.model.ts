@@ -2,11 +2,6 @@ import mongoose from 'mongoose';
 import { UserType } from '../../type/type';
 
 const userSchema = new mongoose.Schema({
-  // userNum: {
-  //   type: Number,
-  //   unique: true,
-  //   required: true,
-  // },
   id: {
     type: String,
     required: true,
@@ -23,10 +18,52 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  img: {
+    type: String,
+    require: true,
+  },
   refreshToken: {
     type: String,
-    required: true,
   },
+  super: {
+    type: Boolean,
+  },
+  postLikes: [
+    {
+      author: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      body: {
+        type: String,
+        required: true,
+      },
+      postNumber: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  galleryLikes: [
+    {
+      author: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      galleryNumber: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.methods.comparePassword = function (password: string) {

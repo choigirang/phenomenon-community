@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
-import useInputs from '@/hooks/useInputs';
+import useInputs from '@/hooks/common/useInputs';
 
 import { HEADER_NAV } from '@/constant/constant';
 import { FaSearch } from 'react-icons/fa';
 import styled from 'styled-components';
+import Link from 'next/link';
+import Logo from './Logo';
 
 export default function Header() {
   // Header 카테고리
@@ -13,25 +15,42 @@ export default function Header() {
   // 링크 연결
   const router = useRouter();
   // 검색어 저장
-  const [keywords, setKeywords] = useInputs('');
+  const [keyword, setkeyword, setInit] = useInputs('');
+
+  function searchKeybordHandler(e: React.KeyboardEvent<HTMLElement>) {
+    if (e.key === 'Enter') {
+      if (!keyword) return alert('검색어가 필요합니다.');
+      e.preventDefault();
+      router.push(`/community/search?keyword=${keyword}`);
+    }
+    setInit();
+  }
+
+  function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
+    if (!keyword) return alert('검색어가 필요합니다.');
+    setInit();
+    router.push(`/community/search?keyword=${keyword}`);
+  }
 
   return (
     <>
       {/* 상단 */}
       <Nav>
-        <div className="logo" onClick={() => router.push('/')}>
-          logo
-        </div>
+        <Logo />
         <InputBox>
-          <Input placeholder="게시글 통합 검색" value={keywords} onChange={setKeywords}></Input>
-          <FaSearch color="var(--color-blue)" />
+          <Input
+            placeholder="게시글 통합 검색"
+            value={keyword}
+            onChange={setkeyword}
+            onKeyDown={searchKeybordHandler}></Input>
+          <FaSearch color="var(--color-blue)" onClick={searchMouseHandler} />
         </InputBox>
       </Nav>
       {/* 하단바 */}
       <Bar>
         {category.map(each => (
           <li key={HEADER_NAV[each]} className="nav-item">
-            <a onClick={() => router.push(HEADER_NAV[each])}>{each}</a>
+            <Linked href={HEADER_NAV[each]}>{each}</Linked>
           </li>
         ))}
       </Bar>
@@ -101,5 +120,17 @@ const Bar = styled.ul`
     :first-child {
       padding-left: 0;
     }
+  }
+`;
+
+const Linked = styled(Link)`
+  color: white;
+
+  :link {
+    color: white;
+  }
+
+  :visited {
+    color: white !important;
   }
 `;

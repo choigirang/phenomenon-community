@@ -1,12 +1,16 @@
-import { UserAction } from '@/types/type';
+import { InitialState, UserAction } from '@/types/type';
 import { LOGIN_SUCCESS, LOGOUT } from '../actions/user';
 
-const initialState = {
+const initialState: InitialState = {
   user: {
+    img: '',
     id: '',
     name: '',
     mail: '',
+    super: false,
     login: false,
+    postLikes: [],
+    galleryLikes: [],
   },
 };
 
@@ -16,10 +20,14 @@ const userReducer = (state = initialState, action: UserAction) => {
       return {
         ...state,
         user: {
+          img: action.payload.img,
           id: action.payload.id,
           name: action.payload.name,
           mail: action.payload.mail,
+          super: action.payload.super,
           login: true,
+          postLikes: action.payload.postLikes,
+          galleryLikes: action.payload.galleryLikes,
         },
       };
     case LOGOUT:

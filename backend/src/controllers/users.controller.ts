@@ -6,6 +6,8 @@ import brcypt from 'bcrypt';
 
 import User from '../models/users.model';
 import { UserType } from '../../type/type';
+import Post from '../models/posts.model';
+import { Multer } from 'multer';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
@@ -69,26 +71,86 @@ async function checkUser(req: Request, res: Response) {
   }
 }
 
+// 전체 유저
+async function allUser(req: Request, res: Response) {
+  try {
+    const findAllUser = await User.find();
+
+    res.status(200).json({ findAllUser });
+  } catch (err) {
+    res.status(500).json({ error: '서버오류' });
+  }
+}
+
+// 개별 유저 검색
+async function searchUser(req: Request, res: Response) {
+  try {
+    const id = req.query.id;
+
+    const findUser = await User.find({ id: { $regex: id, $options: 'i' } });
+    const allUser = await User.find();
+
+    // const userData = findUser.map(user => user.id);
+    // const allUserData = allUser.map(user => user.id);
+
+    if (id === 'all') return res.status(200).json({ allUser });
+    if (findUser.length === 0) return res.status(200).send('검색된 유저가 없습니다.');
+
+    res.status(200).json({ findUser });
+  } catch (err) {
+    res.status(500).json({ error: '서버오류' });
+  }
+}
+
+// 개별 유저 작성 게시글
+async function searchUserData(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    const findPost = await Post.find({ author: id });
+    const findUser = await User.findOne({ id });
+
+    if (!findUser) return res.status(404).json('일치하는 유저가 존재하지 않습니다.');
+    const userData = {
+      id: findUser.id,
+      name: findUser.name,
+      img: findUser.img,
+      posts: findPost,
+    };
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(500).json({ error: '데이터가 존재하지 않습니다.' });
+  }
+}
+
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
+  // 비밀번호 해싱 추후 예정
+  // let hashedPassword;
+  // hashedPassword = await brcypt.hash(password, 12);
   const { id, password, name, mail } = req.body;
+
   try {
-    // 비밀번호 해싱 추후 예정
-    // let hashedPassword;
-    // hashedPassword = await brcypt.hash(password, 12);
+    const data = (req.file as Express.MulterS3.File).location;
+    const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/';
+    let img = data.replace(baseUrl, '');
+
+    if (!data) img = 'default.jpg';
 
     const createUser = new User({
       id,
       password,
       name,
       mail,
+      super: false,
+      img,
     });
 
     await createUser.save();
 
     let token;
     token = jwt.sign({ id: createUser.id }, 'supersecret', { expiresIn: '1h' });
-    return res.status(200).json({ token });
+    return res.status(200).json({ data });
   } catch (err) {
     next(err);
   }
@@ -129,4 +191,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, sendSecurityCode, createUser, checkUser };
+export { loginUser, allUser, searchUser, searchUserData, sendSecurityCode, createUser, checkUser };

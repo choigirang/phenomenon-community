@@ -6,26 +6,25 @@ import styled from 'styled-components';
 
 /** 홈 화면 시 개별 게시글 목록 */
 export default function EachPost({ item }: { item: PostType }) {
-  const { postNumber, author, title, body, date, views, likes, comments } = item;
+  const { postNumber, author, name, title, body, date, views, likes, comments } = item;
 
   return (
     <Post href={`/community/post/${postNumber}`}>
-      <p className="post-num">{postNumber}</p>
       <p className="title">{title}</p>
-      <p className="author">{author}</p>
+      <p className="author">{name}</p>
       <div className="info">
         <p className="date">{date}</p>
-        <div>
+        <div className="view-box">
           <AiFillEye />
           <p className="views">{views}</p>
         </div>
-        <div>
+        <div className="like-box">
           <AiFillLike />
           <p className="likes">{likes}</p>
         </div>
-        <div>
+        <div className="comment-box">
           <AiOutlineComment />
-          <p className="views">{comments.length}</p>
+          <p className="comment">{comments.length}</p>
         </div>
       </div>
     </Post>
@@ -39,6 +38,13 @@ const Post = styled(Link)`
   padding: var(--padding-text);
   font-size: var(--size-text);
   position: relative;
+  color: var(--color-gray);
+  margin: var(--margin-small) 0 0;
+
+  :hover {
+    color: var(--color-blue);
+    font-weight: 700 !important;
+  }
 
   div {
     display: flex;
@@ -60,9 +66,25 @@ const Post = styled(Link)`
   }
 
   .info {
+    width: 250px;
     display: flex;
     position: absolute;
     right: 0;
     margin: 0 !important;
+
+    .view-box {
+      position: absolute;
+      left: 80px;
+    }
+
+    .like-box {
+      position: absolute;
+      left: 140px;
+    }
+
+    .comment-box {
+      position: absolute;
+      left: 200px;
+    }
   }
 `;

@@ -3,9 +3,10 @@ import { HeaderNav } from '@/types/type';
 // 카테고리
 export const HEADER_NAV: HeaderNav = {
   전체보기: '/',
-  명예의전당: 'hof',
-  게시글: 'community',
-  공지사항: 'notice',
+  게시글: '/community',
+  갤러리: '/gallery',
+  공지사항: '/notice',
+  유저검색: '/user',
 };
 
 // 회원가입 링크
@@ -18,6 +19,17 @@ export const SIGN_UP: HeaderNav = {
   약관동의: '/agree',
   정보입력: '/info',
   가입완료: '/',
+};
+
+export const CATEGORY: HeaderNav = {
+  전체: '',
+  생활: 'life',
+  체육: 'athletic',
+  과학: 'science',
+  음악: 'music',
+  종교: 'religion',
+  미스테리: 'mystery',
+  성인: 'adult',
 };
 
 export const SERVICE_TEXT: string = `
@@ -306,3 +318,11 @@ export const PRIVATE_TEXT: string = `
 
 
 ▶ 경찰청 사이버안전국 : 182 (http://cyberbureau.police.go.kr)`;
+
+export const PROFILE_URL = (img: string) => {
+  return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/${img}`;
+};
+
+export const GALLERY_URL = (img: string) => {
+  return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/${img}`;
+};

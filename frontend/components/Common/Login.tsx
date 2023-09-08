@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
 import { api } from '@/util/api';
-import useInputs from '@/hooks/useInputs';
+import useInputs from '@/hooks/common/useInputs';
 import { deleteLoginData, deleteToken, saveLoginData, setToken } from '@/util/cookie/localStorage';
 import AddPostBtn from '../Community/AddPostBtn';
 import { loginSuccess, logout } from '@/redux/actions/user';
@@ -13,12 +13,16 @@ import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import Link from 'next/link';
+import { User, UserType } from '@/types/type';
+import AddNoticeBtn from '../Notice/AddNoticeBtn';
+import Image from 'next/image';
+import { PROFILE_URL } from '@/constant/constant';
 
 export default function Login() {
   // 로그인 아이디
-  const [id, setId] = useInputs<string>('');
+  const [id, setId] = useInputs('');
   // 로그인 패스워드
-  const [pass, setPass] = useInputs<string>('');
+  const [pass, setPass] = useInputs('');
   const router = useRouter();
 
   // 유저 reducer
@@ -27,19 +31,19 @@ export default function Login() {
   const dispatch = useDispatch();
 
   // 토큰에 따른 유저 받아오기
-  useEffect(() => {
-    api
-      .get(`/user`)
-      .then(res => {
-        const { id, name, mail } = res.data.user;
-        const userData = { id, name, mail };
+  // useEffect(() => {
+  //   api
+  //     .get(`/user`)
+  //     .then(res => {
+  //       const { id, name, mail } = res.data.user;
+  //       const userData = { id, name, mail, super };
 
-        dispatch(loginSuccess(userData));
-      })
-      .catch(error => {
-        console.error('사용자 정보를 가져올 수 없습니다.');
-      });
-  }, []);
+  //       dispatch(loginSuccess(userData));
+  //     })
+  //     .catch(error => {
+  //       console.error('사용자 정보를 가져올 수 없습니다.');
+  //     });
+  // }, []);
 
   // 아이디,비밀번호 입력 제출 이벤트
   const handleSubmit = (e: FormEvent) => {
@@ -50,8 +54,8 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const { id, name, mail } = res.data.user;
-          const userData = { id, name, mail };
+          const { id, name, mail, img, super: isSuper, likes }: User = res.data.user;
+          const userData = { id, name, mail, img, super: isSuper, likes };
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
@@ -102,25 +106,30 @@ export default function Login() {
                 <span className="border-Span"></span>
                 <span className="btm-Text">이이디·비밀번호 찾기</span>
               </FontBox>
-              <FaBell color="orange" />
             </BottomBox>
           </>
         )}
         {user.login && (
           <LoginUserBox>
-            <div className="user-box">
-              <span className="name">{user.name}</span>
-              <span>님</span>
-              <BsFillArrowRightCircleFill />
-              <MyInfo href={'/my'}> 내 정보</MyInfo>
-            </div>
-            <div className="log-out" onClick={logOut}>
-              로그아웃
-            </div>
+            <Image src={PROFILE_URL(user.img)} priority={true} width={100} height={100} alt="profile-img" />
+            <InfoBox>
+              <div className="user-box">
+                <div className="name-box">
+                  <span className="name">{user.name}</span>
+                  <span>님</span>
+                  <BsFillArrowRightCircleFill />
+                </div>
+                <MyInfo href={'/my'}> 내 정보</MyInfo>
+              </div>
+              <div className="log-out" onClick={logOut}>
+                로그아웃
+              </div>
+            </InfoBox>
           </LoginUserBox>
         )}
       </LoginBox>
       {loginState && <AddPostBtn />}
+      {user.super && <AddNoticeBtn />}
     </Container>
   );
 }
@@ -228,11 +237,31 @@ const LoginUserBox = styled.div`
   font-size: var(--size-sub-title);
   display: flex;
   justify-content: space-between;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 10px;
 
   .user-box {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+
     cursor: pointer;
+
+    .name-box {
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-left: 10px;
+      }
+    }
 
     .name {
       color: var(--color-blue);
@@ -245,6 +274,8 @@ const LoginUserBox = styled.div`
   }
 
   .log-out {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     font-size: var(--size-text);
     font-weight: 400;
@@ -255,6 +286,5 @@ const LoginUserBox = styled.div`
 `;
 
 const MyInfo = styled(Link)`
-  padding-left: 10px;
   font-size: var(--size-text);
 `;

@@ -13,6 +13,7 @@ import store, { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/redux/actions/user';
+import Footer from '@/components/Common/Footer';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
               {/* {hideComponent && <Login />} refactor 예정 */}
             </LoginState>
           </Container>
+          <Footer />
         </QueryClientProvider>
       </Provider>
     </CookiesProvider>
@@ -54,13 +56,15 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 const Container = styled.div`
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-height: 70vh;
   padding: var(--padding-base);
   padding-top: var(--padding-solo);
 `;
 
-function LoginState({ children }: { children: ReactNode }) {
+function LoginState({ children }: { children?: ReactNode }) {
   // 컴포넌트 리렌더 시 로그인 데이터 확인하여 로그인 유지
   const loginData = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
@@ -70,7 +74,6 @@ function LoginState({ children }: { children: ReactNode }) {
       const getLocalData = localStorage.getItem('user');
       if (getLocalData) {
         const parsedLocalData = JSON.parse(getLocalData);
-        console.log(parsedLocalData);
 
         dispatch(loginSuccess(parsedLocalData));
       }

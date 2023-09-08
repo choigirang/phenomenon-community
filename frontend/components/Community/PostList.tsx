@@ -1,34 +1,32 @@
 import { EachPostProps, PostType } from '@/types/type';
 import { api } from '@/util/api';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import EachPost from './EachPost';
-import { usePostDetail } from '@/hooks/usePostDetail';
-import usePostAll from '@/hooks/usePostAll';
-
-const POST_PAGE = 10;
+import usePostAll from '@/hooks/post/usePostAll';
+import Link from 'next/link';
 
 /** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {
-  /**  게시글 페이지네이션 */
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  // const [post, setPost] = useState<PostType[]>();
-  const [curIndex, setCurIndex] = useState<number>(0);
-
-  /** 게시글 데이터 함수 */
-  const queryResult = usePostAll(currentPage);
-
-  const posts: EachPostProps = queryResult.data;
+  const [posts, setPosts] = useState<PostType[]>([]);
+  useEffect(() => {
+    api.get('/posts/latest').then(res => {
+      setPosts(res.data);
+    });
+  }, []);
 
   return (
     <React.Fragment>
       {/* 게시글 페이지 네이션 */}
       <PostTitle>
-        <p className="sub-title">실시간 게시글</p>
-        <div className="btn-box">
+        <p className="sub-title">최근 게시글</p>
+        <Link href={'/community'} className="more">
+          더 보기
+        </Link>
+        {/* 페이지네이션 */}
+        {/* <div className="btn-box">
           <div className="text-box">
             <span className="cur-page">{currentPage}</span>/<span className="total-page">{POST_PAGE}</span>
           </div>
@@ -38,10 +36,10 @@ export default function PostList() {
           <button disabled={currentPage >= POST_PAGE} onClick={() => setCurrentPage(pre => pre + 1)}>
             <AiFillRightSquare />
           </button>
-        </div>
+        </div> */}
       </PostTitle>
       {/* 개별 글 목록 */}
-      <ShowAllPost>{posts && posts.posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
+      <ShowAllPost>{posts && posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
     </React.Fragment>
   );
 }
@@ -51,14 +49,19 @@ const PostTitle = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-black);
+  margin: var(--padding-side) 0;
+  margin-bottom: 0;
 
   .sub-title {
-    width: 100%;
-    color: var(--color-black);
-    font-weight: 400;
-    font-size: 15px;
-    margin: var(--padding-side) 0;
-    margin-bottom: 0;
+    font-size: var(--size-sub-title) !important;
+  }
+
+  a {
+    white-space: nowrap;
   }
 
   .btn-box {

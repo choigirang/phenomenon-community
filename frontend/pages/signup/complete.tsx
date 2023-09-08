@@ -26,6 +26,7 @@ export default function complete() {
 
 const Container = styled.div`
   min-height: 300px;
+
   display: flex;
   flex-direction: column;
   align-items: center;

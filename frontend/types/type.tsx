@@ -6,12 +6,14 @@ import { Action } from 'redux';
 export interface PostType {
   postNumber: number;
   author: string;
+  name: string;
   title: string;
   body: string;
   date: string;
   views: number;
   likes: number;
   comments: CommentType[];
+  category: string;
 }
 
 export type EachPostProps = {
@@ -19,9 +21,17 @@ export type EachPostProps = {
   totalPost?: number;
 };
 
+// search res type
+export type SearchKeyword = {
+  searchPostResults: PostType[];
+  searchGalleryResults: GalleryType[];
+};
+
 export interface CommentType {
   author: string;
   comment: string;
+  date: string;
+  commentNumber?: number;
 }
 
 // 게시글 단일 조회 props
@@ -34,6 +44,7 @@ export type CommentAPI = {
   postNumber: number;
   author: string;
   comment: string;
+  date: string;
 };
 
 // header
@@ -48,19 +59,41 @@ export type UserInfo = {
 };
 
 export interface UserType extends Document {
+  img: string;
   id: string;
   password: string;
   name: string;
   mail: string;
   refreshToken: string;
+  super: boolean;
+  postLikes: Array<Likes>;
+  galleryLikes: Array<Likes>;
+}
+
+/** redux 초기 데이터 */
+export interface InitialState {
+  user: User;
+}
+
+/** 좋아요 타입 */
+export interface Likes {
+  author: string;
+  title: string;
+  body: string;
+  postNumber?: number;
+  galleryNumber?: number;
 }
 
 // redux 로그인 유저 데이터
 export interface User {
   id: string;
   name: string;
-  mail: string;
+  mail?: string;
+  img: string;
   login?: boolean;
+  super?: boolean;
+  postLikes?: Array<Likes>;
+  galleryLikes?: Array<Likes>;
 }
 
 interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
@@ -82,3 +115,50 @@ export interface AuthData {
   user: UserType;
   token: string;
 }
+
+// my type
+export interface UserDataLogType {
+  userPosts: PostType[];
+  userAllComments: CommentType[];
+}
+
+export interface Comment {
+  author: string;
+  comment: string;
+  date: string;
+  _id?: string;
+  postNumber: string;
+}
+
+/** 공지사항 res 타입 */
+export type Notice = {
+  title: string;
+  content: string;
+  date: string;
+  noticeNumber: number;
+};
+
+/** 유저 검색 데이터 타입 */
+export interface SearchUser {
+  id: string;
+  name: string;
+  mail: string;
+  img: string;
+  posts: PostType[];
+}
+
+export type ImageSrc = {
+  src: string;
+};
+
+/** 갤러리 res data 타입 */
+export type GalleryType = {
+  title: string;
+  author: string;
+  date: string;
+  galleryNumber: number;
+  views: number;
+  likes: number;
+  images: ImageSrc[];
+  comments: CommentType[];
+};
