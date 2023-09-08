@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import { AiFillFacebook, AiFillGithub, AiFillInstagram } from 'react-icons/ai';
@@ -8,9 +8,37 @@ import Link from 'next/link';
 export default function Footer() {
   // Header 카테고리
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
+  const [containerStyle, setContainerStyle] = useState({});
+
+  useEffect(() => {
+    // 화면이 로드될 때 컨텐츠 높이 계산
+    const updateContainerStyle = () => {
+      const windowHeight = window.innerHeight;
+      const contentHeight = document.body.clientHeight;
+      console.log(windowHeight, contentHeight);
+      if (windowHeight - 300 > contentHeight) {
+        setContainerStyle({
+          position: 'fixed',
+          bottom: 0,
+          width: '100%',
+        });
+      } else {
+        setContainerStyle({
+          position: 'static', // 높이가 충분하면 static으로 설정
+        });
+      }
+    };
+
+    window.addEventListener('resize', updateContainerStyle);
+    updateContainerStyle();
+
+    return () => {
+      window.removeEventListener('resize', updateContainerStyle);
+    };
+  }, []);
 
   return (
-    <Container>
+    <Container style={containerStyle}>
       <div className="logo-box">
         <Logo />
       </div>
@@ -46,17 +74,17 @@ export default function Footer() {
   );
 }
 
-const Container = styled.div`
+const Container = styled.footer`
   width: 100%;
   height: 300px;
   display: grid;
   grid-template-columns: 40% 60%;
   padding: 0 calc((100% - 1280px) / 2);
   background-color: var(--color-blue);
+  margin-top: 100px;
   color: white;
-  margin-top: 50px;
-  position: fixed;
-  bottom: 0;
+  /* position: fixed;
+  bottom: 0; */
 
   .logo-box {
     padding-top: 50px;
