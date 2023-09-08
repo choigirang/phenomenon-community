@@ -19,7 +19,7 @@ export async function latestGallery(req: Request, res: Response) {
 // 갤러리 조회
 export async function galleryList(req: Request, res: Response) {
   try {
-    const findGallery = await Gallery.find();
+    const findGallery = await Gallery.find().sort({ galleryNumber: -1 });
 
     res.status(200).json(findGallery);
   } catch (err) {
@@ -32,8 +32,10 @@ export async function addImageToGallery(req: Request, res: Response) {
   try {
     // 클라이언트로부터 받은 정보
     const { title, author, date } = req.body;
+    console.log(title, author, date);
 
     const files = req.files as Express.MulterS3.File[];
+    console.log(files);
 
     const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/';
 
@@ -49,6 +51,7 @@ export async function addImageToGallery(req: Request, res: Response) {
       galleryNumber: galleryNumber.length + 1,
       images: files.map(file => ({ src: file.location.replace(baseUrl, '') })),
     });
+    console.log(gallery);
 
     await gallery.save();
 
