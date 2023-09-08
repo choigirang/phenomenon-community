@@ -112,10 +112,10 @@ export default function PostDetail({ id }: { id: number }) {
       {/* 작성한 데이터 */}
       <ShowWritingData data={data.body} />
       {/* 댓글 작성하기 */}
-      {<AddComment postNumber={data.postNumber} author={user.id} />}
+      {<AddComment number={data.postNumber} author={user.id} src={'post'} />}
       {/* 댓글 */}
       {data.comments.map((comment, idx) => (
-        <EachComment key={idx} comment={comment} number={data.postNumber} />
+        <EachComment key={idx} comment={comment} number={data.postNumber} src={'post'} />
       ))}
     </Container>
   );
