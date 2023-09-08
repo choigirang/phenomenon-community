@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 /** 댓글 추가하기 */
-export default function AddComment({ postNumber, author }: { postNumber: number; author: string }) {
+export default function AddComment({ number, author, src }: { number: number; author: string; src: string }) {
   const [content, setContent] = useState('');
 
   const { dateHandler } = usePostForm();
@@ -16,8 +16,11 @@ export default function AddComment({ postNumber, author }: { postNumber: number;
 
   const fetchCommentData = () => {
     if (content) {
-      const postData = { postNumber, author, comment: content, date: dateHandler() };
-      api.post('/post/comment', postData).then(res => console.log(res));
+      const postData = { postNumber: number, author, comment: content, date: dateHandler() };
+      const galleryData = { galleryNumber: number, author, comment: content, date: dateHandler() };
+
+      if (src === 'post') api.post('/post/comment', postData).then(res => console.log(res));
+      if (src === 'gallery') api.post('/gallery/comment', galleryData).then(res => console.log(res));
       setContent('');
     }
   };
