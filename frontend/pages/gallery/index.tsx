@@ -21,6 +21,7 @@ export default function index() {
 }
 
 const Container = styled.div`
+  min-height: 70vh;
   padding: 0 calc((100% - 1280px) / 2);
   padding-top: 10px;
   display: grid;
