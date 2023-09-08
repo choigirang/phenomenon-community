@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Gallery } from '../../type/type';
+import { GalleryType } from '../../type/type';
 
 const gallerySchema = new mongoose.Schema({
   title: {
@@ -33,8 +33,29 @@ const gallerySchema = new mongoose.Schema({
       },
     },
   ],
+  comments: [
+    {
+      author: {
+        type: String,
+        required: true,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: String,
+        required: true,
+      },
+      commentNumber: {
+        type: Number,
+        unique: true,
+        required: true,
+      },
+    },
+  ],
 });
 
-const Gallery = mongoose.model<Gallery>('Gallery', gallerySchema);
+const Gallery = mongoose.model<GalleryType>('Gallery', gallerySchema);
 
 export default Gallery;
