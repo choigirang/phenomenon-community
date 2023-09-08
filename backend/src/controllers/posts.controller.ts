@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Post from '../models/posts.model';
 import { CommentData, PostType } from '../../type/type';
 import User from '../models/users.model';
+import Gallery from '../models/gallery.model';
 
 // 최신 게시글 조회
 export async function latestPost(req: Request, res: Response) {
@@ -280,11 +281,15 @@ export async function searchPost(req: Request, res: Response) {
     const keyword = req.query.keyword;
 
     // 키워드를 포함하는 데이터 검색
-    const searchResults = await Post.find({
+    const searchPostResults = await Post.find({
       $or: [{ title: { $regex: keyword, $options: 'i' } }, { content: { $regex: keyword, $options: 'i' } }],
-    });
+    }).sort({ postNumber: -1 });
 
-    res.json(searchResults);
+    const searchGalleryResults = await Gallery.find({
+      $or: [{ title: { $regex: keyword, $options: 'i' } }],
+    }).sort({ galleryNumber: -1 });
+
+    res.status(200).json({ searchPostResults, searchGalleryResults });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
