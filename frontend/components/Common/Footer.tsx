@@ -10,32 +10,32 @@ export default function Footer() {
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
   const [containerStyle, setContainerStyle] = useState({});
 
-  useEffect(() => {
-    // 화면이 로드될 때 컨텐츠 높이 계산
-    const updateContainerStyle = () => {
-      const windowHeight = window.innerHeight;
-      const contentHeight = document.body.clientHeight;
-      console.log(windowHeight, contentHeight);
-      if (windowHeight - 300 > contentHeight) {
-        setContainerStyle({
-          position: 'fixed',
-          bottom: 0,
-          width: '100%',
-        });
-      } else {
-        setContainerStyle({
-          position: 'static', // 높이가 충분하면 static으로 설정
-        });
-      }
-    };
+  // useEffect(() => {
+  //   // 화면이 로드될 때 컨텐츠 높이 계산
+  //   const updateContainerStyle = () => {
+  //     const windowHeight = window.innerHeight;
+  //     const contentHeight = document.body.clientHeight;
+  //     console.log(windowHeight, contentHeight);
+  //     if (windowHeight - 300 > contentHeight) {
+  //       setContainerStyle({
+  //         position: 'fixed',
+  //         bottom: 0,
+  //         width: '100%',
+  //       });
+  //     } else {
+  //       setContainerStyle({
+  //         position: 'static', // 높이가 충분하면 static으로 설정
+  //       });
+  //     }
+  //   };
 
-    window.addEventListener('resize', updateContainerStyle);
-    updateContainerStyle();
+  //   window.addEventListener('resize', updateContainerStyle);
+  //   updateContainerStyle();
 
-    return () => {
-      window.removeEventListener('resize', updateContainerStyle);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('resize', updateContainerStyle);
+  //   };
+  // }, []);
 
   return (
     <Container style={containerStyle}>
