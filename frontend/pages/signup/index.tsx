@@ -57,34 +57,40 @@ export default function index() {
       {/* 상단 */}
       <SignHeader />
       {/* 진행 단계 */}
-      <SignProgress />
-      {/* 회원가입 */}
-      <Bottom>
-        {serviceData.map(data => (
-          <ServiceAgree key={data.id}>
-            <span className="example">{data.title}</span>
-            <pre className="content-text">{data.text}</pre>
-            <AgreeBox>
-              <input
-                id={data.id}
-                type="checkbox"
-                checked={check[data.name]}
-                onChange={() => handleCheckboxChange(data.name)}
-                required
-              />
-              [필수] 내용을 확인했으며, 동의합니다.
-            </AgreeBox>
-          </ServiceAgree>
-        ))}
-        <NextPage>
-          <button className="btn" onClick={e => agreementCheck(e)}>
-            다음
-          </button>
-        </NextPage>
-      </Bottom>
+      <Container>
+        <SignProgress />
+        {/* 회원가입 */}
+        <Bottom>
+          {serviceData.map(data => (
+            <ServiceAgree key={data.id}>
+              <span className="example">{data.title}</span>
+              <pre className="content-text">{data.text}</pre>
+              <AgreeBox>
+                <input
+                  id={data.id}
+                  type="checkbox"
+                  checked={check[data.name]}
+                  onChange={() => handleCheckboxChange(data.name)}
+                  required
+                />
+                [필수] 내용을 확인했으며, 동의합니다.
+              </AgreeBox>
+            </ServiceAgree>
+          ))}
+          <NextPage>
+            <button className="btn" onClick={e => agreementCheck(e)}>
+              다음
+            </button>
+          </NextPage>
+        </Bottom>
+      </Container>
     </>
   );
 }
+
+const Container = styled.div`
+  margin-top: 100px;
+`;
 
 // 회원가입 부분
 const ServiceAgree = styled.div`
