@@ -1,12 +1,12 @@
 import Login from '@/components/Common/Login';
 import GalleryItem from '@/components/Gallery/GalleryItem';
-import { GalleryData } from '@/types/type';
+import { GalleryType } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export default function index() {
-  const [data, setData] = useState<GalleryData[]>([]);
+  const [data, setData] = useState<GalleryType[]>([]);
 
   useEffect(() => {
     api.get('/gallery').then(res => setData(res.data));
