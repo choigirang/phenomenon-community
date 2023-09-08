@@ -30,7 +30,7 @@ export default function GalleryItem({ data }: { data: GalleryType }) {
 const Container = styled.li`
   width: 100%;
   overflow: hidden;
-  height: auto;
+  max-height: 185px;
   border: var(--border-solid3) var(--color-light-blue);
   border-radius: 3px;
   box-shadow: 3px 3px 3px var(--color-light-gray);
