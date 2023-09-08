@@ -46,7 +46,7 @@
 <br>
 
 ### 회원가입
-- JWT Token
+- JWT
 - 유효성 검사
   
 <img src="https://github.com/choigirang/why-community/assets/118104644/33e08e43-1ddf-4b32-a657-511ccf2b1f6c" align="center">
