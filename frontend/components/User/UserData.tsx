@@ -19,7 +19,7 @@ export default function UserData({ data }: { data: User }) {
   const [pageCount1, setPageCount1] = useState(0);
   const [pageCount2, setPageCount2] = useState(0);
 
-  const userLikes = useSelector((state: RootState) => state.user.user.likes);
+  const userLikes = useSelector((state: RootState) => state.user.user.postLikes);
 
   // const userDataLogQuery = useDataLog(id);
 

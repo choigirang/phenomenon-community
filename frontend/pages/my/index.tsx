@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { User } from '@/types/type';
 import UserData from '@/components/User/UserData';
 
-export default function index() {
+export default function Index() {
   const [data, setData] = useState<User>();
 
   // app 컴포넌트에서 localStrage활용하여 유저 데이터 저장
@@ -23,7 +23,7 @@ export default function index() {
     }
 
     setData(user);
-  }, [router]);
+  }, [router, user]);
 
   return (
     <Container>

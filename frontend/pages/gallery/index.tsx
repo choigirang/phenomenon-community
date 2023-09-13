@@ -5,7 +5,7 @@ import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export default function index() {
+export default function Index() {
   const [data, setData] = useState<GalleryType[]>([]);
 
   useEffect(() => {

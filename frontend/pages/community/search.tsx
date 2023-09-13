@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export default function search() {
+export default function Search() {
   const [result, setResult] = useState<SearchKeyword>();
   const router = useRouter();
   const { keyword } = router.query;
@@ -23,7 +23,7 @@ export default function search() {
   return (
     <Container>
       <p className="title">
-        "<span className="keyword">{keyword}</span>" 로 검색한 결과입니다.
+        <span className="keyword">{keyword}</span> 로 검색한 결과입니다.
       </p>
       <Title>갤러리</Title>
       <GalleryList>

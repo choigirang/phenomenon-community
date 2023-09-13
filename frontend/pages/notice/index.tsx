@@ -11,7 +11,7 @@ const fetchNotice = async (): Promise<Notice[]> => {
   return res.data;
 };
 
-export default function index() {
+export default function Index() {
   const { data } = useQuery(['notice'], fetchNotice, { staleTime: 2000 });
 
   return (

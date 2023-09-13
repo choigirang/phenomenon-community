@@ -7,8 +7,9 @@ import { BsArrowRepeat } from 'react-icons/bs';
 import useUserName from '@/hooks/user/useUserName';
 import { UserType } from '@/types/type';
 import { PROFILE_URL } from '@/constant/constant';
+import Image from 'next/image';
 
-export default function index() {
+export default function Index() {
   // 검색한 유저 데이터
   const [users, setUsers] = useState<UserType[]>([]);
   // 검색값
@@ -68,7 +69,7 @@ export default function index() {
       {/* 검색 결과 */}
       {msg && (
         <p className="title">
-          "<span className="keyword">{msg}</span>" 로 검색한 결과입니다.
+          <span className="keyword">{msg}</span> 로 검색한 결과입니다.
         </p>
       )}
       {/* 유저 목록 */}
@@ -76,7 +77,7 @@ export default function index() {
         {users &&
           users.map(user => (
             <UserCard key={user.name} href={`/user/${user.id}`}>
-              <img src={PROFILE_URL(user.img)} alt="userImg" />
+              <Image src={PROFILE_URL(user.img)} alt="userImg" />
               {user.id}
             </UserCard>
           ))}

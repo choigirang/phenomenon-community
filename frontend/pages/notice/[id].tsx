@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export default function index() {
+export default function Index() {
   const [noticeNum, setNoticeNum] = useState<string>('');
   const router = useRouter();
 

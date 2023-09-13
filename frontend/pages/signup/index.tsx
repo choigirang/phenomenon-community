@@ -31,7 +31,7 @@ const serviceData: AgreementData[] = [
   },
 ];
 
-export default function index() {
+export default function Index() {
   // 필수 동의
   const [check, setCheck] = useState({
     useCheck: false,

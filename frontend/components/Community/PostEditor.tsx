@@ -23,7 +23,7 @@ export default function PostEditor({ htmlStr, setHtmlStr }: IEditor) {
       const editorState = EditorState.createWithContent(contentState);
       setEditorState(editorState);
     }
-  }, []);
+  }, [htmlStr]);
 
   const onEditorStateChange = (editorState: EditorState) => {
     setEditorState(editorState);

@@ -13,7 +13,7 @@ import { PostType } from '@/types/type';
 
 const Editor = dynamic(() => import('../../../components/Community/PostEditor'), { ssr: false });
 
-export default function add() {
+export default function Add() {
   // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
   // 카테고리 선택

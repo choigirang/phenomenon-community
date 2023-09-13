@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { PostType } from '@/types/type';
 
-export default function index() {
+export default function Index() {
   // 검색창
   const [value, setValue] = useState<string>('');
   const [data, setData] = useState<PostType[]>();

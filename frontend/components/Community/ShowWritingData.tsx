@@ -11,7 +11,7 @@ export default function ShowWritingData({ data }: { data: string }) {
     if (viewContainerRef.current) {
       viewContainerRef.current.innerHTML += data;
     }
-  }, []);
+  }, [data]);
   return (
     <Contents.Container>
       <Contents.ViewContainer ref={viewContainerRef} />

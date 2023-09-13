@@ -78,7 +78,7 @@ function LoginState({ children }: { children?: ReactNode }) {
         dispatch(loginSuccess(parsedLocalData));
       }
     }
-  }, []);
+  }, [dispatch, loginData]);
 
   return <>{children}</>;
 }

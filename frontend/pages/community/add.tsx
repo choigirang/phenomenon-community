@@ -12,10 +12,11 @@ import { RootState } from '@/redux/store';
 import usePostForm from '@/hooks/post/usePostForm';
 import { CATEGORY } from '@/constant/constant';
 import { AxiosResponse } from 'axios';
+import Image from 'next/image';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
-export default function add() {
+export default function Add() {
   // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
   // 카테고리 선택
@@ -172,7 +173,7 @@ export default function add() {
               <div className="preview-box">
                 <p className="preview">선택한 이미지 미리보기:</p>
                 {previewImages.map((preview, index) => (
-                  <img key={index} src={preview} alt={`미리보기 ${index}`} style={{ maxWidth: '500px' }} />
+                  <Image key={index} src={preview} alt={`미리보기 ${index}`} style={{ maxWidth: '500px' }} />
                 ))}
               </div>
             )}

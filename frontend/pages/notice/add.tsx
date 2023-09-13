@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
-export default function add() {
+export default function Add() {
   const [htmlStr, setHtmlStr] = useState<string>('');
   const router = useRouter();
 

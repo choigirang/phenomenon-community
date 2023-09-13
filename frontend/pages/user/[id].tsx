@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export default function user() {
+export default function UserPage() {
   const [data, setData] = useState<SearchUser>();
 
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function user() {
         <List>
           <p className="title">작성한 글</p>
           {data.posts.map(post => (
-            <Post href={`/community/post/${post.postNumber}`}>
+            <Post href={`/community/post/${post.postNumber}`} key={post.postNumber}>
               <div className="title-date">
                 <span className="title">{post.title}</span>
                 <span className="date">{post.date}</span>

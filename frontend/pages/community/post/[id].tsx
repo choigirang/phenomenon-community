@@ -5,7 +5,7 @@ import PostDetail from '@/components/Community/PostDetail';
 
 import styled from 'styled-components';
 
-export default function index() {
+export default function Index() {
   const [postNum, setPostNum] = useState<number | undefined>();
   const router = useRouter();
 

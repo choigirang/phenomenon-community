@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export default function galleryNum() {
+export default function GalleryNum() {
   const [galleryNum, setGalleryNum] = useState<number | undefined>();
   const router = useRouter();
 

@@ -6,7 +6,7 @@ import SignProgress from '@/components/Sign/SignProgress';
 
 import styled from 'styled-components';
 
-export default function complete() {
+export default function Complete() {
   const router = useRouter();
 
   return (

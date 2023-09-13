@@ -13,7 +13,7 @@ import EachPost from '@/components/Community/EachPost';
 import { CATEGORY } from '@/constant/constant';
 import Pagination from '@/components/Common/Pagenation';
 
-export default function index() {
+export default function Index() {
   const [postList, setPostList] = useState<PostType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
@@ -33,7 +33,7 @@ export default function index() {
       setPostList(res.data.posts);
       setTotalPosts(res.data.totalPosts);
     });
-  }, [router.query, currentPage]);
+  }, [router, currentPage, category]);
 
   // 카테고리별
   function findKeyByValue(obj: { [key: string]: string }, value: string) {

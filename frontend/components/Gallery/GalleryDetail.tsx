@@ -98,8 +98,8 @@ export default function GalleryDetail({ id }: { id: number }) {
       {/* 사진 목록 */}
       <ImgContainer>
         {queryResult.data &&
-          queryResult.data.images.map(img => (
-            <Image src={GALLERY_URL(img.src)} alt="image-data" width={500} height={500} />
+          queryResult.data.images.map((img, idx) => (
+            <Image src={GALLERY_URL(img.src)} alt="image-data" width={500} height={500} key={idx} />
           ))}
       </ImgContainer>
       {/* 댓글 작성하기 */}

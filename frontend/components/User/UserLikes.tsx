@@ -13,7 +13,7 @@ export default function UserLikes(user: Likes) {
     if (viewContainerRef.current) {
       viewContainerRef.current.innerHTML += body;
     }
-  }, []);
+  }, [body]);
 
   return (
     <Container>

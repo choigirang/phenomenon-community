@@ -13,7 +13,7 @@ export default function UserPostData({ post }: { post: PostType }) {
     if (viewContainerRef.current) {
       viewContainerRef.current.innerHTML += post.body;
     }
-  }, []);
+  }, [post.body]);
 
   return (
     <Container>

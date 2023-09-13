@@ -51,7 +51,7 @@ const options: InputType = {
   user: '직접 입력',
 };
 
-export default function info() {
+export default function Info() {
   const router = useRouter();
 
   // 이미지
@@ -146,7 +146,7 @@ export default function info() {
   useEffect(() => {
     if (confirmPass && passLength) setValidatePass(true);
     else setValidatePass(false);
-  }, [checkPass.secondPass]);
+  }, [checkPass.secondPass, confirmPass, passLength]);
 
   // 닉네임 유효성 검사
   const [nickname, setNickName] = useState<CheckName>({

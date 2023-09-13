@@ -54,8 +54,8 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const { id, name, mail, img, super: isSuper, likes }: User = res.data.user;
-          const userData = { id, name, mail, img, super: isSuper, likes };
+          const { id, name, mail, img, super: isSuper, postLikes, galleryLikes }: User = res.data.user;
+          const userData = { id, name, mail, img, super: isSuper, postLikes, galleryLikes };
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
