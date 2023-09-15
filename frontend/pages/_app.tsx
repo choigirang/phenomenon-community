@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
     setHideComponent(shouldHide);
 
     const user = localStorage.getItem('user');
-  }, [router]);
+  }, []);
 
   return (
     <CookiesProvider>

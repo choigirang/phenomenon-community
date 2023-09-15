@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "sudo npm src/app.js"
+    "start": "node src/app.js"
   },
   "type": "commonjs",
   "keywords": [],
@@ -31,6 +31,9 @@
     "typescript": "^5.1.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.19",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.22.15",
     "@types/aws-sdk": "^2.7.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
