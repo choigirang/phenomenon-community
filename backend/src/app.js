@@ -13,7 +13,7 @@ const my_router_1 = require("./routes/my.router");
 const notice_router_1 = require("./routes/notice.router");
 const gallery_router_1 = require("./routes/gallery.router");
 const app = (0, express_1.default)();
-const port = 80;
+const port = 8080;
 app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());

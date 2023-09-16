@@ -10,7 +10,7 @@ import { noticeRouter } from './routes/notice.router';
 import { galleryRouter } from './routes/gallery.router';
 
 const app = express();
-const port = 80;
+const port = 8080;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
