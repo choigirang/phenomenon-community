@@ -35,7 +35,6 @@ export async function addImageToGallery(req: Request, res: Response) {
     console.log(title, author, date);
 
     const files = req.files as Express.MulterS3.File[];
-    console.log(files);
 
     const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/';
 
@@ -51,7 +50,6 @@ export async function addImageToGallery(req: Request, res: Response) {
       galleryNumber: galleryNumber.length + 1,
       images: files.map(file => ({ src: file.location.replace(baseUrl, '') })),
     });
-    console.log(gallery);
 
     await gallery.save();
 
