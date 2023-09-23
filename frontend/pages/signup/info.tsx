@@ -96,6 +96,8 @@ export default function Info() {
 
   /* 이미지 핸들러 */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
@@ -301,6 +303,8 @@ export default function Info() {
     // 이미지를 추가
     if (selectedImage) {
       formData.append('profileImage', selectedImage);
+    } else {
+      formData.append('profileImage', 'default');
     }
 
     // 다른 입력 데이터 추가
@@ -321,10 +325,11 @@ export default function Info() {
         })
         .catch(err => console.log(err));
 
-    if (checkSecurity.compareSecurityCode) {
-      signIn();
-      return router.push('/signup/complete');
-    } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
+    console.log(formData);
+    // if (checkSecurity.compareSecurityCode) {
+    signIn();
+    return router.push('/signup/complete');
+    // } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
 
   return (
