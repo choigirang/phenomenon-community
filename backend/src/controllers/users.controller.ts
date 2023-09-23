@@ -131,9 +131,9 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
 
   try {
-    const data = (req.file as Express.MulterS3.File).location;
+    const data = (req.file as Express.MulterS3.File)?.location;
     const baseUrl = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/';
-    let img = data.replace(baseUrl, '');
+    let img = data?.replace(baseUrl, '');
 
     if (!data) img = 'default.jpg';
 
