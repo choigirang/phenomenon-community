@@ -9,6 +9,13 @@ import { myRouter } from './routes/my.router';
 import { noticeRouter } from './routes/notice.router';
 import { galleryRouter } from './routes/gallery.router';
 
+import dotenv from "dotenv"
+
+dotenv.config();
+
+const server = process.env.SERVER_NAME;
+const password = process.env.SERVER_PASS;
+
 const app = express();
 const port = 8080;
 
@@ -20,6 +27,6 @@ app.listen(port);
 
 // mongoDB 연결
 mongoose
-  .connect('mongodb+srv://chlrlfkd:chlrlfkd5633@phenomenon-community.zyo8dzo.mongodb.net/?retryWrites=true&w=majority')
+  .connect(`mongodb+srv://${server}:${password}@phenomenon-community.zyo8dzo.mongodb.net/?retryWrites=true&w=majority`)
   .then(() => console.log('connected successfully'))
   .catch((err: Error) => console.log(err));
