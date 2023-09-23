@@ -9,7 +9,7 @@ import { myRouter } from './routes/my.router';
 import { noticeRouter } from './routes/notice.router';
 import { galleryRouter } from './routes/gallery.router';
 
-import dotenv from "dotenv"
+import dotenv from 'dotenv';
 
 dotenv.config();
 
