@@ -88,9 +88,7 @@ export default function Index() {
   );
 }
 
-const Container = styled.div`
-  margin-top: 100px;
-`;
+const Container = styled.div``;
 
 // 회원가입 부분
 const ServiceAgree = styled.div`
@@ -98,7 +96,6 @@ const ServiceAgree = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding-top: 20px;
   font-size: var(--size-text);
 
   .example {
