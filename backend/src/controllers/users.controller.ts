@@ -7,7 +7,6 @@ import brcypt from 'bcrypt';
 import User from '../models/users.model';
 import { UserType } from '../../type/type';
 import Post from '../models/posts.model';
-import { Multer } from 'multer';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
@@ -23,7 +22,9 @@ async function loginUser(req: Request, res: Response) {
     // let isValidPass = false;
     // isValidPass = await brcypt.compare(password, user.password);
 
-    if (password !== user.password) {
+    const hash = await brcypt.hashSync(user.password, 10);
+
+    if (password !== hash) {
       return res.status(401).send('비밀번호가 일치하지 않습니다.');
     }
 
@@ -125,9 +126,6 @@ async function searchUserData(req: Request, res: Response) {
 
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
-  // 비밀번호 해싱 추후 예정
-  // let hashedPassword;
-  // hashedPassword = await brcypt.hash(password, 12);
   const { id, password, name, mail } = req.body;
 
   try {
@@ -137,9 +135,12 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
 
     if (!data) img = 'default.jpg';
 
+    const salt = await brcypt.genSalt(10); // 기본값 10 높을 수록 연산 시간과 보안 상승
+    const hashed = await brcypt.hash(password, salt);
+
     const createUser = new User({
       id,
-      password,
+      hashed,
       name,
       mail,
       super: false,
