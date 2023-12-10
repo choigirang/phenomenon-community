@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/redux/actions/user';
 import Footer from '@/components/Common/Footer';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
