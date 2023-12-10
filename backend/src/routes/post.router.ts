@@ -16,6 +16,9 @@ import {
 
 export const postRouter = express.Router();
 
+// 전체 게시글 조회
+postRouter.get('/posts/all');
+
 // 최신 게시글 조회
 postRouter.get('/posts/latest', latestPost);
 
