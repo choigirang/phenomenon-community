@@ -57,7 +57,7 @@ export default function PostDetail({ id }: { id: number }) {
 
   // 좋아요
   const likesHadnler = () => {
-    api.post('/likes', { id: user.id, postNumber: id }).then(res => {
+    api.post('/post/likes', { id: user.id, postNumber: id }).then(res => {
       dispatch(loginSuccess(res.data));
     });
   };
