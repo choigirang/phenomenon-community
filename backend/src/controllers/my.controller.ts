@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Post from '../models/posts.model';
 import { CommentData } from '../../type/type';
+import User from '../models/users.model';
+import { UserType } from '../../type/type';
 
 type UserComment = {
   postNumber: number;
@@ -77,5 +79,26 @@ export async function showUserComments(req: Request, res: Response) {
     return res.status(200).json({ userAllComments, totalComments });
   } catch (err) {
     return res.status(500).json({ message: '에러 발생' });
+  }
+}
+
+// 페이지네이션 유저가 좋아요 누른 글 조회
+export async function showUserLikes(req: Request, res: Response) {
+  const { page, user } = req.query;
+  const itemsPerPage = 3; // 한 페이지에 표시될 아이템 수
+  const currentPage = parseInt(page as string, 10) || 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  try {
+    const userData: UserType | null | undefined = await User.findOne({ id: user });
+    if (!userData) return res.status(404).json({ message: 'User not found' });
+
+    const postLikesData = userData.postLikes;
+    const galleryLikes = userData.galleryLikes;
+
+    const allLikes = [...postLikesData, ...galleryLikes].sort();
+    return res.status(200).json({ userData });
+  } catch (err) {
+    return res.status(500).json({ message: err });
   }
 }
