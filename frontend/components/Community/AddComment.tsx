@@ -5,24 +5,29 @@ import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useAddComment } from '@/hooks/post/useAddComment';
 
 /** 댓글 추가하기 */
 export default function AddComment({ number, author, src }: { number: number; author: string; src: string }) {
+  // 작성된 댓글 데이터
   const [content, setContent] = useState('');
 
+  // 날짜 지정
   const { dateHandler } = usePostForm();
 
   const user = useSelector((state: RootState) => state.user.user);
 
-  const fetchCommentData = () => {
-    if (content) {
-      const postData = { postNumber: number, author, comment: content, date: dateHandler() };
-      const galleryData = { galleryNumber: number, author, comment: content, date: dateHandler() };
+  // src에 따른 데이터 설정
+  const postData = { postNumber: number, author, comment: content, date: dateHandler() };
+  const galleryData = { galleryNumber: number, author, comment: content, date: dateHandler() };
 
-      if (src === 'post') api.post('/post/comment', postData).then(res => console.log(res));
-      if (src === 'gallery') api.post('/gallery/comment', galleryData).then(res => console.log(res));
-      setContent('');
-    }
+  // src에 따른 comment 데이터 저장 위치 설정
+  const { mutate } = useAddComment(src, number, src === 'post' ? postData : galleryData);
+
+  // comment 추가 및 초기화
+  const addComment = () => {
+    mutate();
+    setContent('');
   };
 
   return (
@@ -32,7 +37,7 @@ export default function AddComment({ number, author, src }: { number: number; au
         value={content}
         onChange={e => setContent(e.target.value)}
       />
-      <button onClick={fetchCommentData} disabled={!user.login}>
+      <button onClick={addComment} disabled={!user.login}>
         제출
       </button>
     </Container>
