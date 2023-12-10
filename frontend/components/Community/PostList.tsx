@@ -1,21 +1,23 @@
-import { EachPostProps, PostType } from '@/types/type';
+import { PostType } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import EachPost from './EachPost';
 import usePostAll from '@/hooks/post/usePostAll';
 import Link from 'next/link';
+import { UseQueryResult, useQuery } from 'react-query';
 
 /** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {
-  const [posts, setPosts] = useState<PostType[]>([]);
-  useEffect(() => {
-    api.get('/posts/latest').then(res => {
-      setPosts(res.data);
-    });
-  }, []);
+  async function fetchData() {
+    const response = await api.get(`/posts/latest`);
+    return response.data;
+  }
+
+  const { data } = useQuery(['latest'], fetchData, {
+    staleTime: 2000,
+  });
 
   return (
     <React.Fragment>
@@ -25,21 +27,9 @@ export default function PostList() {
         <Link href={'/community'} className="more">
           더 보기
         </Link>
-        {/* 페이지네이션 */}
-        {/* <div className="btn-box">
-          <div className="text-box">
-            <span className="cur-page">{currentPage}</span>/<span className="total-page">{POST_PAGE}</span>
-          </div>
-          <button disabled={currentPage <= 1} onClick={() => setCurrentPage(pre => pre - 1)}>
-            <AiFillLeftSquare />
-          </button>
-          <button disabled={currentPage >= POST_PAGE} onClick={() => setCurrentPage(pre => pre + 1)}>
-            <AiFillRightSquare />
-          </button>
-        </div> */}
       </PostTitle>
       {/* 개별 글 목록 */}
-      <ShowAllPost>{posts && posts.map(item => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
+      <ShowAllPost>{data && data.map((item: PostType) => <EachPost key={item.postNumber} item={item} />)}</ShowAllPost>
     </React.Fragment>
   );
 }
