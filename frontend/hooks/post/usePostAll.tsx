@@ -2,9 +2,9 @@ import { api } from '@/util/api';
 import React from 'react';
 import { useQuery } from 'react-query';
 
-export default function usePostAll(page: number) {
+export default function usePostAll(page?: number) {
   async function fetchPostAll() {
-    const response = await api.get(`/all-posts?page=${page}`);
+    const response = await api.get(`/posts?page=${page}`);
     return response.data;
   }
 
