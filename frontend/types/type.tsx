@@ -41,7 +41,8 @@ export type PostTopProps = {
 
 // comment api 타입
 export type CommentAPI = {
-  postNumber: number;
+  postNumber?: number;
+  galleryNumber?: number;
   author: string;
   comment: string;
   date: string;
