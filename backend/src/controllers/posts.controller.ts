@@ -4,6 +4,17 @@ import { CommentData, PostType } from '../../type/type';
 import User from '../models/users.model';
 import Gallery from '../models/gallery.model';
 
+// 전체 게시글 조회
+export async function allPost(req: Request, res: Response) {
+  const posts = await Post.find().sort({ postNumber: -1 });
+
+  try {
+    return res.status(200).json(posts);
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+}
+
 // 최신 게시글 조회
 export async function latestPost(req: Request, res: Response) {
   const posts = await Post.find().sort({ postNumber: -1 }).limit(10);
