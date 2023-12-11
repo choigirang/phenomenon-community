@@ -14,14 +14,18 @@ import { api } from '@/util/api';
 import { GalleryType } from '@/types/type';
 import GalleryItem from '@/components/Gallery/GalleryItem';
 import Link from 'next/link';
+import { useQuery } from 'react-query';
 
 export default function Home() {
-  const [galleryData, setGalleryData] = useState<GalleryType[]>([]);
-  const user = useSelector((state: RootState) => state.user.user);
+  async function fetchGalleryLatest() {
+    const res = await api.get('/gallery/latest');
+    return res.data;
+  }
 
-  useEffect(() => {
-    api.get('/gallery/latest').then(res => setGalleryData(res.data));
-  }, []);
+  const { data: galleryData } = useQuery(['gallery', 'latest'], fetchGalleryLatest, {
+    staleTime: 2000,
+  });
+
   return (
     <>
       <Head>
@@ -34,7 +38,8 @@ export default function Home() {
             <Link href="/gallery">더 보기</Link>
           </GalleryTitle>
           <GalleryList>
-            {galleryData && galleryData.map(data => <GalleryItem data={data} key={data.galleryNumber} />)}
+            {galleryData &&
+              galleryData.map((data: GalleryType) => <GalleryItem data={data} key={data.galleryNumber} />)}
           </GalleryList>
           <PostList />
         </LeftSide>
