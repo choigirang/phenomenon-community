@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 /** 홈 화면 시 개별 게시글 목록 */
 export default function EachPost({ item }: { item: PostType }) {
-  const { postNumber, author, name, title, body, date, views, likes, comments } = item;
+  const { postNumber, name, title, date, views, likes, comments } = item;
 
   return (
     <Post href={`/community/post/${postNumber}`}>
@@ -20,7 +20,7 @@ export default function EachPost({ item }: { item: PostType }) {
         </div>
         <div className="like-box">
           <AiFillLike />
-          <p className="likes">{likes}</p>
+          <p className="likes">{likes.length}</p>
         </div>
         <div className="comment-box">
           <AiOutlineComment />
