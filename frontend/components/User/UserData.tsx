@@ -1,4 +1,4 @@
-import { Comment, CommentType, PostType, User } from '@/types/type';
+import { Comment, CommentType, PostType, User, UserDataLogType } from '@/types/type';
 import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -8,47 +8,51 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import UserLikes from './UserLikes';
 import Pagination from '../Common/Pagenation';
-import { useUserData } from '@/hooks/post/useUserData';
+import { useUserData } from '@/hooks/user/useUserData';
 
-export default function UserData({ data }: { data: User }) {
+export default function UserData({ data }: { data: UserDataLogType }) {
   const [postsData, setPostsData] = useState<PostType[]>();
-  const [commentsData, setCommentsData] = useState<Comment[]>();
-  const { id } = data;
   const [postCurtPage, setPostCurtPage] = useState(1);
-  const [commentCurtPage, setCommentCurtPage] = useState(1);
-  const [likesCurPage, setLikesCurPage] = useState(1);
   const [postPageCount, setPostPageCount] = useState(0);
+
+  const [commentsData, setCommentsData] = useState<Comment[]>();
+  const [commentCurtPage, setCommentCurtPage] = useState(1);
   const [commentPageCount, setCommentPageCount] = useState(0);
+
+  const [likesCurPage, setLikesCurPage] = useState(1);
   const [likesPageCount, setLikesPageCount] = useState(0);
 
-  const userLikes = useSelector((state: RootState) => state.user.user.postLikes);
+  const { userInfo } = data;
+  const id = userInfo.id;
+  const likes = userInfo.likes;
+  console.log(data, likes);
 
   const { data: postData } = useUserData('posts', postCurtPage, id);
   const { data: commentData } = useUserData('comments', commentCurtPage, id);
   const { data: likesData } = useUserData('likes', likesCurPage, id);
-  useEffect(() => {
-    // 유저가 작성한 글 가져오기
-    // setPostPageCount(Math.ceil(postData.totalPosts / 3));
-    console.log(postData);
-    console.log(likesData);
-  }, [id]);
+
+  const handlePostPageCount = () => {};
+
+  const handleCommentPageCount = () => {};
+
+  const handleLikesPageCount = () => {};
 
   return (
     <Container>
       <List>
         <p className="sub-title">내가 작성한 글</p>
         {postsData && postsData.map(post => <UserPostData key={post.postNumber} post={post} />)}
-        {/* <Pagination pageCount={pageCount1} onPageChange={handlePageChange1} /> */}
+        <Pagination pageCount={postPageCount} onPageChange={handlePostPageCount} />
       </List>
       <List>
         <p className="sub-title">내가 작성한 댓글</p>
         {commentsData && commentsData.map((comment, idx) => <UserCommentData key={idx} {...comment} />)}
-        {/* <Pagination pageCount={pageCount2} onPageChange={handlePageChange2} /> */}
+        <Pagination pageCount={commentPageCount} onPageChange={handleCommentPageCount} />
       </List>
       <List>
         <p className="sub-title">좋아요 누른 글</p>
-        {userLikes && userLikes.map(user => <UserLikes key={user.postNumber} {...user} />)}
-        {/* <Pagination pageCount={pageCount2} onPageChange={handlePageChange2} /> */}
+        {likes && likes.map(user => <UserLikes key={user.postNumber} {...user} />)}
+        <Pagination pageCount={likesPageCount} onPageChange={handleLikesPageCount} />
       </List>
     </Container>
   );
