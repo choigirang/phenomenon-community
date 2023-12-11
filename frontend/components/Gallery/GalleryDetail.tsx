@@ -26,15 +26,6 @@ export default function GalleryDetail({ id }: { id: number }) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (user.galleryLikes) {
-      const checkLike = user.galleryLikes.filter(like => like.galleryNumber === id);
-      setLikes(checkLike.length > 0);
-    } else {
-      setLikes(false); // user가 없을 때 likes를 false로 설정
-    }
-  }, [user, id]);
-
   if (queryResult.isLoading) {
     return <div>Loading...</div>;
   }
