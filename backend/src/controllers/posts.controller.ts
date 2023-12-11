@@ -255,27 +255,23 @@ export async function postAddLikes(req: Request, res: Response) {
       return res.status(404).send('사용자가 존재하지 않습니다.');
     }
 
-    // find 안 돼서 보류
-    // 이미 좋아요 했을 시 삭제
-    // const updatedLikes = findUserData.likes.filter(like => like.postNumber !== postNumber);
-    // findUserData.likes = updatedLikes;
-
-    const findLikesData = findUserData.postLikes.filter(like => like.postNumber === postNumber);
+    const findLikesData = findPostData.likes.filter(like => like === id);
 
     // postNumber와 일치하는 데이터 있을 시 삭제
     if (findLikesData.length > 0) {
-      findUserData.postLikes = findUserData.postLikes.filter(like => like.postNumber !== postNumber);
-      findPostData.likes -= 1;
+      findUserData.likes = findUserData.likes.filter(like => like.postNumber !== postNumber);
+      findPostData.likes = findPostData.likes.filter(likesId => likesId !== id);
       await findPostData.save();
     } else {
       // postNumber와 일치하는 데이터 없을 시 추가
-      findUserData.postLikes.unshift({
+      findUserData.likes.unshift({
         author: findPostData.author,
         title: findPostData.title,
         body: findPostData.body,
         postNumber: findPostData.postNumber,
+        date: findPostData.date,
       });
-      findPostData.likes += 1;
+      findPostData.likes.unshift(findUserData.id);
       await findPostData.save();
     }
 
