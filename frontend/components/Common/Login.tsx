@@ -54,8 +54,8 @@ export default function Login() {
       await api
         .post('/login', { id, password: pass })
         .then(res => {
-          const { id, name, mail, img, super: isSuper, postLikes, galleryLikes }: User = res.data.user;
-          const userData = { id, name, mail, img, super: isSuper, postLikes, galleryLikes };
+          const { id, name, mail, img, super: isSuper, likes }: User = res.data.user;
+          const userData = { id, name, mail, img, super: isSuper, likes };
 
           dispatch(loginSuccess(userData));
           setToken(res.data.accessToken, res.data.refreshToken);
@@ -119,7 +119,7 @@ export default function Login() {
                   <span>님</span>
                   <BsFillArrowRightCircleFill />
                 </div>
-                <MyInfo href={'/my'}> 내 정보</MyInfo>
+                <MyInfo href={`/my?id=${user.id}`}> 내 정보</MyInfo>
               </div>
               <div className="log-out" onClick={logOut}>
                 로그아웃
