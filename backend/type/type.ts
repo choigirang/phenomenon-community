@@ -5,6 +5,7 @@ interface Likes {
   author: string;
   title: string;
   body?: string;
+  date: string;
   postNumber?: number;
   galleryNumber?: number;
 }
@@ -17,8 +18,7 @@ export interface UserType extends Document {
   img: string;
   refreshToken: string;
   super: boolean;
-  postLikes: Array<Likes>;
-  galleryLikes: Array<Likes>;
+  likes: Array<Likes>;
 }
 
 export interface AuthData {
@@ -33,7 +33,7 @@ export interface PostType extends Document {
   body: string;
   date: string;
   views: number;
-  likes: number;
+  likes: Array<string>;
   category: string;
   comments: Array<CommentData>;
 }
@@ -66,6 +66,6 @@ export interface GalleryType extends Document {
   date: string;
   img: ImageSrc[];
   views: number;
-  likes: number;
+  likes: Array<string>;
   comments: Array<CommentData>;
 }
