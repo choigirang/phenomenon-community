@@ -8,28 +8,27 @@ import UserCard from '../../components/User/UserCard';
 import { useDispatch } from 'react-redux';
 import { User } from '@/types/type';
 import UserData from '@/components/User/UserData';
+import { useQuery } from 'react-query';
 
 export default function Index() {
-  const [data, setData] = useState<User>();
-
-  // app 컴포넌트에서 localStrage활용하여 유저 데이터 저장
-  const user = useSelector((state: RootState) => state.user.user);
-  const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!user.login) {
-      router.push('/');
-    }
+  const { id } = router.query;
 
-    setData(user);
-  }, [router, user]);
+  async function fetchUserData() {
+    const res = await api.get(`/my?id=${id}`);
+    return res.data;
+  }
+
+  const { data } = useQuery(['my', id], fetchUserData, {
+    staleTime: 2000,
+  });
 
   return (
     <Container>
       {data && (
         <>
-          <UserCard data={data} />
+          <UserCard data={data.userInfo} />
           <UserData data={data} />
         </>
       )}
