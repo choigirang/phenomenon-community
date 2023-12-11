@@ -107,21 +107,23 @@ export async function likesGallery(req: Request, res: Response) {
       return res.status(404).send('사용자가 존재하지 않습니다.');
     }
 
-    const findLikesData = findUserData.galleryLikes.filter(like => like.galleryNumber === galleryNumber);
+    const findLikesData = findUserData.likes.filter(like => like.galleryNumber === galleryNumber);
 
     // galleryNumber와 일치하는 데이터 있을 시 삭제
     if (findLikesData.length > 0) {
-      findUserData.galleryLikes = findUserData.galleryLikes.filter(like => like.galleryNumber !== galleryNumber);
-      findGalleryData.likes -= 1;
+      findUserData.likes = findUserData.likes.filter(like => like.galleryNumber !== galleryNumber);
+      findGalleryData.likes = findGalleryData.likes.filter(likesId => likesId !== findUserData.id);
       await galleryNumber.save();
     } else {
       // galleryNumber와 일치하는 데이터 없을 시 추가
-      findUserData.galleryLikes.unshift({
+      findUserData.likes.unshift({
         author: findGalleryData.author,
         title: findGalleryData.title,
         galleryNumber: findGalleryData.galleryNumber,
+        date: findGalleryData.date,
       });
-      findGalleryData.likes += 1;
+      findGalleryData.likes.unshift(findUserData.id);
+
       await galleryNumber.save();
     }
 
