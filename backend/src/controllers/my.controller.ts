@@ -11,37 +11,36 @@ type UserComment = {
 };
 
 /** 유저가 작성한 데이터 res */
-// export async function userAllData(req: Request, res: Response) {
-//   const user = req.params.user;
+export async function userAllData(req: Request, res: Response) {
+  const { id } = req.query;
 
-//   try {
-//     const userPosts = await Post.find({ author: user });
+  try {
+    const userInfo = await User.findOne({ id });
+    const userPosts = await Post.find({ author: id });
 
-//     // 해당 user가 작성한 모든 포스트의 comments에서 해당 user의 데이터 가져오기
-//     const userComments = await Post.find({ 'comments.author': user });
+    const userAllComments: CommentData[] = [];
 
-//     const userAllComments: CommentData[] = [];
+    // 유저가 작성한 댓글 데이터
+    const allPosts = await Post.find();
 
-//     // 유저가 작성한 댓글 데이터
-//     const allPosts = await Post.find();
-//     allPosts.forEach(post => {
-//       post.comments.forEach(comment => {
-//         if (comment.author === user) {
-//           userAllComments.unshift({
-//             postNumber: post.postNumber,
-//             author: post.author,
-//             comment: comment.comment,
-//             date: comment.date,
-//           });
-//         }
-//       });
-//     });
+    allPosts.forEach(post => {
+      post.comments.forEach(comment => {
+        if (comment.author === id) {
+          userAllComments.unshift({
+            postNumber: post.postNumber,
+            author: post.author,
+            comment: comment.comment,
+            date: comment.date,
+          });
+        }
+      });
+    });
 
-//     return res.status(200).send({ userPosts, userAllComments });
-//   } catch (err) {
-//     return res.status(404).send(err);
-//   }
-// }
+    return res.status(200).send({ userPosts, userAllComments, userInfo });
+  } catch (err) {
+    return res.status(404).send(err);
+  }
+}
 
 // 페이지네이션 게시글 조회
 export async function showUserPosts(req: Request, res: Response) {
@@ -93,10 +92,6 @@ export async function showUserLikes(req: Request, res: Response) {
     const userData: UserType | null | undefined = await User.findOne({ id: user });
     if (!userData) return res.status(404).json({ message: 'User not found' });
 
-    const postLikesData = userData.postLikes;
-    const galleryLikes = userData.galleryLikes;
-
-    const allLikes = [...postLikesData, ...galleryLikes].sort();
     return res.status(200).json({ userData });
   } catch (err) {
     return res.status(500).json({ message: err });
