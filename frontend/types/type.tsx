@@ -11,7 +11,7 @@ export interface PostType {
   body: string;
   date: string;
   views: number;
-  likes: number;
+  likes: Array<string>;
   comments: CommentType[];
   category: string;
 }
@@ -67,8 +67,7 @@ export interface UserType extends Document {
   mail: string;
   refreshToken: string;
   super: boolean;
-  postLikes: Array<Likes>;
-  galleryLikes: Array<Likes>;
+  likes: Array<Likes>;
 }
 
 /** redux 초기 데이터 */
@@ -83,6 +82,7 @@ export interface Likes {
   body: string;
   postNumber?: number;
   galleryNumber?: number;
+  date: string;
 }
 
 // redux 로그인 유저 데이터
@@ -93,8 +93,7 @@ export interface User {
   img: string;
   login?: boolean;
   super?: boolean;
-  postLikes?: Array<Likes>;
-  galleryLikes?: Array<Likes>;
+  likes?: Array<Likes>;
 }
 
 interface LoginSuccessAction extends Action<typeof LOGIN_SUCCESS> {
@@ -121,6 +120,7 @@ export interface AuthData {
 export interface UserDataLogType {
   userPosts: PostType[];
   userAllComments: CommentType[];
+  userInfo: User;
 }
 
 export interface Comment {
