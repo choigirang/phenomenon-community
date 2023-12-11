@@ -9,29 +9,7 @@ interface PaginationProps {
   initialPageCount?: number; // 새로운 prop 추가
 }
 
-const usePagination = (initialPageCount: number) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(initialPageCount);
-
-  const handlePageChange = (selectedPage: { selected: number }) => {
-    setCurrentPage(selectedPage.selected + 1);
-  };
-
-  return {
-    currentPage,
-    pageCount,
-    handlePageChange,
-    setPageCount,
-    setCurrentPage,
-  };
-};
-
-const Pagination = ({
-  pageCount,
-  onPageChange,
-  initialPageCount = 1, // 기본값으로 1을 사용
-}: PaginationProps) => {
-  const { currentPage, handlePageChange, setPageCount, setCurrentPage } = usePagination(initialPageCount);
+const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
   return (
     <Container>
       <ReactPaginate
