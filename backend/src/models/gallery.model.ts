@@ -23,7 +23,7 @@ const gallerySchema = new mongoose.Schema({
     required: true,
   },
   likes: {
-    type: Number,
+    type: Array,
     required: true,
   },
   images: [

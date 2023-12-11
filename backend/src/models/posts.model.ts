@@ -31,7 +31,7 @@ const postSchema = new mongoose.Schema({
     default: 0,
   },
   likes: {
-    type: Number,
+    type: Array,
     default: 0,
   },
   comments: [
