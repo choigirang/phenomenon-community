@@ -14,7 +14,12 @@ export default function Index() {
 
   return (
     <Container>
-      <GalleryList>{data && data.map(data => <GalleryItem data={data} key={data.galleryNumber} />)}</GalleryList>
+      <Gallery>
+        <BestPost>
+          <p className="sub-title">전체보기</p>
+        </BestPost>
+        <GalleryList>{data && data.map(data => <GalleryItem data={data} key={data.galleryNumber} />)}</GalleryList>
+      </Gallery>
       <Login />
     </Container>
   );
@@ -30,9 +35,23 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
+const Gallery = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
 const GalleryList = styled.ul`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
+`;
+
+const BestPost = styled.div`
+  display: flex;
+  width: 100%;
+  border-bottom: var(--border-solid1) var(--color-blue);
+  margin: var(--padding-side) 0 0;
+  font-size: var(--size-text);
 `;
