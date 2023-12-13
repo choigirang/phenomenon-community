@@ -12,6 +12,7 @@ import { api } from '@/util/api';
 import EachPost from '@/components/Community/EachPost';
 import { CATEGORY } from '@/constant/constant';
 import Pagination from '@/components/Common/Pagenation';
+import { useQuery } from 'react-query';
 
 export default function Index() {
   const [postList, setPostList] = useState<PostType[]>([]);
@@ -19,6 +20,18 @@ export default function Index() {
   const [totalPosts, setTotalPosts] = useState(0);
   const router = useRouter();
   let category = router.query.category as string;
+
+  async function fetchData() {
+    const res = await api.get(`/posts/category=${category}&page=${currentPage}`).then(res => {
+      setPostList(res.data.posts);
+      setTotalPosts(res.data.totalPosts);
+    });
+    return res;
+  }
+
+  const { data } = useQuery([`posts`], fetchData, {
+    staleTime: 2000,
+  });
 
   // 카테고리별 게시글 받아오기
   useEffect(() => {
@@ -47,8 +60,6 @@ export default function Index() {
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected + 1);
   };
-
-  console.log(postList);
 
   return (
     <Container>
