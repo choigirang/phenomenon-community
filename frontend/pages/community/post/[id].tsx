@@ -11,7 +11,11 @@ export default function Index() {
 
   useEffect(() => {
     const id = Number(router.query.id);
-    setPostNum(id);
+    if (!isNaN(id)) {
+      setPostNum(id);
+    } else {
+      setPostNum(undefined);
+    }
   }, [router]);
 
   return <Container>{postNum && <PostDetail id={postNum} />}</Container>;
