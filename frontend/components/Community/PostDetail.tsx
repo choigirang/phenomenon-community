@@ -18,10 +18,19 @@ import { useRouter } from 'next/router';
 /** 개별 게시글 페이지 */
 export default function PostDetail({ id }: { id: number }) {
   const [likes, setLikes] = useState<boolean>(false);
-  // 게시글 받아오기
-  const queryResult = usePostDetail(id);
+
   // 로그인 상태 확인 (댓글 기능)
   const user = useSelector((state: RootState) => state.user.user);
+
+  // 게시글 받아오기
+  const queryResult = usePostDetail(id);
+
+  const checkLikes = queryResult.data && queryResult.data.likes.indexOf(`${user.id}`);
+
+  useEffect(() => {
+    if (checkLikes) setLikes(true);
+    else setLikes(false);
+  }, [checkLikes]);
 
   const router = useRouter();
 
@@ -38,12 +47,6 @@ export default function PostDetail({ id }: { id: number }) {
     return <div>No data available</div>;
   }
 
-  useEffect(() => {
-    const checkLikes = queryResult.data.likes.indexOf(`${user.id}`);
-
-    if (checkLikes !== -1) setLikes(true);
-  }, []);
-
   // 게시글 데이터
   const data: PostType = queryResult.data;
 
@@ -52,7 +55,8 @@ export default function PostDetail({ id }: { id: number }) {
     api
       .post('/post/likes', { id: user.id, postNumber: id })
       .then(res => {
-        setLikes(false);
+        if (checkLikes) setLikes(false);
+        else setLikes(true);
       })
       .catch(res => console.log('서버 오류'));
   };
