@@ -37,7 +37,8 @@ const Container = styled.li`
   font-size: var(--size-text);
 
   .title {
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--color-dark-gray);
   }
 
@@ -58,5 +59,6 @@ const Linked = styled(Link)`
 
 const Top = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: 10px;
 `;
