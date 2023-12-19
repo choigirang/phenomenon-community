@@ -3,14 +3,15 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-export default function UserCommentData({ author, comment, postNumber, date }: Comment) {
+export default function UserCommentData({ title, author, comment, postNumber, date }: Comment) {
   return (
     <Container>
       <Linked href={`/community/post/${postNumber}`}>
         <Top>
-          <p className="title">{comment}</p>
+          <p className="title">{title}</p>
           <p className="date">{date}</p>
         </Top>
+        <Btm>{comment}</Btm>
       </Linked>
     </Container>
   );
@@ -25,7 +26,8 @@ const Container = styled.li`
   font-size: var(--size-text);
 
   .title {
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--color-dark-gray);
   }
 
@@ -46,5 +48,10 @@ const Linked = styled(Link)`
 
 const Top = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: 10px;
+`;
+
+const Btm = styled.div`
+  display: flex;
 `;
