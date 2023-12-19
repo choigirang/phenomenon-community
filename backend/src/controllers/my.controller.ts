@@ -27,6 +27,7 @@ export async function userAllData(req: Request, res: Response) {
       post.comments.forEach(comment => {
         if (comment.author === id) {
           userAllComments.unshift({
+            title: post.title,
             postNumber: post.postNumber,
             author: post.author,
             comment: comment.comment,
