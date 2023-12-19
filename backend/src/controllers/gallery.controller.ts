@@ -32,7 +32,6 @@ export async function addImageToGallery(req: Request, res: Response) {
   try {
     // 클라이언트로부터 받은 정보
     const { title, author, date } = req.body;
-    console.log(title, author, date);
 
     const files = req.files as Express.MulterS3.File[];
 
