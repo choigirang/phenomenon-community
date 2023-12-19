@@ -21,6 +21,7 @@ const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
         onPageChange={onPageChange}
         containerClassName="pagination"
         activeClassName="active"
+        renderOnZeroPageCount={null}
       />
     </Container>
   );
