@@ -11,47 +11,112 @@ import Pagination from '../Common/Pagenation';
 import { useUserData } from '@/hooks/user/useUserData';
 
 export default function UserData({ data }: { data: UserDataLogType }) {
-  const [postsData, setPostsData] = useState<PostType[]>();
+  // 페이지당 보여질 갯수
+  const [perPage, setPerPage] = useState(5);
+
+  // 페이지
   const [postCurtPage, setPostCurtPage] = useState(1);
   const [postPageCount, setPostPageCount] = useState(0);
 
-  const [commentsData, setCommentsData] = useState<Comment[]>();
   const [commentCurtPage, setCommentCurtPage] = useState(1);
   const [commentPageCount, setCommentPageCount] = useState(0);
 
-  const [likesCurPage, setLikesCurPage] = useState(1);
+  const [likesCurtPage, setLikesCurtPage] = useState(1);
   const [likesPageCount, setLikesPageCount] = useState(0);
 
   const { userInfo } = data;
-  const id = userInfo.id;
+  // 작성한 게시글
+  const postsData = data.userPosts;
+  // 작성한 댓글
+  const commentsData = data.userAllComments;
+  // 좋아요 누른
   const likes = userInfo.likes;
-  console.log(data, likes);
 
-  const { data: postData } = useUserData('posts', postCurtPage, id);
-  const { data: commentData } = useUserData('comments', commentCurtPage, id);
-  const { data: likesData } = useUserData('likes', likesCurPage, id);
+  useEffect(() => {
+    if (postsData) {
+      const pageCount = Math.ceil(postsData.length / perPage);
+      setPostPageCount(pageCount);
+    }
 
-  const handlePostPageCount = () => {};
+    if (commentsData) {
+      const pageCount = Math.ceil(commentsData.length / perPage);
+      setCommentPageCount(pageCount);
+    }
 
-  const handleCommentPageCount = () => {};
+    if (likes) {
+      const pageCount = Math.ceil(likes.length / perPage);
+      setLikesPageCount(pageCount);
+    }
+  }, [postsData, perPage]);
 
-  const handleLikesPageCount = () => {};
+  // 현재 페이지의 게시글 가져오기
+  const getCurrentPagePosts = () => {
+    if (postsData) {
+      const startIndex = (postCurtPage - 1) * perPage;
+      const endIndex = startIndex + perPage;
+      return postsData.slice(startIndex, endIndex);
+    }
+    return [];
+  };
 
+  // 현재 페이지의 댓글 가져오기
+  const getCurrentPageComments = () => {
+    if (commentsData) {
+      const startIndx = (commentCurtPage - 1) * perPage;
+      const endIndx = startIndx + perPage;
+      return commentsData.slice(startIndx, endIndx);
+    }
+
+    return [];
+  };
+
+  // 현재 페이지의 좋아요 가져오기
+  const getCurrentPageLikes = () => {
+    if (likes) {
+      const startIndex = (likesCurtPage - 1) * perPage;
+      const endIndex = startIndex + perPage;
+      return likes.slice(startIndex, endIndex);
+    }
+
+    return [];
+  };
+
+  // 각 섹션의 페이지네이션 처리 함수
+  const handlePostPageCount = (selectedItem: { selected: number }) => {
+    setPostCurtPage(selectedItem.selected + 1);
+  };
+
+  const handleCommentPageCount = (selectedItem: { selected: number }) => {
+    setCommentCurtPage(selectedItem.selected + 1);
+  };
+
+  const handleLikesPageCount = (selectedItem: { selected: number }) => {
+    setLikesCurtPage(selectedItem.selected + 1);
+  };
   return (
     <Container>
       <List>
+        {/* 게시글 */}
         <p className="sub-title">내가 작성한 글</p>
-        {postsData && postsData.map(post => <UserPostData key={post.postNumber} post={post} />)}
+        {getCurrentPagePosts().map(post => (
+          <UserPostData key={post.postNumber} post={post} />
+        ))}
         <Pagination pageCount={postPageCount} onPageChange={handlePostPageCount} />
       </List>
       <List>
+        {/* 댓글 */}
         <p className="sub-title">내가 작성한 댓글</p>
-        {commentsData && commentsData.map((comment, idx) => <UserCommentData key={idx} {...comment} />)}
+        {getCurrentPageComments().map((comment, idx) => (
+          <UserCommentData key={idx} {...comment}></UserCommentData>
+        ))}
         <Pagination pageCount={commentPageCount} onPageChange={handleCommentPageCount} />
       </List>
       <List>
+        {/* 좋아요 */}
         <p className="sub-title">좋아요 누른 글</p>
-        {likes && likes.map(user => <UserLikes key={user.postNumber} {...user} />)}
+        {getCurrentPageLikes().map((like, idx) => (
+          <UserLikes key={idx} {...like}></UserLikes>
+        ))}
         <Pagination pageCount={likesPageCount} onPageChange={handleLikesPageCount} />
       </List>
     </Container>
