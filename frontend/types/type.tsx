@@ -28,6 +28,7 @@ export type SearchKeyword = {
 };
 
 export interface CommentType {
+  title: string;
   author: string;
   comment: string;
   date: string;
@@ -124,11 +125,12 @@ export interface UserDataLogType {
 }
 
 export interface Comment {
+  title: string;
   author: string;
   comment: string;
   date: string;
   _id?: string;
-  postNumber: string;
+  postNumber?: string;
 }
 
 /** 공지사항 res 타입 */
