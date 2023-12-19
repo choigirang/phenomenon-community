@@ -98,8 +98,6 @@ export default function Add() {
 
   // 이미지 업로드
   const handleUpload = async () => {
-    console.log(1);
-
     if (selectedFiles.length === 0) {
       alert('이미지를 선택하세요.');
       return;
