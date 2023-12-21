@@ -10,6 +10,8 @@ import { RootState } from '@/redux/store';
 import usePostForm from '@/hooks/post/usePostForm';
 import { CATEGORY } from '@/constant/constant';
 import { PostType } from '@/types/type';
+import { useMutation } from 'react-query';
+import { queryClient } from '@/pages/_app';
 
 const Editor = dynamic(() => import('../../../components/Community/PostEditor'), { ssr: false });
 
@@ -27,6 +29,32 @@ export default function Add() {
   const user = useSelector((state: RootState) => state.user.user);
 
   const { title, titleHandler, dateHandler, submitHandler } = usePostForm();
+
+  // 댓글 수정 핸들러
+  async function editPost() {
+    const res = await api.post(`/edit/${router.query.id}`, {
+      title,
+      body: htmlStr,
+      date: dateHandler(),
+      author: user.id,
+      category: selectedCategory,
+    });
+
+    return res.data;
+  }
+
+  // 댓글 수정 mutate
+  const { mutate } = useMutation(editPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      alert('수정이 완료되었습니다.');
+      router.push('/');
+    },
+    onError: () => {
+      alert('작성 오류입니다.');
+      router.push('/');
+    },
+  });
 
   // 게시글 받아오기
   useEffect(() => {
@@ -50,22 +78,7 @@ export default function Add() {
     if (selectedCategory === '') return alert('카테고리 선택이 필요합니다.');
 
     if (user.login && user.name) {
-      await api
-        .post(`/edit/${router.query.id}`, {
-          title,
-          body: htmlStr,
-          date: dateHandler(),
-          author: user.id,
-          category: selectedCategory,
-        })
-        .then(res => {
-          alert('수정이 완료되었습니다.');
-          router.push('/');
-        })
-        .catch(err => {
-          alert('작성 오류입니다.');
-          router.push('/');
-        });
+      mutate();
     }
   };
 
@@ -77,7 +90,7 @@ export default function Add() {
             type="text"
             className="title"
             placeholder="제목을 입력하세요."
-            value={data && data.title}
+            defaultValue={data && data.title}
             onChange={e => titleHandler(e)}
             required
           />
