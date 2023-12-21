@@ -46,8 +46,8 @@ const ImageBox = styled.div`
   flex-direction: column;
 
   input {
-    border: none;
-    padding-left: 0;
+    border: none !important;
+    padding-left: 0 !important;
   }
 
   span {
