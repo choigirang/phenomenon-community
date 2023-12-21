@@ -1,5 +1,5 @@
 import { CheckId, ValidationItem } from '@/types/type';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 type IdProps = {
@@ -8,7 +8,22 @@ type IdProps = {
   validationItems: ValidationItem[];
 };
 
+interface IdValidate {
+  length: boolean;
+  word: boolean;
+}
+
+type StyleProps = {
+  validate: IdValidate;
+};
+
 export default function Id({ id, setId, validationItems }: IdProps) {
+  const [checkId, setCheckId] = useState<IdValidate>({
+    length: false,
+    word: false,
+  });
+
+  // 아이디 유효성 확인
   const checkIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -29,16 +44,22 @@ export default function Id({ id, setId, validationItems }: IdProps) {
       setId(prev => ({ ...prev, required: false }));
     }
   };
+
   return (
     <IdContainer>
       <Label htmlFor="id">아이디</Label>
-      <input
-        id="id"
-        name="userId"
-        type="text"
-        placeholder="아이디를 입력해주세요."
-        onChange={checkIdHandler}
-        required></input>
+
+      <InputBox validate={checkId}>
+        <input
+          id="id"
+          name="userId"
+          type="text"
+          placeholder="특수문자를 제외한 2글자 이상 20글자 이하의 문자"
+          onChange={checkIdHandler}
+          required
+        />
+        <button>중복검사</button>
+      </InputBox>
     </IdContainer>
   );
 }
@@ -55,4 +76,22 @@ const Label = styled.label`
   font-size: var(--size-sub-title);
   font-weight: 500;
   line-height: 30px;
+`;
+
+const InputBox = styled.div<StyleProps>`
+  display: flex;
+  gap: 10px;
+
+  button {
+    width: 100px;
+
+    &:hover {
+      background-color: var(--color-light-gray);
+    }
+  }
+
+  input {
+    width: 100%;
+    color: ${props => (!props.validate.length || !props.validate.word ? 'red' : 'black')};
+  }
 `;
