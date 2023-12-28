@@ -1,4 +1,5 @@
 import { CheckId, ValidationItem } from '@/types/type';
+import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -26,40 +27,69 @@ export default function Id({ id, setId, validationItems }: IdProps) {
   // 아이디 유효성 확인
   const checkIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-
     // 아이디 길이 확인
-    const valueLength = value.length >= 2 && value.length <= 20;
+    const valueLength = value.length >= 3 && value.length <= 10;
+    if (valueLength) {
+      setCheckId(prev => ({
+        ...prev,
+        length: true,
+      }));
+    } else {
+      setCheckId(prev => ({
+        ...prev,
+        length: false,
+      }));
+    }
 
     // 아이디 특수문자 확인
     function checkChar(value: string) {
-      return validationItems.every(item => item.name !== '특수문자' || !item.check(value));
+      const excludeSpecial = /[^\w\sㄱ-힣()0-9 ]/g;
+      return excludeSpecial.test(value);
     }
 
-    if (checkChar(value) && valueLength) {
-      setId(prev => ({
+    if (!checkChar(value)) {
+      setCheckId(prev => ({
         ...prev,
-        userId: value,
+        word: true,
       }));
     } else {
-      setId(prev => ({ ...prev, required: false }));
+      setCheckId(prev => ({ ...prev, word: false }));
     }
   };
+
+  const checkDuplicateId = () => {
+    if (checkId.length && checkId.word) {
+      api
+        .get(`/checkId?id=${id}`)
+        .then(res => alert('사용할 수 있는 아이디입니다.'))
+        .catch(err => alert('사용할 수 없는 아이디입니다.'));
+    }
+  };
+
+  console.log(checkId);
 
   return (
     <IdContainer>
       <Label htmlFor="id">아이디</Label>
 
-      <InputBox validate={checkId}>
-        <input
-          id="id"
-          name="userId"
-          type="text"
-          placeholder="특수문자를 제외한 2글자 이상 20글자 이하의 문자"
-          onChange={checkIdHandler}
-          required
-        />
-        <button>중복검사</button>
-      </InputBox>
+      <InputContainer validate={checkId}>
+        <InputBox>
+          <input
+            id="id"
+            name="userId"
+            type="text"
+            onChange={e => {
+              checkIdHandler(e);
+              setId(prev => ({ ...prev, userId: e.target.value }));
+            }}
+            required
+          />
+          <button onClick={checkDuplicateId} disabled={!checkId.length || !checkId.word}>
+            중복검사
+          </button>
+        </InputBox>
+        <span>특수문자 및 공백을 제외한 3글자 이상 10글자 이하의 문자여야 합니다.</span>
+      </InputContainer>
     </IdContainer>
   );
 }
@@ -78,8 +108,9 @@ const Label = styled.label`
   line-height: 30px;
 `;
 
-const InputBox = styled.div<StyleProps>`
+const InputContainer = styled.div<StyleProps>`
   display: flex;
+  flex-direction: column;
   gap: 10px;
 
   button {
@@ -92,6 +123,16 @@ const InputBox = styled.div<StyleProps>`
 
   input {
     width: 100%;
-    color: ${props => (!props.validate.length || !props.validate.word ? 'red' : 'black')};
+    color: ${props => (props.validate.length && props.validate.word ? 'black' : 'red')};
   }
+
+  span {
+    font-size: var(--size-text);
+    color: var(--color-gray);
+  }
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  gap: 10px;
 `;
