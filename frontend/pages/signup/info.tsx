@@ -120,7 +120,6 @@ export default function Info() {
         })
         .catch(err => console.log(err));
 
-    console.log(formData);
     // if (checkSecurity.compareSecurityCode) {
     signIn();
     return router.push('/signup/complete');
