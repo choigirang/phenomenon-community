@@ -124,6 +124,20 @@ async function searchUserData(req: Request, res: Response) {
   }
 }
 
+// 아이디 중복 검사
+async function checkDuplicateId(req: Request, res: Response) {
+  const { id } = req.query;
+
+  try {
+    const alreadyId = await User.findOne({ id });
+
+    if (alreadyId) return res.status(404).json('존재하는 아이디입니다.');
+    else return res.status(200).json('사용 가능한 아이디입니다.');
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+}
+
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
@@ -192,4 +206,4 @@ async function sendSecurityCode(req: Request, res: Response) {
   }
 }
 
-export { loginUser, allUser, searchUser, searchUserData, sendSecurityCode, createUser, checkUser };
+export { loginUser, allUser, searchUser, searchUserData, sendSecurityCode, createUser, checkUser, checkDuplicateId };
