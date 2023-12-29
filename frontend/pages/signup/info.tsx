@@ -108,7 +108,8 @@ export default function Info() {
     formData.append('name', nickname.name);
     formData.append('mail', `${userMail.mail}@${userMail.domain}`);
 
-    const signIn = () =>
+    const signIn = () => {
+      if (!id.required) alert('아이디 중복 검사가 필요합니다.');
       api
         .post('/signup', formData, {
           headers: {
@@ -120,7 +121,8 @@ export default function Info() {
         })
         .catch(err => console.log(err));
 
-    // if (checkSecurity.compareSecurityCode) {
+      // if (checkSecurity.compareSecurityCode) {
+    };
     signIn();
     return router.push('/signup/complete');
     // } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
