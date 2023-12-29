@@ -60,13 +60,14 @@ export default function Id({ id, setId, validationItems }: IdProps) {
   const checkDuplicateId = () => {
     if (checkId.length && checkId.word) {
       api
-        .get(`/checkId?id=${id}`)
-        .then(res => alert('사용할 수 있는 아이디입니다.'))
+        .get(`/check?id=${id}`)
+        .then(res => {
+          alert('사용할 수 있는 아이디입니다.');
+          setId(prev => ({ ...prev, required: true }));
+        })
         .catch(err => alert('사용할 수 없는 아이디입니다.'));
     }
   };
-
-  console.log(checkId);
 
   return (
     <IdContainer>
