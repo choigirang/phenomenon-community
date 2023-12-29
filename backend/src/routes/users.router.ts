@@ -7,7 +7,7 @@ import {
   allUser,
   searchUser,
   searchUserData,
-  checkDuplicateId,
+  checkDuplicate,
 } from '../controllers/users.controller';
 import { refreshToken } from '../controllers/token.controller';
 import { upload } from '../config/multer';
@@ -29,7 +29,7 @@ usersRouter.get('/user', searchUser);
 usersRouter.get('/user/:id', searchUserData);
 
 // 아이디 중복 검사
-usersRouter.get('/checkId', checkDuplicateId);
+usersRouter.get('/check', checkDuplicate);
 
 // 회원가입
 usersRouter.post('/signup', upload('profile').single('profileImage'), createUser);
