@@ -1,48 +1,52 @@
-import { InputType, PassInputData, ValidationItem } from '@/types/type';
+import { CheckPass, InputType, PassInputData, ValidationItem } from '@/types/type';
 import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import styled from 'styled-components';
 
 type PasswordProps = {
-  checkPass: InputType;
-  setCheckPass: React.Dispatch<React.SetStateAction<InputType>>;
-  validatePass: boolean;
-  setValidatePass: React.Dispatch<React.SetStateAction<boolean>>;
-  validationItems: ValidationItem[];
+  checkPass: CheckPass;
+  setCheckPass: React.Dispatch<React.SetStateAction<CheckPass>>;
 };
 
-export default function Password({
-  checkPass,
-  setCheckPass,
-  validatePass,
-  setValidatePass,
-  validationItems,
-}: PasswordProps) {
-  // 2차 비밀번호
-  const confirmPass = checkPass.firstPass === checkPass.secondPass;
-  const passLength = checkPass.secondPass.length >= 2 && checkPass.secondPass.length <= 20;
+export default function Password({ checkPass, setCheckPass }: PasswordProps) {
+  const [pass, setPass] = useState({
+    firstPass: '',
+    secondPass: '',
+    length: false,
+    word: false,
+    validation: false,
+  });
 
   // 비밀번호 입력 이벤트
   const checkPassHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const valueLength = value.length >= 2 && value.length <= 20;
 
-    function checkKor(value: string) {
-      return validationItems.every(item => item.name !== '한글' || !item.check(value));
+    if (name === 'firstPass') {
+      setPass(prev => ({ ...prev, firstPass: value }));
+
+      // 비밀번호 길이
+      if (value.length >= 8 && value.length <= 20) setPass(prev => ({ ...prev, length: true }));
+      else setPass(prev => ({ ...prev, length: false }));
+
+      const check = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$/;
+
+      // 비밀번호 유효성
+      if (check.test(value)) setPass(prev => ({ ...prev, word: true }));
+      else setPass(prev => ({ ...prev, word: false }));
     }
 
-    if (checkKor(value) && valueLength) {
-      setCheckPass(prevCheckPass => ({
-        ...prevCheckPass,
-        [name]: value,
-      }));
+    if (name === 'secondPass') {
+      setPass(prev => ({ ...prev, secondPass: value }));
+
+      if (pass.firstPass === value) {
+        setPass(prev => ({ ...prev, validation: true }));
+        setCheckPass({ pass: value, required: true });
+      } else {
+        setPass(prev => ({ ...prev, validation: false }));
+        setCheckPass(prev => ({ ...prev, required: false }));
+      }
     }
   };
-
-  useEffect(() => {
-    if (confirmPass && passLength) setValidatePass(true);
-    else setValidatePass(false);
-  }, [checkPass.secondPass, confirmPass, passLength]);
 
   return (
     <PassContainer>
@@ -55,6 +59,7 @@ export default function Password({
           placeholder="비밀번호를 입력해주세요."
           onChange={checkPassHandler}
           required
+          autoComplete="new-password"
         />
         <input
           type="password"
@@ -62,18 +67,22 @@ export default function Password({
           name="secondPass"
           onChange={checkPassHandler}
           required
+          autoComplete="new-password"
         />
-        {!confirmPass && <ConfirmPass>입력한 비밀번호가 일치하지 않습니다.</ConfirmPass>}
         <OptionBox>
           <TextBox>
             <SmallTitle>비밀번호 필수 조건</SmallTitle>
-            <NeedOption validatePass={validatePass} leastPass={confirmPass && checkPass.secondPass.length >= 8}>
-              <AiFillCheckCircle />
-              <span>영문 대소문자, 숫자, 특수문자 조합이어야 합니다.</span>
+            <NeedOption word={pass.word} length={pass.length} validation={pass.validation}>
+              <AiFillCheckCircle className="word" />
+              <span className="word">대소문자, 숫자, 특수문자 조합이어야 합니다.</span>
             </NeedOption>
-            <NeedOption validatePass={validatePass} leastPass={confirmPass && checkPass.secondPass.length >= 8}>
-              <AiFillCheckCircle />
-              <span>8 ~ 20 글자입니다..</span>
+            <NeedOption>
+              <AiFillCheckCircle className="length" />
+              <span className="length">8 ~ 20 글자입니다.</span>
+            </NeedOption>
+            <NeedOption>
+              <AiFillCheckCircle className="validation" />
+              <span className="validation">1차,2차 비밀번호가 일치해야 합니다.</span>
             </NeedOption>
           </TextBox>
         </OptionBox>
@@ -104,11 +113,6 @@ const PassBox = styled.div`
   gap: 8px;
 `;
 
-const ConfirmPass = styled.span`
-  font-size: var(--size-text);
-  color: var(--color-red);
-`;
-
 const OptionBox = styled.div`
   padding-top: var(--padding-solo);
 `;
@@ -129,29 +133,6 @@ const NeedOption = styled.div<PassInputData>`
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(-color-dark-white);
-
-  svg {
-    font-size: 12px;
-
-    :nth-child(1) {
-      color: ${props => (props.validatePass ? 'var(--color-green)' : 'var(--color-gray)')};
-    }
-
-    :nth-child(2) {
-      color: ${props => (props.leastPass ? 'var(--color-green)' : 'var(--color-gray)')};
-    }
-  }
-
-  span {
-    font-size: var(--size-text);
-
-    :nth-child(1) {
-      color: ${props => (props.validatePass ? 'var(--color-green)' : 'var(--color-gray)')};
-    }
-
-    :nth-child(2) {
-      color: ${props => (props.leastPass ? 'var(--color-green)' : 'var(--color-gray)')};
-    }
-  }
+  color: var(--color-gray);
+  font-size: var(--size-text);
 `;
