@@ -7,9 +7,15 @@ import { api } from '@/util/api';
 
 import styled from 'styled-components';
 import { Bottom, NextPage } from '@/styles/GlobalComponents';
-import { AiFillCheckCircle } from 'react-icons/ai';
-import { headers } from 'next/dist/client/components/headers';
-import { AxiosSecurityCode, CheckId, CheckName, CheckSecurityType, InputType, ValidationItem } from '@/types/type';
+import {
+  AxiosSecurityCode,
+  CheckId,
+  CheckName,
+  CheckPass,
+  CheckSecurityType,
+  InputType,
+  ValidationItem,
+} from '@/types/type';
 import Password from '@/components/Sign/Password';
 import Id from '@/components/Sign/Id';
 import NickName from '@/components/Sign/NickName';
@@ -29,15 +35,12 @@ export default function Info() {
   });
 
   // 비밀번호
-  const [checkPass, setCheckPass] = useState<InputType>({
-    firstPass: '',
-    secondPass: '',
+  const [checkPass, setCheckPass] = useState<CheckPass>({
+    pass: '',
+    required: false,
   });
 
-  //  비밀번호 일치 검사
-  const [validatePass, setValidatePass] = useState(false);
-
-  // 닉네임 유효성 검사
+  // 닉네임
   const [nickname, setNickName] = useState<CheckName>({
     name: '',
     checkName: false,
@@ -62,30 +65,6 @@ export default function Info() {
     errCode: '',
   });
 
-  // 유효성 검사
-  const validationItems: ValidationItem[] = [
-    {
-      name: '대문자',
-      check: (data: string) => /[A-Z]/.test(data),
-    },
-    {
-      name: '소문자',
-      check: (data: string) => /[a-z]/.test(data),
-    },
-    {
-      name: '특수문자',
-      check: (data: string) => /[!@#$%^&*()\-=+{}[\]:;'",.<>?/|\\]/.test(data),
-    },
-    {
-      name: '숫자',
-      check: (data: string) => /\d/.test(data),
-    },
-    {
-      name: '한글',
-      check: (data: string) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(data),
-    },
-  ];
-
   // 메일 확인과 수집 동의 확인
   const checkMailOpt = userMail.mail !== '' && userMail.domain !== '' && checkSecurity.agree;
 
@@ -104,12 +83,15 @@ export default function Info() {
 
     // 다른 입력 데이터 추가
     formData.append('id', id.userId);
-    formData.append('password', checkPass.secondPass);
+    formData.append('password', checkPass.pass);
     formData.append('name', nickname.name);
     formData.append('mail', `${userMail.mail}@${userMail.domain}`);
 
     const signIn = () => {
-      if (!id.required) alert('아이디 중복 검사가 필요합니다.');
+      if (!id.required) return alert('아이디 중복 검사가 필요합니다.');
+      if (!nickname.checkName) return alert('닉네임 중복 검사가 필요합니다.');
+      if (!checkPass.required) return alert('비밀번호를 확인해주세요.');
+      if (!checkMailOpt) return alert('보안 코드를 확인해주세요.');
       api
         .post('/signup', formData, {
           headers: {
@@ -140,16 +122,10 @@ export default function Info() {
             <ImageSelect selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
 
             {/* 아이디 */}
-            <Id id={id} setId={setId} validationItems={validationItems} />
+            <Id id={id} setId={setId} />
 
             {/* 비밀번호 */}
-            <Password
-              checkPass={checkPass}
-              setCheckPass={setCheckPass}
-              validatePass={validatePass}
-              setValidatePass={setValidatePass}
-              validationItems={validationItems}
-            />
+            <Password checkPass={checkPass} setCheckPass={setCheckPass} />
 
             {/* 닉네임 */}
             <NickName nickName={nickname} setNickName={setNickName} />
