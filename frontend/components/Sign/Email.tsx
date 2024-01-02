@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 type EmailProps = {
-    userMail: InputType;
-    setUserMail: React.Dispatch<React.SetStateAction<InputType>>;
-    inputAble: boolean;
-    setInputAble: React.Dispatch<React.SetStateAction<boolean>>
-}
+  userMail: InputType;
+  setUserMail: React.Dispatch<React.SetStateAction<InputType>>;
+  inputAble: boolean;
+  setInputAble: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const options: InputType = {
   google: 'google.com',
@@ -20,8 +20,7 @@ const options: InputType = {
   user: '직접 입력',
 };
 
-export default function Email({userMail, setUserMail, inputAble, setInputAble}:EmailProps) {
-
+export default function Email({ userMail, setUserMail, inputAble, setInputAble }: EmailProps) {
   // 이메일 입력 이벤트
   const mailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -124,8 +123,9 @@ const TextBox = styled.ul`
 
   li {
     font-size: var(--size-text);
+    color: var(--color-gray);
 
-    ::before {
+    :before {
       content: '- ';
     }
   }
