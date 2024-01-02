@@ -6,7 +6,6 @@ import styled from 'styled-components';
 type IdProps = {
   id: CheckId;
   setId: React.Dispatch<React.SetStateAction<CheckId>>;
-  validationItems: ValidationItem[];
 };
 
 interface IdValidate {
@@ -18,7 +17,7 @@ type StyleProps = {
   validate: IdValidate;
 };
 
-export default function Id({ id, setId, validationItems }: IdProps) {
+export default function Id({ id, setId }: IdProps) {
   const [checkId, setCheckId] = useState<IdValidate>({
     length: false,
     word: false,
