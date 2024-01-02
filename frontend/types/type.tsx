@@ -183,11 +183,16 @@ export type CheckId = {
   required: boolean;
 };
 
+export type CheckPass = {
+  pass: string;
+  required: boolean;
+};
+
 /** 비밀번호에 따른 유효성 타입 */
 export type PassInputData = {
-  validatePass: boolean;
-  leastPass: boolean;
-  // leastNickname: boolean;
+  word?: boolean;
+  length?: boolean;
+  validation?: boolean;
 };
 
 /** 닉네임 */
