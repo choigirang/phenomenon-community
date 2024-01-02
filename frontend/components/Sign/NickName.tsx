@@ -12,19 +12,6 @@ export default function NickName({ nickName, setNickName }: NickNameProps) {
   const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
-    // function checkCondition(value: string) {
-    //   return (
-    //     validationItems.some(item => item.name === '숫자' && item.check(value)) &&
-    //     validationItems.some(item => item.name === '한글' && item.check(value))
-    //   );
-    // }
-
-    // if (checkCondition(value))
-    //   setNickName(prevState => ({
-    //     ...prevState,
-    //     name: value,
-    //   }));
-
     setNickName(prev => ({
       ...prev,
       name: value,
@@ -36,6 +23,7 @@ export default function NickName({ nickName, setNickName }: NickNameProps) {
       .get(`/check?nickName=${nickName}`)
       .then(res => {
         alert('사용할 수 있는 닉네임입니다.');
+        setNickName(prev => ({ ...prev, checkName: true }));
       })
       .catch(err => alert('사용할 수 없는 아이디입니다.'));
   };
@@ -55,7 +43,7 @@ export default function NickName({ nickName, setNickName }: NickNameProps) {
           />
           <button onClick={checkDuplicateNickName}>중복검사</button>
         </InputBox>
-        <span>{`${'2~20자의 닉네임을 입력해주세요.(띄어쓰기는 허용되지 않습니다.)'}`}</span>
+        <span>{`${'특수문자 및 공백을 제외한 2~20자의 닉네임을 입력해주세요.'}`}</span>
       </NameBox>
     </NickNameContainer>
   );
@@ -82,7 +70,7 @@ const NameBox = styled.div`
   span {
     padding-top: var(--padding-solo);
     font-size: var(--size-text);
-    // color: ${props => (props ? 'var(--color-gray)' : 'var(--color-red)')};
+    color: ${props => (props ? 'var(--color-gray)' : 'var(--color-red)')};
   }
 `;
 
