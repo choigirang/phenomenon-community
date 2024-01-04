@@ -1,6 +1,8 @@
-import { CheckId, ValidationItem } from '@/types/type';
+import React, { useState } from 'react';
+
 import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
+import { CheckId } from '@/types/type';
+
 import styled from 'styled-components';
 
 type IdProps = {
@@ -17,6 +19,12 @@ type StyleProps = {
   validate: IdValidate;
 };
 
+/**
+ *
+ * @param id 작성된 아이디, 아이디 중복 검사 여부
+ * @param setId
+ * @returns 작성한 아이디의 중복 검사
+ */
 export default function Id({ id, setId }: IdProps) {
   const [checkId, setCheckId] = useState<IdValidate>({
     length: false,
@@ -56,6 +64,7 @@ export default function Id({ id, setId }: IdProps) {
     }
   };
 
+  // 아이디 중복 검사
   const checkDuplicateId = () => {
     if (checkId.length && checkId.word) {
       api
@@ -73,6 +82,7 @@ export default function Id({ id, setId }: IdProps) {
       <Label htmlFor="id">아이디</Label>
 
       <InputContainer validate={checkId}>
+        {/* 아이디 작성 input */}
         <InputBox>
           <input
             id="id"
@@ -84,6 +94,7 @@ export default function Id({ id, setId }: IdProps) {
             }}
             required
           />
+          {/* 아이디 중복 검사 */}
           <button onClick={checkDuplicateId} disabled={!checkId.length || !checkId.word}>
             중복검사
           </button>

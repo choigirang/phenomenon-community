@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type ImageProps = {
@@ -6,7 +6,12 @@ type ImageProps = {
   setSelectedImage: React.Dispatch<React.SetStateAction<File | null>>;
 };
 
-export default function ImageSelect({ selectedImage, setSelectedImage }: ImageProps) {
+/**
+ *
+ * @param setSelectedImage 프로필 이미지 선택
+ * @returns sign page 이미지 추가
+ */
+export default function ImageSelect({ setSelectedImage }: ImageProps) {
   /* 이미지 핸들러 */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);

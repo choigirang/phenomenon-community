@@ -1,6 +1,8 @@
-import { CheckName } from '@/types/type';
+import React from 'react';
+
 import { api } from '@/util/api';
-import React, { useState } from 'react';
+import { CheckName } from '@/types/type';
+
 import styled from 'styled-components';
 
 type NickNameProps = {
@@ -8,7 +10,14 @@ type NickNameProps = {
   setNickName: React.Dispatch<React.SetStateAction<CheckName>>;
 };
 
+/**
+ *
+ * @param nickName 작성한 닉네임
+ * @param setNickName 닉네임 변경
+ * @returns sign page에서 사용될 닉네임 유효성 검사와 저장
+ */
 export default function NickName({ nickName, setNickName }: NickNameProps) {
+  /** 닉네임 변경 핸들러 */
   const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -18,6 +27,7 @@ export default function NickName({ nickName, setNickName }: NickNameProps) {
     }));
   };
 
+  /** 닉네임 중복 검사 핸들러 */
   const checkDuplicateNickName = () => {
     api
       .get(`/check?nickName=${nickName}`)

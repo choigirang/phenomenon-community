@@ -1,8 +1,15 @@
-import { Likes } from '@/types/type';
-import Link from 'next/link';
 import React, { useEffect } from 'react';
+import Link from 'next/link';
+
+import { Likes } from '@/types/type';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @param user 누른 좋아요 게시글
+ * @returns UserData에서 사용되는 유저가 누른 좋아요 게시글
+ */
 export default function UserLikes(user: Likes) {
   const { postNumber, author, title, body } = user;
 

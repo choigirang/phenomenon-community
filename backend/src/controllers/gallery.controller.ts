@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { CommentData, GalleryType } from '../../type/type';
+
 import Gallery from '../models/gallery.model';
 import User from '../models/users.model';
-import { CommentData, GalleryType } from '../../type/type';
 
 // 갤러리 최근 조회
 export async function latestGallery(req: Request, res: Response) {

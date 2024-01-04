@@ -1,13 +1,18 @@
-import usePostForm from '@/hooks/post/usePostForm';
-import useInputs from '@/hooks/common/useInputs';
-import { RootState } from '@/redux/store';
-import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { RootState } from '@/redux/store';
+
+import usePostForm from '@/hooks/post/usePostForm';
 import { useAddComment } from '@/hooks/post/useAddComment';
 
-/** 댓글 추가하기 */
+import styled from 'styled-components';
+
+/** 댓글 추가하기
+ * @param number 게시글 번호
+ * @param author 게시글 작성자
+ * @param src post || gallery 확인
+ * 게시글 페이지에서 댓글 작성 시 게시글 정보에 따라 댓글 분리되어 저장
+ */
 export default function AddComment({ number, author, src }: { number: number; author: string; src: string }) {
   // 작성된 댓글 데이터
   const [content, setContent] = useState('');

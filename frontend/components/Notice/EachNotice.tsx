@@ -1,8 +1,14 @@
-import { Notice } from '@/types/type';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+
+import { Notice } from '@/types/type';
+
 import styled from 'styled-components';
 
+/**
+ * @param item 공지사항 데이터
+ * notice/index 에서 map을 통한 데이터 아이템
+ */
 export default function EachNotice(item: Notice) {
   const { title, content, date, noticeNumber } = item;
 

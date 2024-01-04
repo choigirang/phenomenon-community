@@ -1,12 +1,12 @@
-import { PostType } from '@/types/type';
-import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
-import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
-import styled from 'styled-components';
-import EachPost from './EachPost';
-import usePostAll from '@/hooks/post/usePostAll';
+import React from 'react';
 import Link from 'next/link';
-import { UseQueryResult, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
+
+import { api } from '@/util/api';
+import { PostType } from '@/types/type';
+import EachPost from './EachPost';
+
+import styled from 'styled-components';
 
 /** 기본 홈 화면에서 게시글 보여주기 */
 export default function PostList() {

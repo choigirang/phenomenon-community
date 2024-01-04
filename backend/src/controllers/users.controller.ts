@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { UserType } from '../../type/type';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 import brcypt from 'bcrypt';
 
 import User from '../models/users.model';
-import { UserType } from '../../type/type';
 import Post from '../models/posts.model';
 
 // 로그인

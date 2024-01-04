@@ -1,15 +1,18 @@
-import { Comment, CommentType, PostType, User, UserDataLogType } from '@/types/type';
-import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+
+import { UserDataLogType } from '@/types/type';
 import UserPostData from './UserPostData';
 import UserCommentData from './UserCommentData';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import UserLikes from './UserLikes';
 import Pagination from '../Common/Pagenation';
-import { useUserData } from '@/hooks/user/useUserData';
 
+import styled from 'styled-components';
+
+/**
+ *
+ * @param data 유저가 작성한 게시글, 갤러리, 댓글 등의 모든 데이터
+ * @returns my page에서 유저의 전체 데이터(작성 데이터)를 받아 페이지네이션
+ */
 export default function UserData({ data }: { data: UserDataLogType }) {
   // 페이지당 보여질 갯수
   const [perPage, setPerPage] = useState(5);

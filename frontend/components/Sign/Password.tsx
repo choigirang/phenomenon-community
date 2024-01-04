@@ -1,13 +1,20 @@
-import { CheckPass, InputType, PassInputData, ValidationItem } from '@/types/type';
-import React, { useEffect, useState } from 'react';
-import { AiFillCheckCircle } from 'react-icons/ai';
+import React, { useState } from 'react';
+
+import { CheckPass, PassInputData } from '@/types/type';
+
 import styled from 'styled-components';
+import { AiFillCheckCircle } from 'react-icons/ai';
 
 type PasswordProps = {
   checkPass: CheckPass;
   setCheckPass: React.Dispatch<React.SetStateAction<CheckPass>>;
 };
 
+/**
+ *
+ * @param setCheckPass 비밀번호 변경
+ * @returns sign page에서 변경될 비밀번호의 유효성 검사
+ */
 export default function Password({ checkPass, setCheckPass }: PasswordProps) {
   const [pass, setPass] = useState({
     firstPass: '',
@@ -52,6 +59,7 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
     <PassContainer>
       <Label htmlFor="pass">비밀번호</Label>
       <PassBox className="pass-box">
+        {/* 1차 비밀번호 */}
         <input
           id="pass"
           type="password"
@@ -61,6 +69,7 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
           required
           autoComplete="new-password"
         />
+        {/* 2차 비밀번호 */}
         <input
           type="password"
           placeholder="비밀번호를 다시 입력해주세요."

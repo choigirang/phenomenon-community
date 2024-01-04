@@ -1,22 +1,21 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { User } from '@/types/type';
 
 import { api } from '@/util/api';
 import useInputs from '@/hooks/common/useInputs';
 import { deleteLoginData, deleteToken, saveLoginData, setToken } from '@/util/cookie/localStorage';
 import AddPostBtn from '../Community/AddPostBtn';
 import { loginSuccess, logout } from '@/redux/actions/user';
+import { PROFILE_URL } from '@/constant/constant';
+import AddNoticeBtn from '../Notice/AddNoticeBtn';
 
 import styled from 'styled-components';
-import { FaBell } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import Link from 'next/link';
-import { User, UserType } from '@/types/type';
-import AddNoticeBtn from '../Notice/AddNoticeBtn';
-import Image from 'next/image';
-import { PROFILE_URL } from '@/constant/constant';
 
 export default function Login() {
   // 로그인 아이디
@@ -29,21 +28,6 @@ export default function Login() {
   const user = useSelector((state: RootState) => state.user.user);
   const loginState = user.login && user.name;
   const dispatch = useDispatch();
-
-  // 토큰에 따른 유저 받아오기
-  // useEffect(() => {
-  //   api
-  //     .get(`/user`)
-  //     .then(res => {
-  //       const { id, name, mail } = res.data.user;
-  //       const userData = { id, name, mail, super };
-
-  //       dispatch(loginSuccess(userData));
-  //     })
-  //     .catch(error => {
-  //       console.error('사용자 정보를 가져올 수 없습니다.');
-  //     });
-  // }, []);
 
   // 아이디,비밀번호 입력 제출 이벤트
   const handleSubmit = (e: FormEvent) => {
@@ -82,10 +66,12 @@ export default function Login() {
         {!user.login && (
           <>
             <Form action="/user" onSubmit={handleSubmit}>
+              {/* 아이디, 패스워드 작성 */}
               <InputBox>
                 <Input type="text" placeholder="ID" value={id} onChange={setId} />
                 <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
               </InputBox>
+              {/* 로그인 옵션 */}
               <ButtonBox>
                 <OptionBox>
                   <Option type="checkbox"></Option>
@@ -98,6 +84,7 @@ export default function Login() {
                 <Button type="submit">로그인</Button>
               </ButtonBox>
             </Form>
+            {/* 회원가입 관련 */}
             <BottomBox>
               <FontBox>
                 <span className="btm-Text" onClick={() => router.push('/signup')}>
@@ -109,9 +96,11 @@ export default function Login() {
             </BottomBox>
           </>
         )}
+        {/* 로그인 시 */}
         {user.login && (
           <LoginUserBox>
             <Image src={PROFILE_URL(user.img)} priority={true} width={100} height={100} alt="profile-img" />
+            {/* 유저 정보 */}
             <InfoBox>
               <div className="user-box">
                 <div className="name-box">
@@ -128,6 +117,7 @@ export default function Login() {
           </LoginUserBox>
         )}
       </LoginBox>
+      {/* 로그인 시 게시글 추가 */}
       {loginState && <AddPostBtn />}
       {user.super && <AddNoticeBtn />}
     </Container>

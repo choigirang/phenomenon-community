@@ -1,5 +1,6 @@
-import Notice from '../models/notice.model';
 import { Request, Response } from 'express';
+
+import Notice from '../models/notice.model';
 
 /** 공지사항 목록 */
 export async function showNotice(req: Request, res: Response) {

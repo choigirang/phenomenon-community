@@ -11,12 +11,13 @@ import {
 } from '../controllers/users.controller';
 import { refreshToken } from '../controllers/token.controller';
 import { upload } from '../config/multer';
+
 const usersRouter = express.Router();
 
 // 로그인
 usersRouter.post('/login', loginUser);
 
-// // 로그인 유지
+// 로그인 유지
 // usersRouter.get('/user', checkUser);
 
 // 전체 유저

@@ -11,6 +11,7 @@ interface ColorByLinkTypes {
   [key: string]: string;
 }
 
+/** sign page의 진행 단계별 분류 */
 export default function SignProgress() {
   const router = useRouter();
   const [curLink, setCurLink] = useState(router.pathname);

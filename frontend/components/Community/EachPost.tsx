@@ -1,10 +1,14 @@
-import { EachPostProps, PostType } from '@/types/type';
-import Link from 'next/link';
 import React from 'react';
-import { AiFillEye, AiFillLike, AiOutlineComment } from 'react-icons/ai';
-import styled from 'styled-components';
+import Link from 'next/link';
 
-/** 홈 화면 시 개별 게시글 목록 */
+import { PostType } from '@/types/type';
+
+import styled from 'styled-components';
+import { AiFillEye, AiFillLike, AiOutlineComment } from 'react-icons/ai';
+
+/** 홈 화면 시 개별 게시글 목록
+ * @param item 게시글 정보
+ */
 export default function EachPost({ item }: { item: PostType }) {
   const { postNumber, name, title, date, views, likes, comments } = item;
 

@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-
-import { CommentType } from '@/types/type';
-
-import styled from 'styled-components';
-import { api } from '@/util/api';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useMutation } from 'react-query';
 import { queryClient } from '@/pages/_app';
 
-/** 댓글 */
+import { CommentType } from '@/types/type';
+import { api } from '@/util/api';
+import { RootState } from '@/redux/store';
 
+import styled from 'styled-components';
+
+/** 개별 댓글 컴포넌트
+ * @param comment 작성된 댓글 데이터
+ * @param number 댓글 순서
+ * @param src post || gallery 게시글 분류
+ * post/[id] || gallery/[id] 페이지에서 사용될 댓글 컴포넌트
+ */
 export default function EachComment({ comment, number, src }: { comment: CommentType; number: number; src: string }) {
   // 수정 눌렀을 시 수정 모드
   const [editMode, setEditMode] = useState(false);
@@ -19,6 +23,7 @@ export default function EachComment({ comment, number, src }: { comment: Comment
   // 유저 확인
   const user = useSelector((state: RootState) => state.user.user);
 
+  /** 게시글 수정 */
   async function editComment() {
     const res = await api.post(`/${src}/${number}/comments/${comment.commentNumber}`, {
       comment: newBody,
@@ -27,11 +32,13 @@ export default function EachComment({ comment, number, src }: { comment: Comment
     return res.data;
   }
 
+  /** 게시글 삭제 */
   async function deleteComment() {
     const res = await api.delete(`/${src}/${number}/comments/${comment.commentNumber}`);
     return res.data;
   }
 
+  /** 게시글 핸들러 */
   const { mutate: editMutate } = useMutation(editComment, {
     onSuccess: () => {
       queryClient.invalidateQueries([src === 'post' ? 'post' : 'gallery', number]);
@@ -50,10 +57,12 @@ export default function EachComment({ comment, number, src }: { comment: Comment
   return (
     <Container>
       <BodyContainer>
+        {/* 게시글 정보 */}
         <div className="author-date">
           <p className="author">{comment.author}</p>
           <p className="date">{comment.date}</p>
         </div>
+        {/* 게시글 수정 분류 */}
         {editMode ? (
           <textarea
             rows={3} // 원하는 행의 수
@@ -64,6 +73,7 @@ export default function EachComment({ comment, number, src }: { comment: Comment
           <p className="body">{comment.comment}</p>
         )}
       </BodyContainer>
+      {/* 게시글 삭제 */}
       {user.id === comment.author && (
         <BtnBox>
           {!editMode ? (

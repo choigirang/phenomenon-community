@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
+
 import styled from 'styled-components';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 
 interface PaginationProps {
   pageCount: number;
@@ -9,6 +10,11 @@ interface PaginationProps {
   initialPageCount?: number; // 새로운 prop 추가
 }
 
+/** 페이지네이션
+ * @param pageCount 페이지 번호
+ * @param onPageChange 페이지 수정 핸들러
+ * 게시글 목록, my/index에서 사용되는 페이지네이션
+ */
 const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
   return (
     <Container>

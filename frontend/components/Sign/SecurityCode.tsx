@@ -1,6 +1,8 @@
-import { AxiosSecurityCode, CheckSecurityType, InputType } from '@/types/type';
+import React from 'react';
+
 import { api } from '@/util/api';
-import React, { useState } from 'react';
+import { AxiosSecurityCode, CheckSecurityType, InputType } from '@/types/type';
+
 import styled from 'styled-components';
 
 type SecurityProps = {
@@ -12,6 +14,16 @@ type SecurityProps = {
   userMail: InputType;
 };
 
+/**
+ *
+ * @param security 서버에서 전송된 코드와 유저가 작성한 코드
+ * @param setSecurity
+ * @param checkSecurity 코드 일치 여부
+ * @param setCheckSecurity
+ * @param checkMailOpt 이메일 동의 여부
+ * @param userMail 작성한 유저 이메일
+ * @returns sign page 에서 사용될 보안코드 일치 여부
+ */
 export default function SecurityCode({
   security,
   setSecurity,
@@ -87,6 +99,7 @@ export default function SecurityCode({
       <AgreeBox>
         <SmallTitle>이메일 수집 동의</SmallTitle>
         <CheckInfo className="check-info">
+          {/* 이메일 수집 동의 */}
           <input type="checkbox" id="agree" onClick={securityAgreeHandler} />
           <label htmlFor="agree">
             입력하신 이메일은 인증 및 보안 코드 전송을 위해 사용하며, 이메일 발송 후 즉시 파기됩니다.
@@ -95,9 +108,11 @@ export default function SecurityCode({
       </AgreeBox>
       <SecurityCheck>
         <SecurityInputBox>
+          {/* 인증 코드 확인 */}
           <input type="text" placeholder="인증 코드 입력" onChange={userCode} />
           <button onClick={e => compareSecurityCode(e)}>확인</button>
         </SecurityInputBox>
+        {/* 인증 코드 전송 */}
         <SendCodeBtm onClick={e => checkMailBeforeSend(e)}>인증 코드 받기</SendCodeBtm>
       </SecurityCheck>
       <ErrCode>{checkSecurity.errInfo}</ErrCode>

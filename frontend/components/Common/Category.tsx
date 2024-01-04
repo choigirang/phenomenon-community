@@ -1,15 +1,11 @@
-import { PostType } from '@/types/type';
-import { api } from '@/util/api';
-import axios, { AxiosError } from 'axios';
-import Image from 'next/image';
-import React, { useEffect, useMemo, useState } from 'react';
-import { AiFillLeftSquare, AiFillRightSquare } from 'react-icons/ai';
-import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import EachPost from '../Community/EachPost';
-import { CATEGORY } from '@/constant/constant';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 
+import { CATEGORY } from '@/constant/constant';
+
+import styled from 'styled-components';
+
+/** Nav 카테고리 */
 export default function Category() {
   // 카테고리 가져오기
   const category = useMemo(() => Object.keys(CATEGORY), []);

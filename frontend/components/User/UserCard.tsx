@@ -1,9 +1,14 @@
-import { PROFILE_URL } from '@/constant/constant';
-import { SearchUser, User } from '@/types/type';
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
+
+import { SearchUser, User } from '@/types/type';
+import { PROFILE_URL } from '@/constant/constant';
+
 import styled from 'styled-components';
 
+/**
+ * @param data my page || user search 에서 사용될 유저 데이터
+ */
 export default function UserCard({ data }: { data: User | SearchUser }) {
   const { id, name, img } = data;
 

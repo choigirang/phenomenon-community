@@ -1,9 +1,15 @@
-import { useNoticeDetail } from '@/hooks/notice/useNoticeDetail';
-import { Notice } from '@/types/type';
 import React from 'react';
-import styled from 'styled-components';
+
+import { Notice } from '@/types/type';
+import { useNoticeDetail } from '@/hooks/notice/useNoticeDetail';
 import ShowWritingData from '../Community/ShowWritingData';
 
+import styled from 'styled-components';
+
+/**
+ * @param id 공지사항 번호
+ * notice/[id] 에서 사용될 공지사항 세부 데이터
+ */
 export default function NoticeDetail({ id }: { id: string }) {
   const queryResult = useNoticeDetail(id);
 

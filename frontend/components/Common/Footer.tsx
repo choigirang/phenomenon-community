@@ -1,41 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import Logo from './Logo';
-import { AiFillFacebook, AiFillGithub, AiFillInstagram } from 'react-icons/ai';
-import { HEADER_NAV } from '@/constant/constant';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 
+import Logo from './Logo';
+import { HEADER_NAV } from '@/constant/constant';
+
+import styled from 'styled-components';
+import { AiFillFacebook, AiFillGithub, AiFillInstagram } from 'react-icons/ai';
+
+/** 하단 카테고리 */
 export default function Footer() {
   // Header 카테고리
   const category = useMemo(() => Object.keys(HEADER_NAV), []);
   const [containerStyle, setContainerStyle] = useState({});
-
-  // useEffect(() => {
-  //   // 화면이 로드될 때 컨텐츠 높이 계산
-  //   const updateContainerStyle = () => {
-  //     const windowHeight = window.innerHeight;
-  //     const contentHeight = document.body.clientHeight;
-  //     console.log(windowHeight, contentHeight);
-  //     if (windowHeight - 300 > contentHeight) {
-  //       setContainerStyle({
-  //         position: 'fixed',
-  //         bottom: 0,
-  //         width: '100%',
-  //       });
-  //     } else {
-  //       setContainerStyle({
-  //         position: 'static', // 높이가 충분하면 static으로 설정
-  //       });
-  //     }
-  //   };
-
-  //   window.addEventListener('resize', updateContainerStyle);
-  //   updateContainerStyle();
-
-  //   return () => {
-  //     window.removeEventListener('resize', updateContainerStyle);
-  //   };
-  // }, []);
 
   return (
     <Container style={containerStyle}>

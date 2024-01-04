@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 
-import Logo from '@/components/Common/Logo';
 import { HEADER_NAV } from '@/constant/constant';
 
 import styled from 'styled-components';
 
+/** sign page의 Header */
 export default function SignHeader() {
   const router = useRouter();
 

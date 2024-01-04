@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import useInputs from '@/hooks/common/useInputs';
-
 import { HEADER_NAV } from '@/constant/constant';
-import { FaSearch } from 'react-icons/fa';
-import styled from 'styled-components';
-import Link from 'next/link';
 import Logo from './Logo';
+
+import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Header() {
   // Header 카테고리
@@ -17,6 +17,7 @@ export default function Header() {
   // 검색어 저장
   const [keyword, setkeyword, setInit] = useInputs('');
 
+  /** 게시글 검색 핸들러 */
   function searchKeybordHandler(e: React.KeyboardEvent<HTMLElement>) {
     if (e.key === 'Enter') {
       if (!keyword) return alert('검색어가 필요합니다.');
@@ -26,6 +27,7 @@ export default function Header() {
     setInit();
   }
 
+  /** 게시글 검색 마우스 핸들러 */
   function searchMouseHandler(e: React.MouseEvent<SVGElement, MouseEvent>) {
     if (!keyword) return alert('검색어가 필요합니다.');
     setInit();
@@ -78,6 +80,7 @@ const Nav = styled.nav`
   }
 `;
 
+/** 게시글 검색 Input Box*/
 const InputBox = styled.div`
   width: 40%;
   max-width: 400px;
@@ -94,6 +97,7 @@ const InputBox = styled.div`
   border: solid 3px var(--color-blue);
 `;
 
+/** 게시글 검색 Input */
 const Input = styled.input`
   width: 100%;
   height: 100%;
@@ -104,6 +108,7 @@ const Input = styled.input`
   }
 `;
 
+/** 카테고리 바 */
 const Bar = styled.ul`
   width: 100%;
   display: flex;

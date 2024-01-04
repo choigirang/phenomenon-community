@@ -10,6 +10,7 @@ interface Likes {
   galleryNumber?: number;
 }
 
+/** 유저 데이터 타입 */
 export interface UserType extends Document {
   id: string;
   password: string;
@@ -21,11 +22,13 @@ export interface UserType extends Document {
   likes: Array<Likes>;
 }
 
+/** 유저 로그인 */
 export interface AuthData {
   user: UserType;
   token: string;
 }
 
+/** 포스트 타입 */
 export interface PostType extends Document {
   postNumber: number;
   author: string;
@@ -38,6 +41,7 @@ export interface PostType extends Document {
   comments: Array<CommentData>;
 }
 
+/** 댓글 타입 */
 export interface CommentData {
   commentNumber?: number;
   title?: string;
@@ -60,6 +64,7 @@ type ImageSrc = {
   src: string;
 };
 
+/** 갤러리 타입 */
 export interface GalleryType extends Document {
   galleryNumber: number;
   title: string;

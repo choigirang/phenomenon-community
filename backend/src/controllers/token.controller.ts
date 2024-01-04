@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
 
 import User from '../models/users.model';
-import jwt, { VerifyErrors } from 'jsonwebtoken';
 
 // 토큰 만료 시 재발급
 async function refreshToken(req: Request, res: Response) {

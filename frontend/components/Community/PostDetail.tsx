@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '@/util/api';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { RootState } from '@/redux/store';
 
-import ShowWritingData from './ShowWritingData';
+import { usePostDetail } from '@/hooks/post/usePostDetail';
+import { api } from '@/util/api';
 import { PostType } from '@/types/type';
+import ShowWritingData from './ShowWritingData';
+import AddComment from './AddComment';
+import EachComment from './EachComment';
 
 import styled from 'styled-components';
-import AddComment from './AddComment';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import EachComment from './EachComment';
-import { usePostDetail } from '@/hooks/post/usePostDetail';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '@/redux/actions/user';
-import { useRouter } from 'next/router';
 
-/** 개별 게시글 페이지 */
+/** 개별 게시글 페이지
+ * @param id 게시글 번호에 따라 개별 데이터 받아
+ * community/index 에서 연결될 페이지
+ */
 export default function PostDetail({ id }: { id: number }) {
+  // usePostDetail에서 받아올 좋아요 여부
   const [likes, setLikes] = useState<boolean>(false);
 
   // 로그인 상태 확인 (댓글 기능)

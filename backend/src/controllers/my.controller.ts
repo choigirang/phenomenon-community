@@ -1,14 +1,9 @@
 import { Request, Response } from 'express';
-import Post from '../models/posts.model';
 import { CommentData } from '../../type/type';
-import User from '../models/users.model';
 import { UserType } from '../../type/type';
 
-type UserComment = {
-  postNumber: number;
-  date: string;
-  comment: string;
-};
+import Post from '../models/posts.model';
+import User from '../models/users.model';
 
 /** 유저가 작성한 데이터 res */
 export async function userAllData(req: Request, res: Response) {

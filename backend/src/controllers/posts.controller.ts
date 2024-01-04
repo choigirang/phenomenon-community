@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import Post from '../models/posts.model';
 import { CommentData, PostType } from '../../type/type';
+
+import Post from '../models/posts.model';
 import User from '../models/users.model';
 import Gallery from '../models/gallery.model';
 

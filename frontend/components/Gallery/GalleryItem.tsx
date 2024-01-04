@@ -1,10 +1,16 @@
-import { GalleryType } from '@/types/type';
 import React from 'react';
-import styled from 'styled-components';
 import Image from 'next/image';
-import { GALLERY_URL } from '@/constant/constant';
 import Link from 'next/link';
 
+import { GALLERY_URL } from '@/constant/constant';
+import { GalleryType } from '@/types/type';
+
+import styled from 'styled-components';
+
+/**
+ * @param data Gallery 게시글 정보
+ * home 에서 받아 보여줄 데이터 개별 목록
+ */
 export default function GalleryItem({ data }: { data: GalleryType }) {
   return (
     <React.Fragment>

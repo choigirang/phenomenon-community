@@ -1,19 +1,25 @@
-import useGalleryDetail from '@/hooks/gallery/useGalleryDetail';
-import { loginSuccess } from '@/redux/actions/user';
-import { RootState } from '@/redux/store';
-import { GalleryType, ImageSrc } from '@/types/type';
-import { api } from '@/util/api';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import React, { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import Image from 'next/image';
+import { RootState } from '@/redux/store';
+
+import { api } from '@/util/api';
+import { GalleryType } from '@/types/type';
+import { loginSuccess } from '@/redux/actions/user';
+import { GALLERY_URL } from '@/constant/constant';
+import useGalleryDetail from '@/hooks/gallery/useGalleryDetail';
 import AddComment from '../Community/AddComment';
 import EachComment from '../Community/EachComment';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import Image from 'next/image';
-import { GALLERY_URL } from '@/constant/constant';
 
+import styled from 'styled-components';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+
+/**
+ * @param id 갤러리 게시글 클릭 시 받아올 갤러리 번호
+ * home || gallery/index 에서 클릭한 갤러리 번호를 넘겨받아 데이터 요청
+ */
 export default function GalleryDetail({ id }: { id: number }) {
   // 좋아요 확인 , local저장 <=> server 비교
   const [likes, setLikes] = useState<boolean>();

@@ -1,5 +1,7 @@
+import React from 'react';
+
 import { InputType } from '@/types/type';
-import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
 type EmailProps = {
@@ -20,6 +22,13 @@ const options: InputType = {
   user: '직접 입력',
 };
 
+/**
+ * @param userMail 유저 메일
+ * @param setUserMail 유저 메일 변경
+ * @param inputAble 이메일 직접 작성에 따른 이메일 작성 boolean
+ * @param setInputAble 이메일 작성 on/off
+ * sign page에서 사용될 이메일 작성
+ */
 export default function Email({ userMail, setUserMail, inputAble, setInputAble }: EmailProps) {
   // 이메일 입력 이벤트
   const mailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +69,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble }
       </Label>
       <EmailBox>
         <EmailInput>
+          {/* 이메일 주소 */}
           <input type="text" onChange={mailHandler} name="mail" required />
           <span className="at">@</span>
           <input
@@ -71,6 +81,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble }
             required
             disabled={!inputAble}
           />
+          {/* 도메인 선택 */}
           <Select name="domain" value={userMail.domain} onChange={selectDirect}>
             <option defaultValue="" value="">
               이메일 선택

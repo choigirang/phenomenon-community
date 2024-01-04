@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import styled from 'styled-components';
 
+/** post page || Login 컴포넌트에서 사용될 게시글 추가 버튼 */
 export default function AddPostBtn() {
   const router = useRouter();
 

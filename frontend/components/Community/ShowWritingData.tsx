@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
+
 import styled from 'styled-components';
 
-/** 작성한 본문 */
+/** 작성한 본문
+ * @param data PostDetail에서 전달받을 content 데이터
+ */
 export default function ShowWritingData({ data }: { data: string }) {
   // ref
   const viewContainerRef = React.useRef<HTMLDivElement>(null);
@@ -18,12 +21,6 @@ export default function ShowWritingData({ data }: { data: string }) {
     </Contents.Container>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  padding: var(--padding-content);
-  border: var(--border-solid1) var(--color-blue);
-`;
 
 const Contents = {
   Container: styled.div`

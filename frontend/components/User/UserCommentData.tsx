@@ -1,8 +1,19 @@
-import { Comment, CommentType } from '@/types/type';
+import React from 'react';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+
+import { Comment } from '@/types/type';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @param title string
+ * @param author string
+ * @param comment string
+ * @param postNumber number
+ * @param date string
+ * @returns my page 에서 사용될 유저 개인 댓글 데이터
+ */
 export default function UserCommentData({ title, author, comment, postNumber, date }: Comment) {
   return (
     <Container>

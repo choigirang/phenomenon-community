@@ -1,8 +1,15 @@
-import { PostType } from '@/types/type';
-import Link from 'next/link';
 import React, { useEffect } from 'react';
+import Link from 'next/link';
+
+import { PostType } from '@/types/type';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @param post 유저가 작성한 포스팅 데이터
+ * @returns UserData에서 넘겨받아 사용하는 유저 작성 데이터
+ */
 export default function UserPostData({ post }: { post: PostType }) {
   // 카테고리 추가
 

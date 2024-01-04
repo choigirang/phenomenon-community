@@ -2,16 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import styled from 'styled-components';
 import htmlToDraft from 'html-to-draftjs';
+
+import styled from 'styled-components';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 interface IEditor {
   htmlStr: string;
   setHtmlStr: React.Dispatch<React.SetStateAction<string>>;
 }
 
+/**
+ * @param htmlStr 작성된 데이터
+ * @param setHtmlStr 데이터 수정
+ * post/add 에서 사용될 에디터
+ */
 export default function PostEditor({ htmlStr, setHtmlStr }: IEditor) {
   const [editorState, setEditorState] = useState<EditorState>(() => EditorState.createEmpty());
 
@@ -37,8 +42,6 @@ export default function PostEditor({ htmlStr, setHtmlStr }: IEditor) {
       reader.onloadend = async () => {
         const formData = new FormData();
         formData.append('multipartFiles', file);
-        // const res = await api.post
-        // resolve({data: {link: res.data}})
       };
 
       reader.readAsDataURL(file);
