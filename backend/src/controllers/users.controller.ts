@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserType } from '../../type/type';
+import { CommentData, UserType } from '../../type/type';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
@@ -7,6 +7,7 @@ import brcypt from 'bcrypt';
 
 import User from '../models/users.model';
 import Post from '../models/posts.model';
+import Gallery from '../models/gallery.model';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
@@ -105,22 +106,34 @@ async function searchUser(req: Request, res: Response) {
 
 // 개별 유저 작성 게시글
 async function searchUserData(req: Request, res: Response) {
+  const id = req.query.id;
+
   try {
-    const { id } = req.params;
+    const userInfo = await User.findOne({ id });
+    const userPosts = await Post.find({ author: id });
 
-    const findPost = await Post.find({ author: id });
-    const findUser = await User.findOne({ id });
+    const userAllComments: CommentData[] = [];
 
-    if (!findUser) return res.status(404).json('일치하는 유저가 존재하지 않습니다.');
-    const userData = {
-      id: findUser.id,
-      name: findUser.name,
-      img: findUser.img,
-      posts: findPost,
-    };
-    res.status(200).json(userData);
+    // 유저가 작성한 댓글 데이터
+    const allPosts = await Post.find();
+
+    allPosts.forEach(post => {
+      post.comments.forEach(comment => {
+        if (comment.author === id) {
+          userAllComments.unshift({
+            title: post.title,
+            postNumber: post.postNumber,
+            author: post.author,
+            comment: comment.comment,
+            date: comment.date,
+          });
+        }
+      });
+    });
+
+    return res.status(200).send({ userPosts, userAllComments, userInfo });
   } catch (err) {
-    res.status(500).json({ error: '데이터가 존재하지 않습니다.' });
+    return res.status(404).send(err);
   }
 }
 
