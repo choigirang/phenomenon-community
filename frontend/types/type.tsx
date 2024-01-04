@@ -143,11 +143,9 @@ export type Notice = {
 
 /** 유저 검색 데이터 타입 */
 export interface SearchUser {
-  id: string;
-  name: string;
-  mail: string;
-  img: string;
-  posts: PostType[];
+  userPosts: PostType[];
+  userAllComments: CommentType[];
+  userInfo: User;
 }
 
 export type ImageSrc = {
