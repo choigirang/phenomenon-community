@@ -15,7 +15,7 @@ import styled from 'styled-components';
  */
 export default function UserData({ data }: { data: UserDataLogType }) {
   // 페이지당 보여질 갯수
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(3);
 
   // 페이지
   const [postCurtPage, setPostCurtPage] = useState(1);
