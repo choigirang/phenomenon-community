@@ -9,7 +9,7 @@ import styled from 'styled-components';
 /**
  * @param data my page || user search 에서 사용될 유저 데이터
  */
-export default function UserCard({ data }: { data: User | SearchUser }) {
+export default function UserCard({ data }: { data: User }) {
   const { id, name, img } = data;
 
   return (
