@@ -1,12 +1,17 @@
-import UserCard from '@/components/User/UserCard';
-import UserData from '@/components/User/UserData';
-import { SearchUser, User } from '@/types/type';
-import { api } from '@/util/api';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+import { api } from '@/util/api';
+import UserCard from '@/components/User/UserCard';
+import { SearchUser } from '@/types/type';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @returns 유저 메인 페이지
+ */
 export default function UserPage() {
   const [data, setData] = useState<SearchUser>();
 

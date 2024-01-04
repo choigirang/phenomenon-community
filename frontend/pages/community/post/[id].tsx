@@ -5,6 +5,10 @@ import PostDetail from '@/components/Community/PostDetail';
 
 import styled from 'styled-components';
 
+/**
+ *
+ * @returns 포스팅 번호에 따른 개별 포스팅 페이지
+ */
 export default function Index() {
   const [postNum, setPostNum] = useState<number | undefined>();
   const router = useRouter();

@@ -1,20 +1,25 @@
-import React, { useRef, useState, useEffect, FC } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import styled from 'styled-components';
-import { NextPage } from '@/styles/GlobalComponents';
-import { api } from '@/util/api';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import usePostForm from '@/hooks/post/usePostForm';
-import { CATEGORY } from '@/constant/constant';
-import { PostType } from '@/types/type';
 import { useMutation } from 'react-query';
 import { queryClient } from '@/pages/_app';
 
+import { api } from '@/util/api';
+import usePostForm from '@/hooks/post/usePostForm';
+import { CATEGORY } from '@/constant/constant';
+import { PostType } from '@/types/type';
+
+import styled from 'styled-components';
+import { NextPage } from '@/styles/GlobalComponents';
+
 const Editor = dynamic(() => import('../../../components/Community/PostEditor'), { ssr: false });
 
+/**
+ * 게시글 페이지에서 사용자 일치 여부에 따라 이동될 수정 페이지
+ * @returns 이전 게시글에서 작성된 데이터를 받아와 내용 기입 및 수정
+ */
 export default function Add() {
   // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
@@ -86,6 +91,7 @@ export default function Add() {
     <React.Fragment>
       <PostContainer>
         <Top>
+          {/* 타이틀 */}
           <Title
             type="text"
             className="title"
@@ -94,6 +100,7 @@ export default function Add() {
             onChange={e => titleHandler(e)}
             required
           />
+          {/* 카테고리 */}
           <SelectBox onChange={handleCategoryChange}>
             <option value="">카테고리 선택</option>
             {category.map(item => (
@@ -103,6 +110,7 @@ export default function Add() {
             ))}
           </SelectBox>
         </Top>
+        {/* 내용 */}
         <EditorContainer>
           <Editor htmlStr={(data && data.body) || ''} setHtmlStr={setHtmlStr} />
         </EditorContainer>

@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
-
-import Login from '@/components/Common/Login';
-
-import { Container } from '@/styles/GlobalComponents';
-import styled from 'styled-components';
-import Category from '../../components/Common/Category';
-import usePostAll from '../../hooks/post/usePostAll';
 import { useRouter } from 'next/router';
-import { EachPostProps, PostType } from '@/types/type';
-import { api } from '@/util/api';
-import EachPost from '@/components/Community/EachPost';
-import { CATEGORY } from '@/constant/constant';
-import Pagination from '@/components/Common/Pagenation';
 import { useQuery } from 'react-query';
 
+import { api } from '@/util/api';
+import Login from '@/components/Common/Login';
+import EachPost from '@/components/Community/EachPost';
+import Category from '../../components/Common/Category';
+import Pagination from '@/components/Common/Pagenation';
+import { PostType } from '@/types/type';
+import { CATEGORY } from '@/constant/constant';
+
+import styled from 'styled-components';
+import { Container } from '@/styles/GlobalComponents';
+
+/**
+ *
+ * @returns community의 main page 게시글, 갤러리 등
+ */
 export default function Index() {
+  // 게시글 리스트
   const [postList, setPostList] = useState<PostType[]>([]);
+  // 페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
+  // 페이지 네이션에 따른 보여질 게시글 설정
   const [totalPosts, setTotalPosts] = useState(0);
   const router = useRouter();
   let category = router.query.category as string;
 
+  /** api 요청 함수 */
   async function fetchData() {
     const res = await api.get(`/posts/category=${category}&page=${currentPage}`).then(res => {
       setPostList(res.data.posts);
@@ -70,7 +77,6 @@ export default function Index() {
           <p className="post-total">{/* {pageCount * 10}/{totalPosts} */}</p>
         </BestPost>
         {postList && postList.map(post => <EachPost key={post.postNumber} item={post} />)}
-        {!postList.length && <div className="none-data">데이터가 없습니다.</div>}
         {/* 페이지네이션 컴포넌트 */}
         <Pagination
           pageCount={Math.ceil(totalPosts / 10)}

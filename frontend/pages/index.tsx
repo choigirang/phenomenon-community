@@ -1,20 +1,15 @@
 import Head from 'next/head';
-import axios from 'axios';
+import Link from 'next/link';
+import { useQuery } from 'react-query';
 
+import { api } from '@/util/api';
 import Login from '@/components/Common/Login';
-import Category from '@/components/Common/Category';
 import PostList from '@/components/Community/PostList';
+import GalleryItem from '@/components/Gallery/GalleryItem';
+import { GalleryType } from '@/types/type';
 
 import styled from 'styled-components';
 import { Container } from '@/styles/GlobalComponents';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useEffect, useState } from 'react';
-import { api } from '@/util/api';
-import { GalleryType } from '@/types/type';
-import GalleryItem from '@/components/Gallery/GalleryItem';
-import Link from 'next/link';
-import { useQuery } from 'react-query';
 
 export default function Home() {
   async function fetchGalleryLatest() {

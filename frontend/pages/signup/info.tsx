@@ -1,28 +1,24 @@
-import React, { useEffect, useState, useRef, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 
+import { api } from '@/util/api';
 import SignHeader from '@/components/Sign/SignHeader';
 import SignProgress from '@/components/Sign/SignProgress';
-import { api } from '@/util/api';
-
-import styled from 'styled-components';
-import { Bottom, NextPage } from '@/styles/GlobalComponents';
-import {
-  AxiosSecurityCode,
-  CheckId,
-  CheckName,
-  CheckPass,
-  CheckSecurityType,
-  InputType,
-  ValidationItem,
-} from '@/types/type';
 import Password from '@/components/Sign/Password';
 import Id from '@/components/Sign/Id';
 import NickName from '@/components/Sign/NickName';
 import ImageSelect from '@/components/Sign/ImageSelect';
 import Email from '@/components/Sign/Email';
 import SecurityCode from '@/components/Sign/SecurityCode';
+import { AxiosSecurityCode, CheckId, CheckName, CheckPass, CheckSecurityType, InputType } from '@/types/type';
 
+import styled from 'styled-components';
+import { Bottom, NextPage } from '@/styles/GlobalComponents';
+
+/**
+ *
+ * @returns 아아디, 비밀번호 등의 회원 정보 입력할 페이지
+ */
 export default function Info() {
   const router = useRouter();
   // 이미지

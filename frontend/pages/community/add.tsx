@@ -1,21 +1,24 @@
-import React, { useRef, useState, useEffect, FC } from 'react';
-
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import styled from 'styled-components';
-import { NextPage } from '@/styles/GlobalComponents';
-import { api } from '@/util/api';
-import htmlToDraft from 'html-to-draftjs';
-import { ContentState, EditorState } from 'draft-js';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import usePostForm from '@/hooks/post/usePostForm';
-import { CATEGORY } from '@/constant/constant';
 import { AxiosResponse } from 'axios';
 import Image from 'next/image';
 
+import { api } from '@/util/api';
+import usePostForm from '@/hooks/post/usePostForm';
+import { CATEGORY } from '@/constant/constant';
+
+import styled from 'styled-components';
+import { NextPage } from '@/styles/GlobalComponents';
+
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
+/**
+ *
+ * @returns 타이틀, 카테고리, 내용 등의 데이터 작성
+ */
 export default function Add() {
   // 작성한 데이터 (markdown)
   const [htmlStr, setHtmlStr] = useState<string>('');
@@ -138,6 +141,7 @@ export default function Add() {
     <React.Fragment>
       <PostContainer>
         <Top>
+          {/* 타이틀 */}
           <Title
             type="text"
             className="title"
@@ -145,6 +149,7 @@ export default function Add() {
             onChange={e => titleHandler(e)}
             required
           />
+          {/* 카테고리 */}
           <SelectBox onChange={handleCategoryChange} disabled={checkGallery}>
             <option value="">카테고리 선택</option>
             {category
@@ -155,6 +160,7 @@ export default function Add() {
                 </option>
               ))}
           </SelectBox>
+          {/* 이미지 선택 여부 */}
           <CheckGallery>
             <input type="checkbox" id="gallery" onClick={() => setCheckGallery(!checkGallery)} />{' '}
             <label htmlFor="gallery">갤러리에 올리기</label>
@@ -166,6 +172,7 @@ export default function Add() {
           </EditorContainer>
         ) : (
           <InputImg>
+            {/* 이미지 선택 시 이미지 삽입 */}
             <input type="file" accept="image/*" multiple onChange={handleFileChange} />
             {selectedFiles.length > 0 && (
               <div className="preview-box">

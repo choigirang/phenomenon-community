@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+/**
+ *
+ * @returns 타이틀, 날짜 등의 데이터 전송
+ */
 function usePostForm() {
   const [title, setTitle] = useState('');
 

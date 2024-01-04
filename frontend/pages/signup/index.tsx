@@ -31,6 +31,10 @@ const serviceData: AgreementData[] = [
   },
 ];
 
+/**
+ *
+ * @returns 회원가입 기본 페이지, 동의 사항 체크
+ */
 export default function Index() {
   // 필수 동의
   const [check, setCheck] = useState({

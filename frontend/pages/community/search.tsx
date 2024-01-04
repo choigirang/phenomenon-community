@@ -1,11 +1,17 @@
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import EachPost from '@/components/Community/EachPost';
 import GalleryItem from '@/components/Gallery/GalleryItem';
-import { PostType, SearchKeyword } from '@/types/type';
+import { SearchKeyword } from '@/types/type';
 import { api } from '@/util/api';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @returns community 페이지에서 사용할 게시글 검색
+ */
 export default function Search() {
   const [result, setResult] = useState<SearchKeyword>();
   const router = useRouter();

@@ -1,14 +1,19 @@
-import { api } from '@/util/api';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
-import useInputs from '@/hooks/common/useInputs';
-import { BsArrowRepeat } from 'react-icons/bs';
-import useUserName from '@/hooks/user/useUserName';
-import { UserType } from '@/types/type';
-import { PROFILE_URL } from '@/constant/constant';
 import Image from 'next/image';
 
+import { api } from '@/util/api';
+import useInputs from '@/hooks/common/useInputs';
+import { UserType } from '@/types/type';
+import { PROFILE_URL } from '@/constant/constant';
+
+import styled from 'styled-components';
+import { BsArrowRepeat } from 'react-icons/bs';
+
+/**
+ *
+ * @returns 유저 검색 페이지
+ */
 export default function Index() {
   // 검색한 유저 데이터
   const [users, setUsers] = useState<UserType[]>([]);
@@ -77,7 +82,7 @@ export default function Index() {
         {users &&
           users.map(user => (
             <UserCard key={user.name} href={`/user/${user.id}`}>
-              <Image src={PROFILE_URL(user.img)} alt="userImg" />
+              <Image src={PROFILE_URL(user.img)} alt="userImg" width={100} height={100} />
               {user.id}
             </UserCard>
           ))}

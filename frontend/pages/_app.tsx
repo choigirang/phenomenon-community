@@ -4,16 +4,16 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { CookiesProvider } from 'react-cookie';
 import { ReactNode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import store, { RootState } from '@/redux/store';
 
 import Header from '@/components/Common/Header';
+import { loginSuccess } from '@/redux/actions/user';
+import Footer from '@/components/Common/Footer';
 
 import styled from 'styled-components';
 import '@/styles/App.css';
-import store, { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '@/redux/actions/user';
-import Footer from '@/components/Common/Footer';
 
 export const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,16 +1,23 @@
-import usePostForm from '@/hooks/post/usePostForm';
-import { RootState } from '@/redux/store';
-import { NextPage } from '@/styles/GlobalComponents';
-import { api } from '@/util/api';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
+import { api } from '@/util/api';
+import usePostForm from '@/hooks/post/usePostForm';
+
 import styled from 'styled-components';
+import { NextPage } from '@/styles/GlobalComponents';
 
 const Editor = dynamic(() => import('../../components/Community/PostEditor'), { ssr: false });
 
+/**
+ *
+ * @returns 공지사항 추가 페이지
+ */
 export default function Add() {
+  // 작성 내용
   const [htmlStr, setHtmlStr] = useState<string>('');
   const router = useRouter();
 

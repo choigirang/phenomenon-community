@@ -9,8 +9,7 @@ const initialState: InitialState = {
     mail: '',
     super: false,
     login: false,
-    postLikes: [],
-    galleryLikes: [],
+    likes: [],
   },
 };
 
@@ -26,8 +25,7 @@ const userReducer = (state = initialState, action: UserAction) => {
           mail: action.payload.mail,
           super: action.payload.super,
           login: true,
-          postLikes: action.payload.postLikes,
-          galleryLikes: action.payload.galleryLikes,
+          likes: action.payload.likes,
         },
       };
     case LOGOUT:

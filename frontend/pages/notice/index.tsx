@@ -1,9 +1,11 @@
+import React from 'react';
+import { useQuery } from 'react-query';
+
+import { api } from '@/util/api';
 import EachNotice from '@/components/Notice/EachNotice';
 import ListDivision from '@/components/Notice/ListDivision';
 import { Notice } from '@/types/type';
-import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+
 import styled from 'styled-components';
 
 const fetchNotice = async (): Promise<Notice[]> => {
@@ -11,6 +13,10 @@ const fetchNotice = async (): Promise<Notice[]> => {
   return res.data;
 };
 
+/**
+ *
+ * @returns 공지사항 전체 게시글 보여줄 메인 페이지
+ */
 export default function Index() {
   const { data } = useQuery(['notice'], fetchNotice, { staleTime: 2000 });
 

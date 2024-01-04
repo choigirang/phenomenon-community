@@ -1,10 +1,16 @@
+import React, { useEffect, useState } from 'react';
+
 import Login from '@/components/Common/Login';
 import GalleryItem from '@/components/Gallery/GalleryItem';
 import { GalleryType } from '@/types/type';
 import { api } from '@/util/api';
-import React, { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
+/**
+ *
+ * @returns 갤러리 전체 데이터
+ */
 export default function Index() {
   const [data, setData] = useState<GalleryType[]>([]);
 

@@ -1,6 +1,7 @@
+import { useQuery } from 'react-query';
+
 import { PostType } from '@/types/type';
 import { api } from '@/util/api';
-import { useQuery } from 'react-query';
 
 /** id에 따른 개별 페이지 데이터*/
 export function usePostDetail(id: number) {
