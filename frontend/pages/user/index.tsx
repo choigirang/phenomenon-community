@@ -27,7 +27,7 @@ export default function Index() {
   // 전체 유저 데이터
   useEffect(() => {
     // setUsers(queryResult);
-    api.get('/user?id=all').then(res => setUsers(res.data.allUser));
+    api.get('/users').then(res => setUsers(res.data.findAllUser));
   }, []);
 
   // enter 눌렀을 시 검색
@@ -36,7 +36,7 @@ export default function Index() {
       if (!userName) return alert('검색어가 필요합니다.');
       e.preventDefault();
 
-      api.get(`/user?id=${userName}`).then(res => setUsers(res.data.findUser));
+      api.get(`/searchUser?id=${userName}`).then(res => setUsers(res.data.findUser));
       setMsg(userName);
     }
   }
@@ -44,13 +44,13 @@ export default function Index() {
   // 검색 눌렀을 시 검색
   function searchMouseHandler(e: React.MouseEvent<HTMLButtonElement>) {
     if (!userName) return alert('검색어가 필요합니다.');
-    api.get(`/user?id=${userName}`).then(res => setUsers(res.data.findUser));
+    api.get(`/searchUser?id=${userName}`).then(res => setUsers(res.data.findUser));
     setMsg(userName);
   }
 
   // 검색어 초기화
   function initHandler(e: React.MouseEvent<HTMLOrSVGElement>) {
-    api.get(`/user?id=all`).then(res => setUsers(res.data.allUser));
+    api.get(`/users`).then(res => setUsers(res.data.allUser));
     setMsg('');
     setInit();
   }
