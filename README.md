@@ -4,6 +4,8 @@
   <img width="40%" src="https://github.com/choigirang/why-community/assets/118104644/4ed922a7-d868-4925-9c75-7e9431c219e8" alt="YC">
 </div>
 
+<h5 align="center">개발기간: 2023.07 ~ 2023.09</h5>
+
 ---
 
 - **프로젝트 명 :** `Why-chat`
