@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "dev": "nodemon src/app.ts",
     "build": "npx tsc",
     "start": "babel-node src/app.js"
   },
