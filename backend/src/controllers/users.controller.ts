@@ -25,7 +25,8 @@ async function loginUser(req: Request, res: Response) {
 
     const hash = await brcypt.hashSync(user.password, 10);
 
-    if (password !== hash) {
+    if (password !== user.password) {
+      console.log(1);
       return res.status(401).send('비밀번호가 일치하지 않습니다.');
     }
 
