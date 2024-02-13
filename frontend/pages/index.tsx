@@ -10,6 +10,7 @@ import { GalleryType } from '@/types/type';
 
 import styled from 'styled-components';
 import { Container } from '@/styles/GlobalComponents';
+import { useEffect } from 'react';
 
 export default function Home() {
   async function fetchGalleryLatest() {
@@ -20,6 +21,10 @@ export default function Home() {
   const { data: galleryData } = useQuery(['gallery', 'latest'], fetchGalleryLatest, {
     staleTime: 2000,
   });
+
+  useEffect(() => {
+    alert('ID: test, PW: 1234');
+  }, []);
 
   return (
     <>
