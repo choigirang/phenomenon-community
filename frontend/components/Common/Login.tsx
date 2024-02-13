@@ -68,8 +68,8 @@ export default function Login() {
             <Form action="/user" onSubmit={handleSubmit}>
               {/* 아이디, 패스워드 작성 */}
               <InputBox>
-                <Input type="text" placeholder="ID" value={id} onChange={setId} />
-                <Input type="password" placeholder="PASSWORD" value={pass} onChange={setPass} />
+                <Input type="text" placeholder="테스트 아이디 : test" value={id} onChange={setId} />
+                <Input type="password" placeholder="비밀번호 : 1234" value={pass} onChange={setPass} />
               </InputBox>
               {/* 로그인 옵션 */}
               <ButtonBox>
