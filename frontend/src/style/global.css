@@ -1,5 +1,3 @@
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,14 +12,6 @@
 * {
   scroll-behavior: smooth;
   box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  font: 400 16px/1.5 exo, ubuntu, 'segoe ui', helvetica, arial, sans-serif;
-  font-family: 'NotoSans Kr', sans-serif;
-  text-align: center;
 }
 
 @layer components {
