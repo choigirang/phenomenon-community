@@ -1,5 +1,5 @@
-import { GalleryType } from '@/src/type/gallery/type';
-import { api } from '@/src/util/api';
+import { GalleryType } from '@/type/gallery/type';
+import { api } from '@/util/api';
 import Link from 'next/link';
 import List from './list';
 

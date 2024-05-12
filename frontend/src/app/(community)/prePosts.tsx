@@ -1,5 +1,5 @@
-import { PostType } from '@/src/type/community/type';
-import { api } from '@/src/util/api';
+import { PostType } from '@/type/community/type';
+import { api } from '@/util/api';
 import Link from 'next/link';
 import List from './list';
 

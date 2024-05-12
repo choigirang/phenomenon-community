@@ -1,5 +1,5 @@
-import { GALLERY_URL } from '@/src/constant/constant';
-import { GalleryType } from '@/src/type/gallery/type';
+import { GALLERY_URL } from '@/constant/constant';
+import { GalleryType } from '@/type/gallery/type';
 import { EyeIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import Link from 'next/link';
