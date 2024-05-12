@@ -5,9 +5,6 @@
 // nextjs에서 draftjs 사용 시 mounted 에러 발생 사용자 다수
 
 module.exports = {
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     domains: ['choigirang-why-community.s3.ap-northeast-2.amazonaws.com'], // 사용하는 도메인에 맞게 수정
   },
