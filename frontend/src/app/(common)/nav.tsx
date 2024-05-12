@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HEADER_NAV } from '@/src/constant/constant';
+import { HEADER_NAV } from '@/constant/constant';
 
 export default function Nav() {
   return (

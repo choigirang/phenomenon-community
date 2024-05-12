@@ -1,6 +1,6 @@
 'use client';
 
-import useInputs from '@/src/hooks/useInputs';
+import useInputs from '@/hooks/useInputs';
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/16/solid';
 
 export default function Search() {
