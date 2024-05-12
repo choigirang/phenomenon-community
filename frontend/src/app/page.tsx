@@ -1,14 +1,12 @@
-import PrePosts from './(community)/(preData)/prePosts';
-import PreGallery from './(gallery)/(preData)/preGallery';
+import PrePosts from './(community)/prePosts';
+import PreGallery from './(gallery)/preGallery';
+import React from 'react';
 
 export default function Page() {
   return (
-    <div className="grid grid-cols-home p-container py-5">
-      <div className="flex flex-col gap-2">
-        <PreGallery />
-        <PrePosts />
-      </div>
-      <div></div>
+    <div className="flex flex-col gap-2">
+      <PreGallery />
+      <PrePosts />
     </div>
   );
 }
