@@ -5,7 +5,7 @@ interface HeaderNav {
 // 카테고리
 export const HEADER_NAV: HeaderNav = {
   '': '전체보기',
-  community: '게시글',
+  posts: '게시글',
   gallery: '갤러리',
   notice: '공지사항',
   user: '유저검색',
