@@ -1,4 +1,4 @@
-import PrePosts from './(community)/prePosts';
+import PrePosts from './(posts)/prePosts';
 import PreGallery from './(gallery)/preGallery';
 import React from 'react';
 
