@@ -7,8 +7,8 @@ export default function Header() {
     <header className="flex flex-col">
       <div className="relative p-container py-4">
         <Link className="flex flex-col w-[100px] font-logo" href={'/'}>
-          <span className="w-[80px] text-start text-blue">이게 왜</span>
-          <span className="w-[80px] text-end text-lightBlue">진짠가요?</span>
+          <h2 className="w-[80px] text-start text-blue">이게 왜</h2>
+          <h1 className="w-[80px] text-end text-lightBlue">진짠가요?</h1>
         </Link>
         <Search />
       </div>
