@@ -12,7 +12,7 @@ export default async function PreGallery() {
   const data: GalleryType[] = await getLatestGallery();
 
   return (
-    <div className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2">
       <div className="flex justify-between text-xs border-b-2 pb-2 border-dashed">
         <span>최근 갤러리</span>
         <Link href={'/gallery'}>더 보기</Link>
@@ -22,6 +22,6 @@ export default async function PreGallery() {
           <List key={list.title} {...list}></List>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
