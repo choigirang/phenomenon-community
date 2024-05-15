@@ -24,7 +24,7 @@ export const SIGN_UP: HeaderNav = {
 };
 
 export const CATEGORY: HeaderNav = {
-  전체: '',
+  전체: 'all',
   생활: 'life',
   체육: 'athletic',
   과학: 'science',
