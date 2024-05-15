@@ -31,7 +31,7 @@ export default function List(data: PostType) {
 
   return (
     <li className="w-full">
-      <Link className="flex justify-between text-xs" href={`/community/${data.postNumber}`}>
+      <Link className="flex justify-between text-xs" href={`/posts/${data.postNumber}`}>
         {/* post info*/}
         <ul className="w-full grid grid-cols-prePosts gap-5 place-content-between">
           {Object.entries(icon).map(([key, ICON]) => {

@@ -7,7 +7,7 @@ export default function Nav() {
       <ul className="flex gap-5 text-sm p-container py-2">
         {Object.keys(HEADER_NAV).map(list => (
           <li key={list}>
-            <Link href={`${list === 'posts' ? '/posts' : `/${list}`}`}>{HEADER_NAV[list]}</Link>
+            <Link href={`${list === 'posts' ? '/posts?page=1' : `/${list}`}`}>{HEADER_NAV[list]}</Link>
           </li>
         ))}
       </ul>
