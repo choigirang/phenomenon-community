@@ -1,6 +1,6 @@
 import React from 'react';
-import QueryProvider from './queryProvider';
+import ReduxProvider from './reduxProvider';
 
 export default function WithProvider({ children }: React.PropsWithChildren) {
-  return <QueryProvider>{children}</QueryProvider>;
+  return <ReduxProvider>{children}</ReduxProvider>;
 }
