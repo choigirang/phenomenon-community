@@ -1,22 +1,26 @@
-import React from 'react';
 import '../style/global.css';
-import Header from './(common)/header';
-import Footer from './(common)/footer';
-import QueryProvider from '../util/provider/queryProvider';
-import Login from './(home)/login';
+import Header from './(common)/(header)/header';
+import Footer from './(common)/(footer)/footer';
+import Login from './(common)/(login)/login';
+import WithProvider from '@/util/provider/withProvider';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+  showLogin?: boolean;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="kr">
       <body>
-        <QueryProvider>
+        <WithProvider>
           <Header />
-          <div className="grid grid-cols-home gap-5 p-container py-10">
+          <div className={`grid grid-cols-home gap-5 p-container py-10`}>
             {children}
             <Login />
           </div>
           <Footer />
-        </QueryProvider>
+        </WithProvider>
       </body>
     </html>
   );
