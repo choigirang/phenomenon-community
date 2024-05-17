@@ -4,6 +4,8 @@ import Content from './content';
 import Like from './like';
 import Comment from '@/app/(common)/(comment)/comment';
 import AddComment from '@/app/(common)/(comment)/addComment';
+import Edit from './edit';
+import { SearchParams } from '@/type/common';
 
 async function getPostData(postNum: string) {
   try {
@@ -14,7 +16,8 @@ async function getPostData(postNum: string) {
   }
 }
 
-export default async function Page({ params: { post } }: { params: { post: string[] } }) {
+export default async function Page(page: SearchParams) {
+  const post = page.params.post;
   const data: PostType = await getPostData(post[0]);
 
   return (
@@ -22,7 +25,10 @@ export default async function Page({ params: { post } }: { params: { post: strin
       <h2 className="text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
       {/* 작성자 정보 */}
       <div className="flex flex-col border-b">
-        <h2 className="font-bold py-default">{data.title}</h2>
+        <div className="flex justify-between">
+          <h2 className="font-bold py-default">{data.title}</h2>
+          <Edit postNumber={data.postNumber} author={data.author} />
+        </div>
         <div className="flex justify-between gap-3 text-xs py-default">
           <div className="flex gap-3">
             <h3>{data.author}</h3>
