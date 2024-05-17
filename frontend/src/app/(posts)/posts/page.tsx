@@ -2,13 +2,9 @@ import { api } from '@/util/api';
 import Category from '../category';
 import Lists from '../lists';
 import Pagination from '../pagination';
+import { SearchParams } from '@/type/common';
 
-interface URLProps {
-  params: {};
-  searchParams: { [key: string]: string };
-}
-
-export async function getAllPosts(page?: string, category?: string, search?: string) {
+export async function getAllPosts(page?: string, category: string = 'all', search?: string) {
   try {
     // const API = search ? `/posts?category=${category}&page=${page}` : `/search?keyword=${search}`;
     const API = `/posts?category=${category}&page=${page}`;
@@ -19,11 +15,10 @@ export async function getAllPosts(page?: string, category?: string, search?: str
   }
 }
 
-export default async function Page(props: URLProps) {
+export default async function Page(props: SearchParams) {
   const pageParam = props.searchParams.page;
   const categoryParam = props.searchParams.category;
   const { posts, totalPosts } = await getAllPosts(pageParam, categoryParam);
-  console.log(props, categoryParam, pageParam);
 
   return (
     <div className="flex flex-col gap-2">
