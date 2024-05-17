@@ -1,3 +1,11 @@
+import { PropsWithChildren } from 'react';
+
+/** children props*/
+export interface SearchParams {
+  params: { [key: string]: Array<string> };
+  searchParams: { [key: string]: string };
+}
+
 /** 댓글 타입 */
 export interface CommentData {
   commentNumber?: number;
