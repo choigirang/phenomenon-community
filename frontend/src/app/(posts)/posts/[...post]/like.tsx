@@ -39,7 +39,7 @@ export default function Like(data: PostType) {
     <div className="flex flex-col">
       <div className="flex justify-center items-center gap-2 border border-b-0 p-default">
         <span>{like.length}</span>
-        <button type="button" onClick={handleLike}>
+        <button type="button" onClick={handleLike} name="like btn">
           {like.click ? <On width={32} height={32} color="red" /> : <Off width={32} height={32} />}
         </button>
       </div>
