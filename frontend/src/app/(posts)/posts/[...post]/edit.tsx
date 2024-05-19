@@ -1,5 +1,6 @@
 'use client';
 
+import { useAppSelector } from '@/hooks/useRedux';
 import useStorage from '@/hooks/useStorage';
 import { api } from '@/util/api';
 import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
@@ -13,9 +14,7 @@ interface PostData {
 }
 
 export default function Edit(post: PostData) {
-  const { storageId } = useStorage();
-
-  useEffect(() => {}, [storageId]);
+  const user = useAppSelector(state => state.loginSlice);
 
   const deletePost = () => {
     const result = confirm('게시글을 삭제하시겠습니까?');
@@ -29,12 +28,12 @@ export default function Edit(post: PostData) {
 
   return (
     <React.Fragment>
-      {storageId && (
+      {post.author === user.id && (
         <div className="flex gap-2">
           <Link href={`/edit?num=${post.postNumber}`} className="flex items-center">
             <PencilIcon width={16} height={16} />
           </Link>
-          <button type="button" onClick={deletePost}>
+          <button type="button" onClick={deletePost} name="delete post button">
             <TrashIcon width={16} height={16} />
           </button>
         </div>
