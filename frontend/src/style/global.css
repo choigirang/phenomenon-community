@@ -16,3 +16,12 @@
 
 @layer components {
 }
+
+.rdw-editor-main {
+  height: auto;
+}
+
+.DraftEditor-editorContainer,
+.DraftEditor-root {
+  height: auto !important;
+}
