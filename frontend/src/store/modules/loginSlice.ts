@@ -6,25 +6,21 @@ const initialState: LoginIni = {
   img: '',
   id: '',
   name: '',
-  mail: '',
   super: false,
   login: false,
-  likes: [],
 };
 
 const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    login: (state: LoginIni, action: PayloadAction<UserType>) => ({
+    login: (state: LoginIni, action: PayloadAction<LoginIni>) => ({
       ...state,
       img: action.payload.img,
       id: action.payload.id,
       name: action.payload.name,
-      mail: action.payload.mail,
       super: action.payload.super,
       login: true,
-      likes: action.payload.likes,
     }),
     logout: () => initialState,
   },
