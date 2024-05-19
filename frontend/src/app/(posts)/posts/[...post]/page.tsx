@@ -52,11 +52,7 @@ export default async function Page(page: SearchParams) {
         <h3 className="font-bold">전체 댓글</h3>
         <span className="text-red">{data.comments.length}</span>
       </div>
-      {data.comments.map(each => (
-        <Comment data={each} key={each.commentNumber} />
-      ))}
-      {/* 댓글 작성 */}
-      <AddComment />
+      <Comment data={data} comment={data.comments} />
     </section>
   );
 }
