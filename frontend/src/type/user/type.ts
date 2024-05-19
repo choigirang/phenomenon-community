@@ -6,10 +6,8 @@ export interface LoginIni {
   img: string;
   id: string;
   name: string;
-  mail: string;
   super: boolean;
   login: boolean;
-  likes: Array<Likes>;
 }
 
 export interface UserType {
