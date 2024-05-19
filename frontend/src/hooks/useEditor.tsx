@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
@@ -11,12 +12,15 @@ export default function useEditor(htmlStr: string) {
   const [editorState, setEditorState] = useState<EditorState>(() => EditorState.createEmpty());
 
   useEffect(() => {
-    const blockFromHtml = htmlToDraft(htmlStr);
-    if (blockFromHtml) {
-      const { contentBlocks, entityMap } = blockFromHtml;
-      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-      const editorState = EditorState.createWithContent(contentState);
-      setEditorState(editorState);
+    if (typeof window !== 'undefined') {
+      // 클라이언트 사이드에서만 실행되는 코드
+      const blockFromHtml = htmlToDraft(content);
+      if (blockFromHtml) {
+        const { contentBlocks, entityMap } = blockFromHtml;
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+        const editorState = EditorState.createWithContent(contentState);
+        setEditorState(editorState);
+      }
     }
   }, [htmlStr]);
 
@@ -46,5 +50,5 @@ export default function useEditor(htmlStr: string) {
     image: { uploadCallback: uploadCallback },
   };
 
-  return { editorState, toolbar, onEditorStateChange };
+  return { content, editorState, toolbar, onEditorStateChange };
 }
