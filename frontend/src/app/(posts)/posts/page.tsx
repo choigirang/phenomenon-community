@@ -1,8 +1,8 @@
 import { api } from '@/util/api';
 import Category from '../category';
 import Lists from '../lists';
-import Pagination from '../pagination';
 import { SearchParams } from '@/type/common';
+import Pagination from '@/app/(common)/pagination';
 
 export async function getAllPosts(page?: string, category: string = 'all', search?: string) {
   try {
