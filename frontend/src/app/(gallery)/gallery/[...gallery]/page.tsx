@@ -1,5 +1,7 @@
-import Comment from '@/app/(common)/(comment)/comment';
-import Like from '@/app/(posts)/posts/[...post]/like';
+import Comment from '@/app/(common)/(aboutContent)/(comment)/comment';
+import Title from '@/app/(common)/(aboutContent)/(content)/title';
+import Edit from '@/app/(common)/(aboutContent)/(content)/edit';
+import Like from '@/app/(common)/(aboutContent)/(content)/like';
 import { GALLERY_URL, URL } from '@/constant/constant';
 import { SearchParams } from '@/type/common';
 import { GalleryType } from '@/type/gallery/type';
@@ -21,37 +23,24 @@ export default async function Page(page: SearchParams) {
 
   return (
     <section className="flex flex-col gap-4 p-container">
-      <h2 className="text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
-      {/* 작성자 정보 */}
-      <div className="flex flex-col border-b">
-        <div className="flex justify-between">
-          <h2 className="font-bold py-default">{data.title}</h2>
-          {/* <Edit postNumber={data.postNumber} author={data.author} /> */}
-        </div>
-        <div className="flex justify-between gap-3 text-xs py-default">
-          <div className="flex gap-3">
-            <h3>{data.author}</h3>
-            <span>|</span>
-            <h3>{data.date}</h3>
-          </div>
-          <div className="flex gap-3">
-            <span>조회 : {data.views}</span>
-            <span>스크랩 : {data.likes.length}</span>
-          </div>
-        </div>
-      </div>
-      <div className="relative flex flex-col gap-2">
+      {/* 작성자 & 타이틀 */}
+      <Title data={data} src="갤러리">
+        <Edit src="gallery" num={data.galleryNumber} author={data.author} />
+      </Title>
+      {/* 이미지 */}
+      <ul className="flex flex-col gap-2">
         {data.images.map(img => (
-          <Image
-            key={img.src}
-            src={GALLERY_URL(img.src)}
-            alt="content img"
-            fill
-            className="!relative w-auto h-auto"
-            priority
-          />
+          <li className="relative flex justify-center" key={img.src}>
+            <Image
+              src={GALLERY_URL(img.src)}
+              alt="content img"
+              fill
+              className="!relative max-w-[90%] max-h-[90%] w-auto h-auto"
+              priority
+            />
+          </li>
         ))}
-      </div>
+      </ul>
       {/* 추천수 */}
       <div className="flex justify-center">
         <Like {...data} />

@@ -1,11 +1,11 @@
 import { PostType } from '@/type/community/type';
 import { api } from '@/util/api';
-import Content from './content';
-import Like from './like';
-import Comment from '@/app/(common)/(comment)/comment';
-import AddComment from '@/app/(common)/(comment)/addComment';
-import Edit from './edit';
+import Content from '../../../(common)/(aboutContent)/(content)/content';
+import Like from '../../../(common)/(aboutContent)/(content)/like';
+import Comment from '@/app/(common)/(aboutContent)/(comment)/comment';
+import Edit from '../../../(common)/(aboutContent)/(content)/edit';
 import { SearchParams } from '@/type/common';
+import Title from '@/app/(common)/(aboutContent)/(content)/title';
 
 async function getPostData(postNum: string) {
   try {
@@ -22,25 +22,10 @@ export default async function Page(page: SearchParams) {
 
   return (
     <section className="flex flex-col gap-4 p-container">
-      <h2 className="text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
-      {/* 작성자 정보 */}
-      <div className="flex flex-col border-b">
-        <div className="flex justify-between">
-          <h2 className="font-bold py-default">{data.title}</h2>
-          <Edit postNumber={data.postNumber} author={data.author} />
-        </div>
-        <div className="flex justify-between gap-3 text-xs py-default">
-          <div className="flex gap-3">
-            <h3>{data.author}</h3>
-            <span>|</span>
-            <h3>{data.date}</h3>
-          </div>
-          <div className="flex gap-3">
-            <span>조회 : {data.views}</span>
-            <span>스크랩 : {data.likes.length}</span>
-          </div>
-        </div>
-      </div>
+      {/* 작성자 & 타이틀 */}
+      <Title data={data} src="게시글">
+        <Edit src="post" num={data.postNumber} author={data.author} />
+      </Title>
       {/* 글 내용 */}
       <Content body={data.body} />
       {/* 추천수 */}
