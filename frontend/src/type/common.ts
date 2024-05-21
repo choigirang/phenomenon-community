@@ -33,4 +33,5 @@ export type Notice = {
   content: string;
   date: string;
   noticeNumber: number;
+  author: string;
 };
