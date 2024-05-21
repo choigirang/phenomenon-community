@@ -1,6 +1,6 @@
 'use client';
 
-import { URL } from '@/constant/constant';
+import { PROFILE_URL, URL } from '@/constant/constant';
 import { InitLoginData } from '@/type/user/type';
 import { ArrowRightCircleIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ type Props = { userLogin: InitLoginData; handleLogout: () => void };
 export default function ExistLogin({ userLogin, handleLogout }: Props) {
   return (
     <div className="w-full h-full flex justify-start gap-2">
-      <Image src={`${URL + userLogin.img}`} alt="user img" width={100} height={100} />
+      <Image src={PROFILE_URL(userLogin.img)} alt="user img" width={100} height={100} priority />
       <div className="flex flex-col">
         <Link href={`/user/${userLogin.id}`}>
           <h2 className="flex items-center gap-2">

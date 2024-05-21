@@ -2,7 +2,7 @@ interface HeaderNav {
   [key: string]: string;
 }
 
-export const URL = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/';
+export const URL = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com';
 
 // 카테고리
 export const HEADER_NAV: HeaderNav = {
