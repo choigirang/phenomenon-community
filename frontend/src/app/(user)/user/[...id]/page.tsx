@@ -1,4 +1,4 @@
-import { URL } from '@/constant/constant';
+import { PROFILE_URL, URL } from '@/constant/constant';
 import { UserType } from '@/type/user/type';
 import { api } from '@/util/api';
 import Image from 'next/image';
@@ -19,7 +19,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
   return (
     <div className="grid grid-cols-user">
       <div className="flex flex-col p-default border-2 border-lightBlue">
-        <Image src={`${URL + user.img}`} alt="user img" width={100} height={100} />
+        <Image src={PROFILE_URL(user.img)} alt="user img" width={100} height={100} />
         <span>{user.id}</span>
       </div>
     </div>
