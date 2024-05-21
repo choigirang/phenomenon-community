@@ -1,6 +1,10 @@
+import Comment from '@/app/(common)/(comment)/comment';
+import Like from '@/app/(posts)/posts/[...post]/like';
+import { GALLERY_URL, URL } from '@/constant/constant';
 import { SearchParams } from '@/type/common';
 import { GalleryType } from '@/type/gallery/type';
 import { api } from '@/util/api';
+import Image from 'next/image';
 
 async function getGalleryData(postNum: string) {
   try {
@@ -36,6 +40,28 @@ export default async function Page(page: SearchParams) {
           </div>
         </div>
       </div>
+      <div className="relative flex flex-col gap-2">
+        {data.images.map(img => (
+          <Image
+            key={img.src}
+            src={GALLERY_URL(img.src)}
+            alt="content img"
+            fill
+            className="!relative w-auto h-auto"
+            priority
+          />
+        ))}
+      </div>
+      {/* 추천수 */}
+      <div className="flex justify-center">
+        <Like {...data} />
+      </div>
+      {/* 댓글 */}
+      <div className="flex gap-1 text-xs">
+        <h3 className="font-bold">전체 댓글</h3>
+        <span className="text-red">{data.comments.length}</span>
+      </div>
+      <Comment data={data} comment={data.comments} />
     </section>
   );
 }
