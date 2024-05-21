@@ -26,3 +26,11 @@ export interface Likes {
   galleryNumber?: number;
   date: string;
 }
+
+/** 공지사항 res 타입 */
+export type Notice = {
+  title: string;
+  content: string;
+  date: string;
+  noticeNumber: number;
+};
