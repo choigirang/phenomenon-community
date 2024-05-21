@@ -1,6 +1,5 @@
 'use client';
 
-import useLogin from '@/hooks/useLogin';
 import { useAppSelector } from '@/hooks/useRedux';
 import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
@@ -8,7 +7,6 @@ import { GalleryType } from '@/type/gallery/type';
 import { LoginIni } from '@/type/user/type';
 import { api } from '@/util/api';
 import { ChangeEvent, SetStateAction, useState } from 'react';
-import { Dispatch } from 'redux';
 
 function isPostType(data: PostType | GalleryType): data is PostType {
   return (data as PostType).postNumber !== undefined;
@@ -31,7 +29,6 @@ export default function AddComment(props: AddCommentProps) {
   };
 
   const addComment = () => {
-    console.log(props.data);
     // 날짜 생성
     const getDate = new Date();
     const date = getDate.getFullYear() + '-' + (getDate.getMonth() + 1) + '-' + getDate.getDate();
@@ -40,7 +37,6 @@ export default function AddComment(props: AddCommentProps) {
     if (content) {
       if (isPostType(props.data)) {
         const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date };
-        // add commnet
         api.post('/post/comment', { ...comment }).then(res => {
           alert('댓글이 작성되었습니다.');
           props.setComments(prev => [comment, ...prev]);
@@ -48,7 +44,6 @@ export default function AddComment(props: AddCommentProps) {
         });
       } else {
         const comment = { galleryNumber: props.data.galleryNumber, author: user.id, comment: content, date };
-        // add commnet
         api
           .post('/gallery/comment', { ...comment })
           .then(res => {
