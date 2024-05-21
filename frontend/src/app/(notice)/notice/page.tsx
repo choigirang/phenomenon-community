@@ -1,3 +1,34 @@
-export default function Page() {
-  return <div></div>;
+import Pagination from '@/app/(common)/pagination';
+import { Notice, SearchParams } from '@/type/common';
+import { api } from '@/util/api';
+import Link from 'next/link';
+
+async function getData(page: string = '1') {
+  const API = `/notice?page=${page}`;
+  const res = await api.get(API);
+  return res.data;
+}
+
+export default async function Page(props: SearchParams) {
+  const pageParam = props.searchParams.page;
+
+  const { notice, totalNotice } = await getData(pageParam);
+
+  return (
+    <div className="flex flex-col">
+      <h2 className="w-full pb-default text-center text-blue text-xl font-bold border-b-4 border-blue">공지사항</h2>
+      <ul className="w-full flex flex-gap gap-2">
+        {notice.map((each: Notice) => (
+          <li key={each.noticeNumber} className="w-full p-default">
+            <Link href={`/notice/${each.noticeNumber}`} className="w-full grid grid-cols-notice">
+              <span className="text-center text-blue">{each.noticeNumber}</span>
+              <span>{each.title}</span>
+              <span className="text-center text-lightGray">{each.date}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Pagination src="notice" total={totalNotice}></Pagination>
+    </div>
+  );
 }
