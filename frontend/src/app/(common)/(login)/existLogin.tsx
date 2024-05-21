@@ -12,14 +12,14 @@ export default function ExistLogin({ userLogin, handleLogout }: Props) {
   return (
     <div className="w-full h-full flex justify-start gap-2">
       <Image src={PROFILE_URL(userLogin.img)} alt="user img" width={100} height={100} priority />
-      <div className="flex flex-col">
+      <div className="w-full flex flex-col justify-between">
         <Link href={`/user/${userLogin.id}`}>
           <h2 className="flex items-center gap-2">
             <span className="text-sm font-bold text-lightBlue">{userLogin.name}</span>
             <ArrowRightCircleIcon width={12} height={12} className="cursor-pointer text-blue" />
           </h2>
         </Link>
-        <button className="w-full bg-blue" onClick={handleLogout}>
+        <button className="w-full text-white bg-blue" onClick={handleLogout}>
           로그아웃
         </button>
       </div>
