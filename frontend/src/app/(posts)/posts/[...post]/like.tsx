@@ -3,12 +3,16 @@
 import { HeartIcon as On } from '@heroicons/react/24/solid';
 import { HeartIcon as Off } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/hooks/useRedux';
 import { LoginIni } from '@/type/user/type';
 import { api } from '@/util/api';
 import { PostType } from '@/type/community/type';
+import { GalleryType } from '@/type/gallery/type';
 
-export default function Like(data: PostType) {
+function isPostType(data: PostType | GalleryType): data is PostType {
+  return (data as PostType) !== undefined;
+}
+
+export default function Like(data: PostType | GalleryType) {
   const [userId, setUserId] = useState('');
   // ssr 좋아요 반영을 위한 초깃값 설정
   const [like, setLike] = useState({ click: false, length: data.likes.length });
@@ -16,12 +20,21 @@ export default function Like(data: PostType) {
   const handleLike = () => {
     if (!userId) return alert('로그인이 필요합니다.');
 
-    api.post(`/post/likes`, { id: userId, postNumber: data.postNumber });
-    setLike(prev => {
-      // 좋아요 상태에 따라 좋아요 수 조정
-      const newLength = prev.click ? prev.length - 1 : prev.length + 1;
-      return { length: newLength, click: !prev.click };
-    });
+    if (isPostType(data)) {
+      api.post(`/post/likes`, { id: userId, postNumber: data.postNumber });
+      setLike(prev => {
+        // 좋아요 상태에 따라 좋아요 수 조정
+        const newLength = prev.click ? prev.length - 1 : prev.length + 1;
+        return { length: newLength, click: !prev.click };
+      });
+    } else {
+      api.post('/gallery/likes', { id: userId, galleryNumber: data.galleryNumber });
+      setLike(prev => {
+        // 좋아요 상태에 따라 좋아요 수 조정
+        const newLength = prev.click ? prev.length - 1 : prev.length + 1;
+        return { length: newLength, click: !prev.click };
+      });
+    }
   };
 
   useEffect(() => {

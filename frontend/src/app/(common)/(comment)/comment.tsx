@@ -4,9 +4,10 @@ import { CommentData } from '@/type/common';
 import React, { useState } from 'react';
 import AddComment from './addComment';
 import { PostType } from '@/type/community/type';
+import { GalleryType } from '@/type/gallery/type';
 
 interface CommentProps {
-  data: PostType;
+  data: PostType|GalleryType;
   comment: CommentData[];
 }
 

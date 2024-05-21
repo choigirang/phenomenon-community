@@ -4,13 +4,18 @@ import useLogin from '@/hooks/useLogin';
 import { useAppSelector } from '@/hooks/useRedux';
 import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
+import { GalleryType } from '@/type/gallery/type';
 import { LoginIni } from '@/type/user/type';
 import { api } from '@/util/api';
 import { ChangeEvent, SetStateAction, useState } from 'react';
 import { Dispatch } from 'redux';
 
+function isPostType(data: PostType | GalleryType): data is PostType {
+  return (data as PostType).postNumber !== undefined;
+}
+
 interface AddCommentProps {
-  data: PostType;
+  data: PostType | GalleryType;
   setComments: React.Dispatch<SetStateAction<CommentData[]>>;
 }
 
@@ -26,19 +31,32 @@ export default function AddComment(props: AddCommentProps) {
   };
 
   const addComment = () => {
+    console.log(props.data);
     // 날짜 생성
     const getDate = new Date();
     const date = getDate.getFullYear() + '-' + (getDate.getMonth() + 1) + '-' + getDate.getDate();
 
     // 댓글 데이터
-    const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date };
     if (content) {
-      // add commnet
-      api.post('/post/comment', { ...comment }).then(res => {
-        alert('댓글이 작성되었습니다.');
-        props.setComments(prev => [comment, ...prev]);
-        setContent('');
-      });
+      if (isPostType(props.data)) {
+        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date };
+        // add commnet
+        api.post('/post/comment', { ...comment }).then(res => {
+          alert('댓글이 작성되었습니다.');
+          props.setComments(prev => [comment, ...prev]);
+          setContent('');
+        });
+      } else {
+        const comment = { galleryNumber: props.data.galleryNumber, author: user.id, comment: content, date };
+        // add commnet
+        api
+          .post('/gallery/comment', { ...comment })
+          .then(res => {
+            props.setComments(prev => [comment, ...prev]);
+            setContent('');
+          })
+          .then(() => alert('댓글이 작성되었습니다.'));
+      }
     } else {
       alert('댓글을 작성해주세요.');
     }
