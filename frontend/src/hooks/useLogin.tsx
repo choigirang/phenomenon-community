@@ -50,14 +50,5 @@ export default function useLogin() {
     alert('로그아웃 되었습니다.');
   };
 
-  useEffect(() => {
-    const user = window.localStorage.getItem('user');
-    const parseUser = user && JSON.parse(user);
-    if (user) {
-      setUserLogin({ ...parseUser });
-      dispatch(login({ ...parseUser, super: true }));
-    }
-  }, []);
-
   return { userLogin, id, pass, setUserLogin, setId, setPass, handleLogin, handleLogout };
 }

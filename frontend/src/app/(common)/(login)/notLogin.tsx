@@ -26,6 +26,7 @@ export default function NotLogin({ children, props }: Props) {
           value={props.id}
           onChange={props.setId}
           className={STYLE.input}
+          autoComplete="current-username"
         />
         <input
           type="password"
