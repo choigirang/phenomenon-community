@@ -11,6 +11,4 @@ export interface PostType {
   likes: Array<string>;
   category: string;
   comments: Array<CommentData>;
-
-  [key: string]: number | string | string[] | CommentData[];
 }
