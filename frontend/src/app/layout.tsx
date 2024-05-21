@@ -3,6 +3,7 @@ import Header from './(common)/(header)/header';
 import Footer from './(common)/(footer)/footer';
 import Login from './(common)/(login)/login';
 import WithProvider from '@/util/provider/withProvider';
+import WithLogin from './(common)/(login)/withLogin';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -15,10 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <WithProvider>
           <Header />
-          <div className={`grid grid-cols-home gap-5 p-container py-10`}>
-            {children}
-            <Login />
-          </div>
+          <WithLogin>{children}</WithLogin>
           <Footer />
         </WithProvider>
       </body>
