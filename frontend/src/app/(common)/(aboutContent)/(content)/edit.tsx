@@ -31,7 +31,7 @@ export default function Edit(props: Props) {
       {props.author === user.id && (
         <div className="flex gap-2">
           {props.src !== 'gallery' && (
-            <Link href={`/edit?num=${props.num}`} className="flex items-center">
+            <Link href={`/posts/edit?num=${props.num}`} className="flex items-center">
               <PencilIcon width={16} height={16} />
             </Link>
           )}
