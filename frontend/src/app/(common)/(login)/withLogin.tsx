@@ -2,25 +2,36 @@
 
 import React, { PropsWithChildren, useEffect } from 'react';
 import Login from './login';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/hooks/useRedux';
 import { login } from '@/store/modules/loginSlice';
+import { InitLoginData } from '@/type/user/type';
 
 export default function WithLogin({ children }: React.PropsWithChildren) {
   const dispatch = useAppDispatch();
-  const router = usePathname();
-  const checkRouter = router === '/' || router === '/posts' || router === '/gallery';
+  const path = usePathname();
+  const router = useRouter();
+  const checkpath = path === '/' || path === '/posts' || path === '/gallery';
+  const guard = path === '/post/edit' || path === '/notice/add';
 
   useEffect(() => {
     const user = window.localStorage.getItem('user');
-    const parseUser = user && JSON.parse(user);
-    dispatch(login({ ...parseUser, login: true }));
+    const parseUser: InitLoginData = user && JSON.parse(user);
+
+    if (!parseUser && guard) {
+      alert('로그인이 필요한 페이지입니다.');
+      router.push('/');
+    }
+
+    if (parseUser && parseUser.auto) {
+      dispatch(login({ ...parseUser, login: true }));
+    }
   }, []);
 
   return (
-    <div className={`${checkRouter && 'grid grid-cols-home'} gap-5 p-container py-10`}>
+    <div className={`${checkpath && 'grid grid-cols-home'} gap-5 p-container py-10`}>
       {children}
-      {checkRouter && <Login />}
+      {checkpath && <Login />}
     </div>
   );
 }

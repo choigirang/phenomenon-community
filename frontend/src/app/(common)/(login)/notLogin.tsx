@@ -44,11 +44,21 @@ export default function NotLogin({ children, props }: Props) {
       {/* Login Options */}
       <div className={`${STYLE.flexCol} text-xs`}>
         <div className={STYLE.flexRows}>
-          {/* <input type="checkbox" onChange={() => setUserLogin(prev => ({ ...prev, save: !prev.save }))} /> */}
+          <input
+            type="checkbox"
+            onChange={() => {
+              if (props.handleAutoLogin) props.handleAutoLogin('id');
+            }}
+          />
           <span>아이디 저장</span>
         </div>
         <div className={STYLE.flexRows}>
-          {/* <input type="checkbox" onChange={() => setUserLogin(prev => ({ ...prev, auto: !prev.auto }))} /> */}
+          <input
+            type="checkbox"
+            onChange={() => {
+              if (props.handleAutoLogin) props.handleAutoLogin('auto');
+            }}
+          />
           <span>자동 로그인</span>
         </div>
         <button type="submit" className={STYLE.button} onClick={props.handleLogin}>

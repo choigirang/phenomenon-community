@@ -13,11 +13,11 @@ const STYLE = {
 
 export default function Login() {
   // 로그인 훅
-  const { userLogin, setUserLogin, id, pass, setId, setPass, handleLogin, handleLogout } = useLogin();
+  const { userLogin, setUserLogin, id, pass, handleAutoLogin, setId, setPass, handleLogin, handleLogout } = useLogin();
   // 로컬 훅
   const { storageId, parseUser } = useStorage();
 
-  const needNotLogin = { id, pass, setId, setPass, handleLogin };
+  const needNotLogin = { id, pass, setId, setPass, handleAutoLogin, handleLogin };
 
   useEffect(() => {
     if (storageId) setUserLogin(prev => ({ ...parseUser }));
@@ -29,7 +29,7 @@ export default function Login() {
         <ExistLogin userLogin={userLogin} handleLogout={handleLogout} />
       ) : (
         <NotLogin props={needNotLogin}>
-          <Link href={'/user/sign'}>회원가입</Link>
+          <Link href={'/sign'}>회원가입</Link>
           <Link href={'/user/findId'}>아이디·비밀번호</Link>
         </NotLogin>
       )}
