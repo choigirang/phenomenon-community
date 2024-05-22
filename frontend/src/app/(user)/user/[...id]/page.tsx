@@ -1,11 +1,13 @@
-import { PROFILE_URL, URL } from '@/constant/constant';
+import GalleryList from '@/app/(gallery)/list';
+import PostList from '@/app/(posts)/list';
+import { PostType } from '@/type/community/type';
+import { GalleryType } from '@/type/gallery/type';
 import { UserType } from '@/type/user/type';
 import { api } from '@/util/api';
-import Image from 'next/image';
 
 async function getUser(user: string) {
   try {
-    const res = await api.get(`/searchUser?id=${user}`);
+    const res = await api.get(`/user?id=${user}`);
     return res.data;
   } catch (err) {
     return console.log('check err:', err);
@@ -13,15 +15,32 @@ async function getUser(user: string) {
 }
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
-  const { findUser } = await getUser(id[0]);
-  const user = findUser[0];
+  const { userPosts, userGallery, userInfo } = await getUser(id[0]);
+  const user: UserType = userInfo;
+  const posts: PostType[] = userPosts;
+  const gallery: GalleryType[] = userGallery;
 
   return (
-    <div className="grid grid-cols-user">
-      <div className="flex flex-col p-default border-2 border-lightBlue">
-        <Image src={PROFILE_URL(user.img)} alt="user img" width={100} height={100} />
-        <span>{user.id}</span>
+    <div className="flex flex-col gap-4">
+      <div>
+        {/* 정보 */}
+        <h2 className="flex gap-4 items-center text-lg text-blue font-bold">
+          <span>{user.id}</span>
+          <span className="text-sm text-lightBlue font-medium">{user.name}</span>
+        </h2>
       </div>
+      <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
+      <ul className="flex flex-col gap-2">
+        {posts.map(list => (
+          <PostList key={list.title} {...list} />
+        ))}
+      </ul>
+      <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">갤러리</h2>
+      <ul className="grid grid-cols-preGallery aspect-auto gap-3">
+        {gallery.map(list => (
+          <GalleryList key={list.title} {...list} />
+        ))}
+      </ul>
     </div>
   );
 }
