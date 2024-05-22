@@ -1,5 +1,6 @@
 'use client';
 
+import useEditor from '@/hooks/useEditor';
 import { useAppSelector } from '@/hooks/useRedux';
 import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
@@ -23,27 +24,30 @@ export default function AddComment(props: AddCommentProps) {
 
   const [content, setContent] = useState('');
 
+  const { dateHandler } = useEditor('');
+
   // handle write comment data
   const writeComment = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
   const addComment = () => {
-    // 날짜 생성
-    const getDate = new Date();
-    const date = getDate.getFullYear() + '-' + (getDate.getMonth() + 1) + '-' + getDate.getDate();
-
     // 댓글 데이터
     if (content) {
       if (isPostType(props.data)) {
-        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date };
+        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: dateHandler() };
         api.post('/post/comment', { ...comment }).then(res => {
           alert('댓글이 작성되었습니다.');
           props.setComments(prev => [comment, ...prev]);
           setContent('');
         });
       } else {
-        const comment = { galleryNumber: props.data.galleryNumber, author: user.id, comment: content, date };
+        const comment = {
+          galleryNumber: props.data.galleryNumber,
+          author: user.id,
+          comment: content,
+          date: dateHandler(),
+        };
         api
           .post('/gallery/comment', { ...comment })
           .then(res => {
