@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react';
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { Likes } from '../common';
 
 // API Login Type
@@ -27,6 +27,7 @@ export interface InitLoginData {
   id: string;
   name: string;
   super: boolean;
+  auto: boolean;
 }
 
 // useLogin hooks type
@@ -35,6 +36,7 @@ export interface LoginProps {
   pass: string | number;
   setId: (e: ChangeEvent<HTMLInputElement>) => void;
   setPass: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleAutoLogin: (e: string) => void;
   handleLogin: (e: FormEvent<Element>) => void;
   handleLogout: () => void;
 }
