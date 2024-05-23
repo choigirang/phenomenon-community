@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { api } from '@/util/api';
 import { CheckId } from '@/type/sign/type';
+import { CheckCircleIcon } from '@heroicons/react/16/solid';
 
 type IdProps = {
   id: CheckId;
@@ -59,10 +60,12 @@ export default function Id({ id, setId }: IdProps) {
   };
 
   // 아이디 중복 검사
-  const checkDuplicateId = () => {
+  const checkDuplicateId = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     if (checkId.length && checkId.word) {
       api
-        .get(`/check?id=${id}`)
+        .get(`/check?id=${id.userId}`)
         .then(res => {
           alert('사용할 수 있는 아이디입니다.');
           setId(prev => ({ ...prev, required: true }));
@@ -72,7 +75,7 @@ export default function Id({ id, setId }: IdProps) {
   };
 
   return (
-    <div className="relative grid grid-cols-id w-full text-xs p-default">
+    <div className="relative grid grid-cols-info w-full text-xs p-default">
       <label htmlFor="id" className="font-bold">
         아이디
       </label>
@@ -82,6 +85,7 @@ export default function Id({ id, setId }: IdProps) {
         <div className="flex gap-3">
           <input
             id="id"
+            value={id.userId}
             name="userId"
             type="text"
             onChange={e => {
@@ -89,17 +93,21 @@ export default function Id({ id, setId }: IdProps) {
               setId(prev => ({ ...prev, userId: e.target.value }));
             }}
             required
-            className={`w-full ${checkId.length && checkId.word ? 'text-red' : ''} border border-lightGray p-default`}
+            className={`w-full ${checkId.length && checkId.word ? '' : 'text-red'} border border-lightGray p-default outline-none`}
           />
           {/* 아이디 중복 검사 */}
           <button
-            onClick={checkDuplicateId}
-            disabled={!checkId.length || !checkId.word}
-            className="w-[100px] bg-blue text-white">
+            type="button"
+            onClick={e => checkDuplicateId(e)}
+            disabled={id.required}
+            className={`w-[100px] ${id.required ? 'bg-lightGray' : 'bg-blue'} text-white`}>
             중복검사
           </button>
         </div>
-        <span>특수문자 및 공백을 제외한 3글자 이상 10글자 이하의 문자여야 합니다.</span>
+        <p className="flex gap-1">
+          <CheckCircleIcon width={12} height={12} color={checkId.word && checkId.length ? 'green' : ''} />
+          <span className="text-lightGray">특수문자 및 공백을 제외한 3글자 이상 10글자 이하의 문자여야 합니다.</span>
+        </p>
       </div>
     </div>
   );
