@@ -17,8 +17,8 @@ const initLogin: InitLoginData = {
 
 export default function useLogin() {
   const [userLogin, setUserLogin] = useState({ img: '', id: '', name: '', super: false, auto: false });
-  const [id, setId] = useInputs('');
-  const [pass, setPass] = useInputs('');
+  const { keyword: id, onChange: setId } = useInputs('');
+  const { keyword: pass, onChange: setPass } = useInputs('');
   const [autoLog, setAutoLog] = useState({ id: false, auto: false });
 
   const dispatch = useAppDispatch();
