@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function List(data: GalleryType) {
   return (
-    <li className="relative flex justify-center items-center w-full h-full p-1 bg-lightBlue rounded overflow-hidden">
+    <li className="relative flex justify-center items-center w-full min-h-[120px] h-full p-1 bg-lightBlue rounded overflow-hidden">
       <Link href={`/gallery/${data.galleryNumber}`}>
         <Image
           width={150}
