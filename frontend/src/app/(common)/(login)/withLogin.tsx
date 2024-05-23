@@ -17,15 +17,24 @@ export default function WithLogin({ children }: React.PropsWithChildren) {
   useEffect(() => {
     const user = window.localStorage.getItem('user');
     const parseUser: InitLoginData = user && JSON.parse(user);
-
     if (!parseUser && guard) {
       alert('로그인이 필요한 페이지입니다.');
       router.push('/');
     }
 
-    if (parseUser && parseUser.auto) {
+    if (parseUser) {
       dispatch(login({ ...parseUser, login: true }));
     }
+
+    const handleAutoLogin = () => {
+      if (parseUser && !parseUser.auto) window.localStorage.removeItem('user');
+    };
+
+    window.addEventListener('beforeunload', handleAutoLogin);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleAutoLogin);
+    };
   }, []);
 
   return (
