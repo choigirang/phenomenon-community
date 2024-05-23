@@ -2,7 +2,8 @@ import Pagination from '@/app/(common)/pagination';
 import { Notice, SearchParams } from '@/type/common';
 import { api } from '@/util/api';
 import Link from 'next/link';
-import AddNotice from './addNotice';
+import AddNotice from '../addNotice';
+import Search from '@/app/(common)/(aboutContent)/(content)/search';
 
 async function getData(page: string = '1') {
   const API = `/notice?page=${page}`;
@@ -32,7 +33,7 @@ export default async function Page(props: SearchParams) {
           </li>
         ))}
       </ul>
-      <Pagination src="notice" total={totalNotice}></Pagination>
+      <Pagination src="notice" total={totalNotice} />
     </div>
   );
 }
