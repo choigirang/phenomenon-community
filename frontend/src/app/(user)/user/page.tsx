@@ -1,8 +1,8 @@
 import { UserType } from '@/type/user/type';
 import { api } from '@/util/api';
-import Search from './search';
+import Search from '../../(common)/(aboutContent)/(content)/search';
 import { SearchParams } from '@/type/common';
-import Card from './card';
+import Card from '../card';
 
 async function getUser(user: string) {
   try {
@@ -19,14 +19,14 @@ async function getUser(user: string) {
 }
 
 export default async function Page(params: SearchParams) {
-  const user = params.searchParams.search;
+  const user = params.searchParams.keyword;
   const data = await getUser(user);
 
   const userData: UserType[] = user ? data.findUser : data.findAllUser;
 
   return (
     <section className="flex flex-col gap-2">
-      <Search>
+      <Search src="user">
         {userData ? (
           <ul className="grid grid-cols-5 gap-2">
             {userData.map(user => (
