@@ -3,11 +3,11 @@ import { api } from '@/util/api';
 import List from '../list';
 import Pagination from '@/app/(common)/pagination';
 import { SearchParams } from '@/type/common';
+import Search from '@/app/(common)/(aboutContent)/(content)/search';
 
-export async function getAllPosts(page?: string, category: string = 'all', search?: string) {
+export async function getAllPosts(page: string = '1', search?: string) {
   try {
-    // const API = search ? `/posts?category=${category}&page=${page}` : `/search?keyword=${search}`;
-    const API = `/gallery?page=${page}`;
+    const API = search ? `/gallery?keyword=${search}` : `/gallery?page=${page}`;
     const res = await api.get(API);
     return res.data;
   } catch (err) {
@@ -17,8 +17,9 @@ export async function getAllPosts(page?: string, category: string = 'all', searc
 
 export default async function Page(props: SearchParams) {
   const pageParam = props.searchParams.page;
+  const keyword = props.searchParams.keyword;
 
-  const { gallery, totalGallery } = await getAllPosts(pageParam);
+  const { gallery, totalGallery } = await getAllPosts(pageParam, keyword);
   return (
     <section>
       <ul className="grid grid-cols-preGallery aspect-auto gap-3">
@@ -29,6 +30,7 @@ export default async function Page(props: SearchParams) {
         )}
       </ul>
       <Pagination src={'gallery'} total={totalGallery} />
+      <Search src="gallery" placeholder="검색할 게시글의 제목을 입력하세요." />
     </section>
   );
 }
