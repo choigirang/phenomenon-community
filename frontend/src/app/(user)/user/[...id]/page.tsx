@@ -31,15 +31,19 @@ export default async function Page({ params: { id } }: { params: { id: string } 
       </div>
       <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
       <ul className="flex flex-col gap-2">
-        {posts.map(list => (
-          <PostList key={list.title} {...list} />
-        ))}
+        {posts.length !== 0 ? (
+          posts.map(list => <PostList key={list.title} {...list} />)
+        ) : (
+          <li>작성된 게시글이 없습니다.</li>
+        )}
       </ul>
       <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">갤러리</h2>
       <ul className="grid grid-cols-preGallery aspect-auto gap-3">
-        {gallery.map(list => (
-          <GalleryList key={list.title} {...list} />
-        ))}
+        {gallery.length !== 0 ? (
+          gallery.map(list => <GalleryList key={list.title} {...list} />)
+        ) : (
+          <li>작성된 갤러리가 없습니다.</li>
+        )}
       </ul>
     </div>
   );
