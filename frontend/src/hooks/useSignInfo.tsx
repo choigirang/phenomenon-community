@@ -84,13 +84,12 @@ export default function useSignInfo() {
         .then(res => {
           alert('회원가입이 완료되었습니다.');
         })
-        .catch(err => console.log(err));
-
-      // if (checkSecurity.compareSecurityCode) {
+        .catch(err => {
+          alert('서버 확인이 필요합니다.'), console.log(err);
+        });
     };
     signIn();
     return router.push('/signup/complete');
-    // } else alert('회원 가입에 실패했습니다. 다시 진행해주세요.');
   };
 
   return {
