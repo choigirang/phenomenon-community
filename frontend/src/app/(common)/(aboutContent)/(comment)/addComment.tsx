@@ -68,7 +68,7 @@ export default function AddComment(props: AddCommentProps) {
         <textarea
           className={`w-[100%] p-default border border-gray ${user.id ? 'bg-white' : 'bg-gray/30'}`}
           maxLength={400}
-          rows={6}
+          rows={4}
           onChange={e => writeComment(e)}
           disabled={user.id ? false : true}
           value={`${!user.id ? '로그인이 필요합니다.' : content}`}
