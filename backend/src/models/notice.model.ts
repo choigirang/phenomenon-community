@@ -18,6 +18,10 @@ const noticeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  author: {
+    type: String,
+    required: true,
+  },
 });
 
 const Notice = mongoose.model<Notice>('Notice', noticeSchema);
