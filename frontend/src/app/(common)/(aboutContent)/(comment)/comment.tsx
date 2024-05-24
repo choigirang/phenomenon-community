@@ -1,35 +1,34 @@
-'use client';
-
+import { useAppSelector } from '@/hooks/useRedux';
 import { CommentData } from '@/type/common';
-import React, { useState } from 'react';
-import AddComment from './addComment';
-import { PostType } from '@/type/community/type';
-import { GalleryType } from '@/type/gallery/type';
+import { TrashIcon } from '@heroicons/react/16/solid';
+import { useState } from 'react';
 
 interface CommentProps {
-  data: PostType|GalleryType;
-  comment: CommentData[];
+  data: CommentData;
+  deleteComment: (comment: CommentData) => void;
 }
 
-export default function Comment({ data, comment }: CommentProps) {
-  const [comments, setComments] = useState<CommentData[] | []>(comment);
+export default function Comment({ data, deleteComment }: CommentProps) {
+  const user = useAppSelector(state => state.loginSlice);
 
   return (
-    <React.Fragment>
-      {/* 댓글 목록 */}
-      {comments.length === 0 && <div>작성된 댓글이 없습니다.</div>}
-
-      {comments.map(each => (
-        <ul className="grid grid-cols-comment text-xs pt-default border-t border-gray" key={each.commentNumber}>
-          <li className="flex gap-4">
-            <h2 className="font-semibold">{each.author}</h2>
-            <span>{each.comment}</span>
-          </li>
-          <li className="text-right text-gray">{each.date}</li>
-        </ul>
-      ))}
-      {/* 댓글 추가 */}
-      <AddComment setComments={setComments} data={data} />
-    </React.Fragment>
+    <ul
+      className="grid grid-cols-comment items-center text-xs pt-default border-t border-gray"
+      key={data.commentNumber}>
+      {/* 작성자 & 댓글 추가 */}
+      <li className="flex gap-4">
+        <h2 className="font-semibold">{data.author}</h2>
+      </li>
+      {/* 댓글 */}
+      <li className="w-full text-wrap">{data.comment}</li>
+      {/* 날짜 */}
+      <li className="text-right text-gray">{data.date}</li>
+      {/* 댓글 삭제 */}
+      {user.id === data.author && (
+        <li onClick={() => deleteComment(data)} className="text-lightGray hover:text-gray cursor-pointer">
+          <TrashIcon width={12} height={12} />
+        </li>
+      )}
+    </ul>
   );
 }
