@@ -19,13 +19,15 @@ export default function Edit(props: Props) {
   // check user
   const user = useAppSelector(state => state.loginSlice);
 
+  const router = useRouter();
+
   // delete post func
   const deletePost = () => {
     const result = confirm('게시글을 삭제하시겠습니까?');
     if (result === true) {
       api.delete(`/${props.src}/${props.num}`).then(() => {
         alert('게시글이 삭제되었습니다.');
-        useRouter().replace('/');
+        router.replace('/');
       });
     }
   };

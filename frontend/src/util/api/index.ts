@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getCookie } from '../cookie';
 
 const env = process.env.REACT_APP_ENV;
 

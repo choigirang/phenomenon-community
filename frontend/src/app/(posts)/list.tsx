@@ -11,8 +11,10 @@ import {
   UsersIcon,
 } from '@heroicons/react/16/solid';
 
+type PostKeys = keyof Pick<PostType, 'title' | 'author' | 'date' | 'views' | 'likes' | 'comments'>;
+
 interface ICON {
-  [key: string]: React.ReactNode;
+  [key: string]: React.ReactNode | undefined;
 }
 
 // icon with key
@@ -39,11 +41,12 @@ export default function List(data: PostType) {
         {/* post info*/}
         <ul className="w-full grid grid-cols-prePosts gap-5 place-content-between">
           {Object.entries(icon).map(([key, ICON]) => {
-            if (key === 'title') return <li key={key} className="hover:text-lightBlue">{`${data[key]}`}</li>;
+            const postKey = key as PostKeys;
+            if (postKey === 'title') return <li key={key} className="hover:text-lightBlue">{`${data[postKey]}`}</li>;
             else
               return (
                 <li key={key} className={st.li}>
-                  {ICON} {`${Array.isArray(data[key]) ? (data[key] as any[]).length : data[key]}`}
+                  {ICON} {`${Array.isArray(data[postKey]) ? (data[postKey] as any[]).length : data[postKey]}`}
                 </li>
               );
           })}
