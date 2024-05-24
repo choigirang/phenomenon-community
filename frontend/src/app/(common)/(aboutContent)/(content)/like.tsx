@@ -37,6 +37,12 @@ export default function Like(data: PostType | GalleryType) {
     }
   };
 
+  const shareHandler = async () => {
+    const currentUrl = window.location.href;
+    await navigator.clipboard.writeText(currentUrl);
+    alert('URL이 복사되었습니다!');
+  };
+
   useEffect(() => {
     //  로그인한 유저 확인
     const savedData = window.localStorage.getItem('user');
@@ -56,10 +62,9 @@ export default function Like(data: PostType | GalleryType) {
           {like.click ? <On width={32} height={32} color="red" /> : <Off width={32} height={32} />}
         </button>
       </div>
-      <div className="flex border">
-        <span className="p-default">공유하기</span>
-        <span className="p-default border-l">신고</span>
-      </div>
+      <button type="button" className="flex border p-default" onClick={shareHandler}>
+        공유하기
+      </button>
     </div>
   );
 }
