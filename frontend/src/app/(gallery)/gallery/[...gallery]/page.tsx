@@ -1,13 +1,16 @@
+import Image from 'next/image';
 import Comment from '@/app/(common)/(aboutContent)/(comment)/comments';
 import Title from '@/app/(common)/(aboutContent)/(content)/title';
 import Edit from '@/app/(common)/(aboutContent)/(content)/edit';
 import Like from '@/app/(common)/(aboutContent)/(content)/like';
-import { GALLERY_URL, URL } from '@/constant/constant';
+import { api } from '@/util/api';
+
 import { SearchParams } from '@/type/common';
 import { GalleryType } from '@/type/gallery/type';
-import { api } from '@/util/api';
-import Image from 'next/image';
 
+import { GALLERY_URL } from '@/constant/constant';
+
+// get gallery data
 async function getGalleryData(postNum: string) {
   try {
     const res = await api.get(`/gallery/${postNum}`);
@@ -17,17 +20,19 @@ async function getGalleryData(postNum: string) {
   }
 }
 
+/** 2024/05/19 - each gallery post page */
 export default async function Page(page: SearchParams) {
+  // gallery number
   const gallery = page.params.gallery;
   const data: GalleryType = await getGalleryData(gallery[0]);
 
   return (
     <section className="flex flex-col gap-4 p-container">
-      {/* 작성자 & 타이틀 */}
+      {/* author & title */}
       <Title data={data} src="갤러리">
         <Edit src="gallery" num={data.galleryNumber} author={data.author} />
       </Title>
-      {/* 이미지 */}
+      {/* uploaded img */}
       <ul className="flex flex-col gap-2">
         {data.images.map(img => (
           <li className="relative flex justify-center" key={img.src}>
@@ -41,11 +46,11 @@ export default async function Page(page: SearchParams) {
           </li>
         ))}
       </ul>
-      {/* 추천수 */}
+      {/* likes */}
       <div className="flex justify-center">
         <Like {...data} />
       </div>
-      {/* 댓글 */}
+      {/* comments */}
       <div className="flex gap-1 text-xs">
         <h3 className="font-bold">전체 댓글</h3>
         <span className="text-red">{data.comments.length}</span>

@@ -1,6 +1,3 @@
-'use client';
-
-import { PostType } from '@/type/community/type';
 import Link from 'next/link';
 
 interface PaginationProps {
@@ -9,6 +6,7 @@ interface PaginationProps {
   perPage?: number;
 }
 
+/** 2024/05/19 - pagination each page */
 export default function Pagination({ src, total, perPage = 10 }: PaginationProps) {
   const totalPages = Math.ceil(total / perPage);
 

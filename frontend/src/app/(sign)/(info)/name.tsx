@@ -1,17 +1,22 @@
-import { CheckName } from '@/type/sign/type';
-import { api } from '@/util/api';
-import { CheckCircleIcon } from '@heroicons/react/16/solid';
+'use client';
+
 import { useState } from 'react';
+import { api } from '@/util/api';
+
+import { CheckName } from '@/type/sign/type';
+
+import { CheckCircleIcon } from '@heroicons/react/16/solid';
 
 type NickNameProps = {
   nickName: CheckName;
   setNickName: React.Dispatch<React.SetStateAction<CheckName>>;
 };
 
+/** 2024/05/23 - user nickName(parent: infoPage) in sign page */
 export default function Name({ nickName, setNickName }: NickNameProps) {
   const [name, setName] = useState(false);
 
-  /** 닉네임 변경 핸들러 */
+  // nick name func
   const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -20,13 +25,14 @@ export default function Name({ nickName, setNickName }: NickNameProps) {
       name: value,
     }));
 
+    // check available name
     const check = /^[A-Za-z\d!@#$%^&*()_+]{2,20}$/;
 
     if (check.test(value)) setName(true);
     else setName(false);
   };
 
-  /** 닉네임 중복 검사 핸들러 */
+  // check duplicated api
   const checkDuplicateNickName = () => {
     if (!name) return alert('닉네임을 확인하세요.');
 
@@ -46,6 +52,7 @@ export default function Name({ nickName, setNickName }: NickNameProps) {
       </label>
       <div className="flex flex-col gap-1">
         <div className="flex gap-1">
+          {/* name input */}
           <input
             id="name"
             name="name"

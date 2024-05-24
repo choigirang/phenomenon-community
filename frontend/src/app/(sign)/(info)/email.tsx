@@ -1,3 +1,5 @@
+'use client';
+
 import { InputType } from '@/type/sign/type';
 
 type EmailProps = {
@@ -8,6 +10,7 @@ type EmailProps = {
   children: React.ReactNode;
 };
 
+// domains option
 const options: InputType = {
   google: 'google.com',
   hanmail: 'hanmail.com',
@@ -19,11 +22,13 @@ const options: InputType = {
   user: '직접 입력',
 };
 
+/** 2024/05/23 - user email(parent: infoPage) in sign page */
 export default function Email({ userMail, setUserMail, inputAble, setInputAble, children }: EmailProps) {
-  // 이메일 입력 이벤트
+  // user email func
   const mailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
+    // email & domain
     if (name === 'mail') {
       setUserMail(prev => ({
         ...prev,
@@ -37,7 +42,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble, 
     }
   };
 
-  // select 이벤트
+  // select domain func
   const selectDirect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
 
@@ -60,7 +65,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble, 
       </label>
       <div className="flex flex-col gap-1">
         <div className="flex gap-1 items-center">
-          {/* 이메일 주소 */}
+          {/* email */}
           <input
             type="text"
             onChange={mailHandler}
@@ -69,6 +74,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble, 
             className="border border-lightGray p-default outline-none"
           />
           <span>@</span>
+          {/* domain when select user input */}
           <input
             id="url"
             name="domain"
@@ -79,7 +85,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble, 
             disabled={!inputAble}
             className="border border-lightGray p-default outline-none"
           />
-          {/* 도메인 선택 */}
+          {/* select domain */}
           <select
             name="domain"
             value={userMail.domain}
@@ -95,6 +101,7 @@ export default function Email({ userMail, setUserMail, inputAble, setInputAble, 
             ))}
           </select>
         </div>
+        {/* description */}
         <ul className="flex flex-col text-lightGray">
           <li>보안 코드는 식별 코드 찾기/비밀번호 재설정 및 탈퇴 시 사용되므로 발급을 부탁드립니다.</li>
           <li>인증 코드 발송 후 코드를 입력해 주시기 부탁드립니다.</li>

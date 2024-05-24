@@ -4,6 +4,7 @@ const Writer = dynamic(() => import('@/app/(common)/(aboutContent)/(content)/wri
   ssr: false,
 });
 
+/** 2024/05/22 - add notice writer page */
 export default async function Page() {
   return (
     <section className="flex flex-col gap-2">

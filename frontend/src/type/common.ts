@@ -1,12 +1,10 @@
-import { PropsWithChildren } from 'react';
-
 /** children props*/
 export interface SearchParams {
   params: { [key: string]: Array<string> };
   searchParams: { [key: string]: string };
 }
 
-/** 댓글 타입 */
+/** comments type in post | gallery */
 export interface CommentData {
   commentNumber?: number;
   title?: string;
@@ -17,7 +15,7 @@ export interface CommentData {
   galleryNumber?: string | number;
 }
 
-/** 좋아요 타입 */
+// likes type in post | gallery
 export interface Likes {
   author: string;
   title: string;
@@ -27,7 +25,7 @@ export interface Likes {
   date: string;
 }
 
-/** 공지사항 res 타입 */
+// notice type
 export type Notice = {
   title: string;
   content: string;

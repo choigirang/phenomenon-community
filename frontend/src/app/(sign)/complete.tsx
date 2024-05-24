@@ -1,10 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
+/** 2024/05/23 - last process page in Sign page */
 export default function Complete() {
   const router = useRouter();
+
+  // auto move home page
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push('/');

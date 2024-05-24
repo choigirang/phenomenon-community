@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
 
 import { api } from '@/util/api';
+
 import { CheckId } from '@/type/sign/type';
 import { CheckCircleIcon } from '@heroicons/react/16/solid';
 
@@ -13,23 +16,18 @@ interface IdValidate {
   length: boolean;
   word: boolean;
 }
-
-/**
- *
- * @param id 작성된 아이디, 아이디 중복 검사 여부
- * @param setId
- * @returns 작성한 아이디의 중복 검사
- */
+/** 2024/05/23 - user id(parent: infoPage) in sign page */
 export default function Id({ id, setId }: IdProps) {
+  // id validation
   const [checkId, setCheckId] = useState<IdValidate>({
     length: false,
     word: false,
   });
 
-  // 아이디 유효성 확인
+  // check id length & char validation func
   const checkIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    // 아이디 길이 확인
+    // check id length 3~10
     const valueLength = value.length >= 3 && value.length <= 10;
     if (valueLength) {
       setCheckId(prev => ({
@@ -43,8 +41,9 @@ export default function Id({ id, setId }: IdProps) {
       }));
     }
 
-    // 아이디 특수문자 확인
+    // check id char func
     function checkChar(value: string) {
+      // special char
       const excludeSpecial = /[^\w\sㄱ-힣()0-9 ]/g;
       return excludeSpecial.test(value);
     }
@@ -59,7 +58,7 @@ export default function Id({ id, setId }: IdProps) {
     }
   };
 
-  // 아이디 중복 검사
+  // check duplicated api
   const checkDuplicateId = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -81,7 +80,7 @@ export default function Id({ id, setId }: IdProps) {
       </label>
 
       <div className="flex flex-col gap-1">
-        {/* 아이디 작성 input */}
+        {/* id input */}
         <div className="flex gap-3">
           <input
             id="id"
@@ -93,9 +92,11 @@ export default function Id({ id, setId }: IdProps) {
               setId(prev => ({ ...prev, userId: e.target.value }));
             }}
             required
-            className={`w-full ${checkId.length && checkId.word ? '' : 'text-red'} border border-lightGray p-default outline-none`}
+            className={`w-full ${
+              checkId.length && checkId.word ? '' : 'text-red'
+            } border border-lightGray p-default outline-none`}
           />
-          {/* 아이디 중복 검사 */}
+          {/* id duplicated btn */}
           <button
             type="button"
             onClick={e => checkDuplicateId(e)}

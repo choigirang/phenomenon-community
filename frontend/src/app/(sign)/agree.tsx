@@ -1,8 +1,8 @@
 'use client';
 
-import { PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { PRIVATE_TEXT, SERVICE_TEXT } from '@/constant/constant';
 
 interface AgreementData {
   id: string;
@@ -26,8 +26,9 @@ const serviceData: AgreementData[] = [
   },
 ];
 
+/** 2024/05/23 - first process agreement page in Sing page */
 export default function Agree() {
-  // 필수 동의
+  // need agreement
   const [check, setCheck] = useState({
     useCheck: false,
     privateCheck: false,
@@ -35,11 +36,11 @@ export default function Agree() {
 
   const router = useRouter();
 
-  // 필수 동의 상태 변경
+  // agreement func
   const handleCheckboxChange = (name: 'useCheck' | 'privateCheck') => {
     setCheck(prevCheck => ({ ...prevCheck, [name]: !prevCheck[name] }));
   };
-
+  // check agreement func
   const agreementCheck = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!check.useCheck || !check.privateCheck) return alert('필수 항목에 동의해야 합니다.');
@@ -51,7 +52,9 @@ export default function Agree() {
       {serviceData.map(data => (
         <div key={data.id} className="flex flex-col gap-4 text-xs">
           <span className="text-red font-bold">{data.title}</span>
+          {/* description */}
           <pre className="h-[300px] p-5 overflow-scroll whitespace-pre-wrap  border border-blue">{data.text}</pre>
+          {/* agreement */}
           <label htmlFor={data.id} className="flex justify-end items-center gap-3">
             <input
               id={data.id}

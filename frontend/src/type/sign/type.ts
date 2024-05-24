@@ -3,43 +3,39 @@ export interface InputType {
   [key: string]: string;
 }
 
-/** 유효성 검사 */
+/** validation name */
 export type ValidationItem = {
   name: string;
   check: (data: string) => boolean;
 };
 
-/** 아이디 상태값 */
+/** check id type */
 export type CheckId = {
   userId: string;
   required: boolean;
 };
-
+/** check password type */
 export type CheckPass = {
   pass: string;
   required: boolean;
 };
-
-/** 비밀번호에 따른 유효성 타입 */
+/** check validation about password */
 export type PassInputData = {
   word?: boolean;
   length?: boolean;
   validation?: boolean;
 };
-
-/** 닉네임 */
+/** nick name type */
 export type CheckName = {
   name: string;
   checkName: boolean;
 };
-
-/** 보안 코드 */
+/** security code type */
 export interface AxiosSecurityCode {
   code: string;
   userCode: string;
 }
-
-/** 보안 코드 확인 */
+/** check server security code with user code */
 export type CheckSecurityType = {
   agree: boolean;
   compareSecurityCode: boolean;

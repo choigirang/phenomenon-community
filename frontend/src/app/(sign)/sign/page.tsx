@@ -1,10 +1,12 @@
-import { SearchParams } from '@/type/common';
+import Link from 'next/link';
 import Process from '../process';
 import Agree from '../agree';
-import Info from '../(info)/info';
+import Info from '../info';
 import Complete from '../complete';
-import Link from 'next/link';
 
+import { SearchParams } from '@/type/common';
+
+/** 2024/05/23 - second process page in Sign page */
 export default function Page(props: SearchParams) {
   const path = props.searchParams.page;
 
@@ -14,6 +16,7 @@ export default function Page(props: SearchParams) {
       {path === 'agree' && <Agree />}
       {path === 'info' && <Info />}
       {path === 'complete' && <Complete />}
+      {/* if user use url in this page */}
       {!path && (
         <div className="flex flex-col gap-2 justify-center items-center w-full h-[300px]">
           잘못된 접근입니다.

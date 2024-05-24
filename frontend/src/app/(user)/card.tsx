@@ -1,8 +1,11 @@
-import { PROFILE_URL, URL } from '@/constant/constant';
-import { UserType } from '@/type/user/type';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { UserType } from '@/type/user/type';
+
+import { PROFILE_URL } from '@/constant/constant';
+
+/** 2024/05/16 - user img card */
 export default function Card(data: UserType) {
   return (
     <li className="flex justify-center items-center border border-gray/50 p-default">

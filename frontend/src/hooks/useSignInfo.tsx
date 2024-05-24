@@ -1,75 +1,70 @@
 'use client';
 
-import { AxiosSecurityCode, CheckId, CheckName, CheckPass, CheckSecurityType, InputType } from '@/type/sign/type';
-import { api } from '@/util/api';
-import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { api } from '@/util/api';
 
+import { AxiosSecurityCode, CheckId, CheckName, CheckPass, CheckSecurityType, InputType } from '@/type/sign/type';
+
+/** 2024/05/22 - user input info in sign page  */
 export default function useSignInfo() {
-  // 이미지
+  // img
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-  // 아이디
+  // id validation
   const [id, setId] = useState<CheckId>({
     userId: '',
     required: false,
   });
-
-  // 비밀번호
+  // password validation
   const [pass, setPass] = useState<CheckPass>({
     pass: '',
     required: false,
   });
-
-  // 닉네임
+  // nickname validation
   const [name, setName] = useState<CheckName>({
     name: '',
     checkName: false,
   });
-
-  //  이메일 관리
+  //  email validation
   const [mail, setMail] = useState<InputType>({
     mail: '',
     domain: '',
   });
+  // input email without select domain
   const [inputAble, setInputAble] = useState<boolean>(false);
-
-  // 보안 코드 관리
+  // security code with server
   const [security, setSecurity] = useState<AxiosSecurityCode>({
     code: '',
     userCode: '',
   });
+  // check security code with user code
   const [checkSecurity, setCheckSecurity] = useState<CheckSecurityType>({
     agree: false,
     compareSecurityCode: false,
     errInfo: '',
     errCode: '',
   });
-
-  // 메일 확인과 수집 동의 확인
+  // check user input mail & agreement
   const checkMailOpt = mail.mail !== '' && mail.domain !== '' && checkSecurity.agree;
 
   const router = useRouter();
 
-  //  제출
+  //  send user info api
   const agreementCheck = (e: FormEvent) => {
     e.preventDefault();
-
     const formData = new FormData();
-
-    // 이미지를 추가
+    // add profile img
     if (selectedImage) {
       formData.append('profileImage', selectedImage);
     } else {
       formData.append('profileImage', 'default');
     }
-
-    // 다른 입력 데이터 추가
+    // add user info
     formData.append('id', id.userId);
     formData.append('password', pass.pass);
     formData.append('name', name.name);
     formData.append('mail', `${mail.mail}@${mail.domain}`);
-
+    // validation user info func
     const signIn = () => {
       if (!id.required) return alert('아이디 중복 검사가 필요합니다.');
       if (!name.checkName) return alert('닉네임 중복 검사가 필요합니다.');

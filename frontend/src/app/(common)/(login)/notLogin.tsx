@@ -7,6 +7,7 @@ interface Props {
   props: Partial<LoginProps>;
 }
 
+// tw style
 const STYLE = {
   form: 'grid grid-cols-login w-full gap-3',
   flexRows: 'flex items-center gap-0.5',
@@ -15,11 +16,12 @@ const STYLE = {
   button: 'flex justify-center items-center p-2 text-white bg-lightBlue',
 };
 
+/** 2024/05/16 - if not login */
 export default function NotLogin({ children, props }: Props) {
   return (
     <form className={STYLE.form} onSubmit={props.handleLogin} name="login">
-      {/* Id & Pass */}
       <div className={STYLE.flexCol}>
+        {/* Id & Pass */}
         <input
           type="text"
           placeholder="테스트 아이디 : test"
@@ -43,6 +45,7 @@ export default function NotLogin({ children, props }: Props) {
 
       {/* Login Options */}
       <div className={`${STYLE.flexCol} text-xs`}>
+        {/* save id */}
         <div className={STYLE.flexRows}>
           <input
             type="checkbox"
@@ -52,6 +55,7 @@ export default function NotLogin({ children, props }: Props) {
           />
           <span>아이디 저장</span>
         </div>
+        {/* auto login */}
         <div className={STYLE.flexRows}>
           <input
             type="checkbox"

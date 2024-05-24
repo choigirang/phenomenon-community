@@ -1,14 +1,16 @@
 'use client';
 
+import { ChangeEvent, SetStateAction, useState } from 'react';
 import useEditor from '@/hooks/useEditor';
 import { useAppSelector } from '@/hooks/useRedux';
+import { api } from '@/util/api';
+
 import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
 import { LoginIni } from '@/type/user/type';
-import { api } from '@/util/api';
-import { ChangeEvent, SetStateAction, useState } from 'react';
 
+/** 2024/05/22 - 타입 가드 post or gallery */
 function isPostType(data: PostType | GalleryType): data is PostType {
   return (data as PostType).postNumber !== undefined;
 }
@@ -18,12 +20,13 @@ interface AddCommentProps {
   setComments: React.Dispatch<SetStateAction<CommentData[]>>;
 }
 
+/** 2024/05/22 - 댓글 추가 parent: ...page */
 export default function AddComment(props: AddCommentProps) {
   // check login
   const user: LoginIni = useAppSelector(state => state.loginSlice);
-
+  // comment content
   const [content, setContent] = useState('');
-
+  // create date
   const { dateHandler } = useEditor('');
 
   // handle write comment data
@@ -32,8 +35,8 @@ export default function AddComment(props: AddCommentProps) {
   };
 
   const addComment = () => {
-    // 댓글 데이터
     if (content) {
+      // type guard post
       if (isPostType(props.data)) {
         const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: dateHandler() };
         api.post('/post/comment', { ...comment }).then(res => {
@@ -42,6 +45,7 @@ export default function AddComment(props: AddCommentProps) {
           setContent('');
         });
       } else {
+        // gallery post
         const comment = {
           galleryNumber: props.data.galleryNumber,
           author: user.id,

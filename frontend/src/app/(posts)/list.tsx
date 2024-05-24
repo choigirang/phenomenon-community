@@ -1,4 +1,8 @@
+import React from 'react';
+import Link from 'next/link';
+
 import { PostType } from '@/type/community/type';
+
 import {
   CalendarDaysIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -6,13 +10,12 @@ import {
   HeartIcon,
   UsersIcon,
 } from '@heroicons/react/16/solid';
-import React from 'react';
-import Link from 'next/link';
 
 interface ICON {
   [key: string]: React.ReactNode;
 }
 
+// icon with key
 const icon: ICON = {
   title: undefined,
   author: <UsersIcon width={12} height={12} className="text-stone-400" />,
@@ -26,6 +29,7 @@ const st = {
   li: 'flex justify-end items-center gap-1 hover:text-lightBlue',
 };
 
+/** 2024/05/17 - post data list in all post page */
 export default function List(data: PostType) {
   if (!data) return <div>서버 오류입니다.</div>;
 

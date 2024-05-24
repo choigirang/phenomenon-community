@@ -1,12 +1,15 @@
 import { api } from '@/util/api';
 import Category from '../category';
-import { SearchParams } from '@/type/common';
-import Pagination from '@/app/(common)/pagination';
-import { PostType } from '@/type/community/type';
 import List from '../list';
+import Pagination from '@/app/(common)/pagination';
 import Search from '@/app/(common)/(aboutContent)/(content)/search';
 
+import { PostType } from '@/type/community/type';
+import { SearchParams } from '@/type/common';
+
+// get all post data
 export async function getAllPosts(page: string = '1', category: string = 'all', search?: string) {
+  // divide search keyword or category api
   try {
     const API = search ? `/posts/search?page=${page}&keyword=${search}` : `/posts?category=${category}&page=${page}`;
     const res = await api.get(API);
@@ -16,6 +19,7 @@ export async function getAllPosts(page: string = '1', category: string = 'all', 
   }
 }
 
+/** 2024/05/23 - all post page(page,search keyword,category) */
 export default async function Page(props: SearchParams) {
   const pageParam = props.searchParams.page;
   const categoryParam = props.searchParams.category;
@@ -27,6 +31,7 @@ export default async function Page(props: SearchParams) {
       <Category />
       <div className="flex flex-col gap-2">
         <p className="text-xs border-b border-dashed border-darkBlue pb-default">전체 게시물</p>
+        {/* post list */}
         {posts.length ? (
           <ul className="flex flex-col gap-2">
             {posts.map((list: PostType) => (

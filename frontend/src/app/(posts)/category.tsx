@@ -1,6 +1,7 @@
-import { CATEGORY } from '@/constant/constant';
 import Link from 'next/link';
+import { CATEGORY } from '@/constant/constant';
 
+/** 2024/05/17 - find post data with category */
 export default function Category() {
   const category = Object.keys(CATEGORY);
 

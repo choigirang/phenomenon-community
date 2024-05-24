@@ -2,9 +2,10 @@ interface HeaderNav {
   [key: string]: string;
 }
 
+// * change env
 export const URL = 'https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com';
 
-// 카테고리
+// nav in Header
 export const HEADER_NAV: HeaderNav = {
   '': '전체보기',
   posts: '게시글',
@@ -13,18 +14,7 @@ export const HEADER_NAV: HeaderNav = {
   user: '유저검색',
 };
 
-// 회원가입 링크
-export const SIGN: HeaderNav = {
-  회원가입: 'signup',
-  회원찾기: 'findUser',
-};
-
-export const SIGN_UP: HeaderNav = {
-  약관동의: '/agree',
-  정보입력: '/info',
-  가입완료: '/',
-};
-
+// category in post page
 export const CATEGORY: HeaderNav = {
   전체: 'all',
   생활: 'life',
@@ -36,6 +26,7 @@ export const CATEGORY: HeaderNav = {
   성인: 'adult',
 };
 
+// text in agreement (Sign page)
 export const SERVICE_TEXT: string = `
 임시 데이터입니다.
 
@@ -182,7 +173,7 @@ export const SERVICE_TEXT: string = `
 
 서비스와 관련하여 사이트와 회원간에 분쟁이 발생할 경우 사이트의 본사 소재지를 관할하는 법원을 관할법원으로 합니다.
 `;
-
+// text in agreement (Sign page)
 export const PRIVATE_TEXT: string = `
 1. 개인정보의 처리 목적
 
@@ -323,10 +314,12 @@ export const PRIVATE_TEXT: string = `
 
 ▶ 경찰청 사이버안전국 : 182 (http://cyberbureau.police.go.kr)`;
 
+// profile url with S3
 export const PROFILE_URL = (img: string) => {
   return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/profile/${img}`;
 };
 
+// gallery url with S3
 export const GALLERY_URL = (img: string) => {
   return `https://choigirang-why-community.s3.ap-northeast-2.amazonaws.com/gallery/${img}`;
 };

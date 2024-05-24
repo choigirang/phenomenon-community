@@ -1,9 +1,11 @@
-import { UserType } from '@/type/user/type';
-import { api } from '@/util/api';
 import Search from '../../(common)/(aboutContent)/(content)/search';
-import { SearchParams } from '@/type/common';
 import Card from '../card';
+import { api } from '@/util/api';
 
+import { SearchParams } from '@/type/common';
+import { UserType } from '@/type/user/type';
+
+// (user id && user) || all users
 async function getUser(user: string) {
   try {
     if (user) {
@@ -18,15 +20,17 @@ async function getUser(user: string) {
   }
 }
 
+/** 2024/05/23 - user list page */
 export default async function Page(params: SearchParams) {
   const user = params.searchParams.keyword;
   const data = await getUser(user);
 
+  // data of search user
   const userData: UserType[] = user ? data.findUser : data.findAllUser;
 
   return (
     <section className="flex flex-col gap-2">
-      <Search src="user">
+      <Search src="user" placeholder="아이디를 입력해주세요.">
         {userData ? (
           <ul className="grid grid-cols-5 gap-2">
             {userData.map(user => (

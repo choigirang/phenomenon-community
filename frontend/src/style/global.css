@@ -18,9 +18,7 @@ body {
   min-height: 100vh;
 }
 
-@layer components {
-}
-
+/* for editor */
 .rdw-editor-main {
   height: auto;
 }

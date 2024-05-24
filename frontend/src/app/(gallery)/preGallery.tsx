@@ -1,13 +1,16 @@
-import { GalleryType } from '@/type/gallery/type';
-import { api } from '@/util/api';
 import Link from 'next/link';
 import List from './list';
+import { api } from '@/util/api';
 
+import { GalleryType } from '@/type/gallery/type';
+
+// get latest gallery posts
 async function getLatestGallery() {
   const res = await api.get('/gallery/latest');
   return res.data;
 }
 
+/** 2024/05/10 - latest gallery data in home */
 export default async function PreGallery() {
   const data: GalleryType[] = await getLatestGallery();
 

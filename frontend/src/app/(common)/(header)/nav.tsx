@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { HEADER_NAV } from '@/constant/constant';
 
+/** 2024/05/10 - page list in header */
 export default function Nav() {
   return (
     <nav className="w-[100%] bg-blue text-white">

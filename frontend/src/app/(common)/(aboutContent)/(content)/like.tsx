@@ -1,42 +1,50 @@
 'use client';
 
-import { HeartIcon as On } from '@heroicons/react/24/solid';
-import { HeartIcon as Off } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
-import { LoginIni } from '@/type/user/type';
 import { api } from '@/util/api';
+
+import { LoginIni } from '@/type/user/type';
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
 
+import { HeartIcon as Off } from '@heroicons/react/24/outline';
+import { HeartIcon as On } from '@heroicons/react/24/solid';
+
+// type guard - post or gallery
 function isPostType(data: PostType | GalleryType): data is PostType {
   return (data as PostType) !== undefined;
 }
 
+/** 2024/05/15 - post or gallery like */
 export default function Like(data: PostType | GalleryType) {
+  // user id for api
   const [userId, setUserId] = useState('');
-  // ssr 좋아요 반영을 위한 초깃값 설정
+  // set init likes data for mutate(ssr)
   const [like, setLike] = useState({ click: false, length: data.likes.length });
 
+  // like func
   const handleLike = () => {
     if (!userId) return alert('로그인이 필요합니다.');
 
+    // post or gallery with api
     if (isPostType(data)) {
       api.post(`/post/likes`, { id: userId, postNumber: data.postNumber });
       setLike(prev => {
-        // 좋아요 상태에 따라 좋아요 수 조정
+        // set like state for mutate(ssr)
         const newLength = prev.click ? prev.length - 1 : prev.length + 1;
         return { length: newLength, click: !prev.click };
       });
     } else {
       api.post('/gallery/likes', { id: userId, galleryNumber: data.galleryNumber });
       setLike(prev => {
-        // 좋아요 상태에 따라 좋아요 수 조정
+        // set like state for mutate(ssr)
         const newLength = prev.click ? prev.length - 1 : prev.length + 1;
         return { length: newLength, click: !prev.click };
       });
     }
   };
 
+  // share handler copy url
   const shareHandler = async () => {
     const currentUrl = window.location.href;
     await navigator.clipboard.writeText(currentUrl);
@@ -44,12 +52,12 @@ export default function Like(data: PostType | GalleryType) {
   };
 
   useEffect(() => {
-    //  로그인한 유저 확인
+    // check login user
     const savedData = window.localStorage.getItem('user');
     const loginUser: LoginIni = savedData !== null && JSON.parse(savedData);
     if (loginUser.id) setUserId(prev => loginUser.id);
 
-    // 좋아요 확인
+    // compare post likes list with login user
     const checkLikeWithUser = data.likes.find(user => user === loginUser.id);
     if (checkLikeWithUser) setLike(prev => ({ ...prev, click: true }));
   }, []);

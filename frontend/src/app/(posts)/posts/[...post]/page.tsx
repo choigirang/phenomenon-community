@@ -1,12 +1,14 @@
-import { PostType } from '@/type/community/type';
 import { api } from '@/util/api';
+import Title from '@/app/(common)/(aboutContent)/(content)/title';
+import Edit from '../../../(common)/(aboutContent)/(content)/edit';
 import Content from '../../../(common)/(aboutContent)/(content)/content';
 import Like from '../../../(common)/(aboutContent)/(content)/like';
 import Comment from '@/app/(common)/(aboutContent)/(comment)/comments';
-import Edit from '../../../(common)/(aboutContent)/(content)/edit';
-import { SearchParams } from '@/type/common';
-import Title from '@/app/(common)/(aboutContent)/(content)/title';
 
+import { SearchParams } from '@/type/common';
+import { PostType } from '@/type/community/type';
+
+// get each post data
 async function getPostData(postNum: string) {
   try {
     const res = await api.get(`/post/${postNum}`);
@@ -16,23 +18,24 @@ async function getPostData(postNum: string) {
   }
 }
 
+/** 2024/05/17 - each post page */
 export default async function Page(page: SearchParams) {
   const post = page.params.post;
   const data: PostType = await getPostData(post[0]);
 
   return (
     <section className="flex flex-col gap-4 p-container">
-      {/* 작성자 & 타이틀 */}
+      {/* author & title */}
       <Title data={data} src="게시글">
         <Edit src="post" num={data.postNumber} author={data.author} />
       </Title>
-      {/* 글 내용 */}
+      {/* post content */}
       <Content body={data.body} />
-      {/* 추천수 */}
+      {/* likes */}
       <div className="flex justify-center">
         <Like {...data} />
       </div>
-      {/* 댓글 */}
+      {/* comments */}
       <div className="flex gap-1 text-xs">
         <h3 className="font-bold">전체 댓글</h3>
         <span className="text-red">{data.comments.length}</span>

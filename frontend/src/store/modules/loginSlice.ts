@@ -1,6 +1,5 @@
-import { Likes } from '@/type/common';
-import { LoginIni, UserType } from '@/type/user/type';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { LoginIni } from '@/type/user/type';
 
 const initialState: LoginIni = {
   img: '',

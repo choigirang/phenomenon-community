@@ -1,12 +1,13 @@
 'use client';
 
-import { CommentData } from '@/type/common';
 import React, { useState } from 'react';
+import Comment from './comment';
 import AddComment from './addComment';
+import { api } from '@/util/api';
+
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
-import { api } from '@/util/api';
-import Comment from './comment';
+import { CommentData } from '@/type/common';
 
 interface CommentProps {
   data: PostType | GalleryType;
@@ -14,14 +15,19 @@ interface CommentProps {
   src: string;
 }
 
+/** type guard - post or gallery */
 function isPostType(data: PostType | GalleryType): data is PostType {
   return (data as PostType).postNumber !== undefined;
 }
 
+/** 2024/05/24 - each post comments data(mapping comment) */
 export default function Comments({ data, src, comment }: CommentProps) {
+  // set init comments data for mutate(ssr)
   const [comments, setComments] = useState<CommentData[] | []>(comment);
 
+  // delete comment func
   const deleteComment = (comment: CommentData) => {
+    // check whit type guard & change api
     api
       .delete(`/${src}/${isPostType(data) ? data.postNumber : data.galleryNumber}/comments/${comment.commentNumber}`)
       .then(() => {
@@ -33,13 +39,13 @@ export default function Comments({ data, src, comment }: CommentProps) {
 
   return (
     <React.Fragment>
-      {/* 댓글 목록 */}
+      {/* comments list */}
       {comments.length === 0 && <div>작성된 댓글이 없습니다.</div>}
-
+      {/* mapping commnet */}
       {comments.map(each => (
         <Comment key={each.commentNumber} data={each} deleteComment={deleteComment}></Comment>
       ))}
-      {/* 댓글 추가 */}
+      {/* add comment*/}
       <AddComment setComments={setComments} data={data} />
     </React.Fragment>
   );

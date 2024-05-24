@@ -1,12 +1,13 @@
+'use client';
+
 type ImageProps = {
   selectedImage: File | null;
   setSelectedImage: React.Dispatch<React.SetStateAction<File | null>>;
 };
 
+/** 2024/05/23 - user profile img(parent: infoPage) in sign page */
 export default function Profile({ setSelectedImage }: ImageProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }

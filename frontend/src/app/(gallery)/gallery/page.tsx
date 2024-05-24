@@ -1,11 +1,14 @@
-import { GalleryType } from '@/type/gallery/type';
-import { api } from '@/util/api';
 import List from '../list';
-import Pagination from '@/app/(common)/pagination';
-import { SearchParams } from '@/type/common';
 import Search from '@/app/(common)/(aboutContent)/(content)/search';
+import Pagination from '@/app/(common)/pagination';
+import { api } from '@/util/api';
 
+import { SearchParams } from '@/type/common';
+import { GalleryType } from '@/type/gallery/type';
+
+// get all gallery posts data
 export async function getAllPosts(page: string = '1', search?: string) {
+  // if keyword && find data with keyword
   try {
     const API = search ? `/gallery?keyword=${search}` : `/gallery?page=${page}`;
     const res = await api.get(API);
@@ -15,6 +18,7 @@ export async function getAllPosts(page: string = '1', search?: string) {
   }
 }
 
+/** 2024/05/10 - all gallery posts page */
 export default async function Page(props: SearchParams) {
   const pageParam = props.searchParams.page;
   const keyword = props.searchParams.keyword;

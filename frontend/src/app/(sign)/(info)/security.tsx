@@ -1,6 +1,9 @@
-import { AxiosSecurityCode, CheckSecurityType, InputType } from '@/type/sign/type';
-import { api } from '@/util/api';
+'use client';
+
 import React from 'react';
+import { api } from '@/util/api';
+
+import { AxiosSecurityCode, CheckSecurityType, InputType } from '@/type/sign/type';
 
 type SecurityProps = {
   security: AxiosSecurityCode;
@@ -11,6 +14,7 @@ type SecurityProps = {
   userMail: InputType;
 };
 
+/** 2024/05/23 - user securtity mail code(parent: infoPage) in sign page */
 export default function Security({
   security,
   setSecurity,
@@ -19,7 +23,7 @@ export default function Security({
   checkMailOpt,
   userMail,
 }: SecurityProps) {
-  // 이메일 수집 동의
+  // agreement email func
   const securityAgreeHandler = () => {
     setCheckSecurity(prev => ({
       ...prev,
@@ -27,14 +31,13 @@ export default function Security({
     }));
   };
 
-  // 보안 코드 입력
+  // security code input func
   const userCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSecurity(prev => ({ ...prev, userCode: value }));
   };
 
-  // 보안 코드 전송 메일 확인
-
+  // send security code func
   const checkMailBeforeSend = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (checkMailOpt) {
@@ -47,7 +50,7 @@ export default function Security({
     }
   };
 
-  // 보안 코드 전송
+  // send security code api
   const sendCodeHandler = () => {
     api
       .post('/signup/security-code', userMail)
@@ -61,7 +64,7 @@ export default function Security({
       .catch(err => console.log(err));
   };
 
-  // 보안 코드 확인
+  // check security code
   const compareSecurityCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (security.code !== '' && security.code !== security.userCode) {
@@ -86,7 +89,7 @@ export default function Security({
         <span className="font-bold">이메일 수집 동의</span>
         <div>
           <div className="flex gap-1">
-            {/* 이메일 수집 동의 */}
+            {/* agreement */}
             <input type="checkbox" id="agree" onClick={securityAgreeHandler} className="outline-none" />
             <label htmlFor="agree">
               입력하신 이메일은 인증 및 보안 코드 전송을 위해 사용하며, 이메일 발송 후 즉시 파기됩니다.
@@ -96,7 +99,7 @@ export default function Security({
       </div>
       <div className="flex gap-2">
         <div>
-          {/* 인증 코드 확인 */}
+          {/* security code input */}
           <input
             type="text"
             placeholder="인증 코드 입력"
@@ -107,7 +110,7 @@ export default function Security({
             확인
           </button>
         </div>
-        {/* 인증 코드 전송 */}
+        {/* send security code */}
         <button
           type="button"
           onClick={e => checkMailBeforeSend(e)}
@@ -115,6 +118,7 @@ export default function Security({
           인증 코드 받기
         </button>
       </div>
+      {/* error msg */}
       <p>{checkSecurity.errInfo}</p>
       <p>{checkSecurity.errCode}</p>
     </React.Fragment>

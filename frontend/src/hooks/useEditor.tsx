@@ -7,28 +7,31 @@ import htmlToDraft from 'html-to-draftjs';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+/** 2024/05/17 - draft editor in post edit page*/
 export default function useEditor(htmlStr: string) {
+  // user input content
   const [content, setContent] = useState(htmlStr);
+  // editor state with html
   const [editorState, setEditorState] = useState<EditorState>(() => EditorState.createEmpty());
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // 클라이언트 사이드에서만 실행되는 코드
-      const blockFromHtml = htmlToDraft(content);
-      if (blockFromHtml) {
-        const { contentBlocks, entityMap } = blockFromHtml;
-        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-        const editorState = EditorState.createWithContent(contentState);
-        setEditorState(editorState);
-      }
+    // change content => html code
+    const blockFromHtml = htmlToDraft(content);
+    if (blockFromHtml) {
+      const { contentBlocks, entityMap } = blockFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState);
     }
   }, [htmlStr]);
 
+  // editor content covert func
   const onEditorStateChange = (editorState: EditorState) => {
     setEditorState(editorState);
     setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
+  // editor files uploader func
   const uploadCallback = (file: Blob) => {
     return new Promise((res, rej) => {
       const reader = new FileReader();
@@ -42,6 +45,7 @@ export default function useEditor(htmlStr: string) {
     });
   };
 
+  // tool bar options
   const toolbar = {
     list: { inDropdown: true },
     textAlign: { inDropdown: true },
@@ -50,6 +54,7 @@ export default function useEditor(htmlStr: string) {
     image: { uploadCallback: uploadCallback },
   };
 
+  // create date func
   const dateHandler = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();

@@ -1,8 +1,9 @@
 'use client';
 
-import useInputs from '@/hooks/useInputs';
-import { ArrowPathIcon } from '@heroicons/react/16/solid';
 import React from 'react';
+import useInputs from '@/hooks/useInputs';
+
+import { ArrowPathIcon } from '@heroicons/react/16/solid';
 
 interface Props {
   children?: React.ReactNode;
@@ -10,13 +11,16 @@ interface Props {
   placeholder: string;
 }
 
+/** 2024/05/23 - search data each page(post,gallery,user) */
 export default function Search({ children, src, placeholder }: Props) {
+  // search keyword hooks
   const { keyword, onChange, onClick, onEnter, setInit } = useInputs(src);
 
   return (
     <React.Fragment>
       <div className="flex w-full justify-center">
         <div className="flex w-1/2 justify-center gap-2 text-xs">
+          {/* search func when enter,click,reset */}
           <input
             onChange={onChange}
             onKeyDown={onEnter}

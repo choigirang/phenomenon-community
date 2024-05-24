@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Editor } from 'react-draft-wysiwyg';
-
 import useEditor from '@/hooks/useEditor';
 import { api } from '@/util/api';
-import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/hooks/useRedux';
+
 import { PostType } from '@/type/community/type';
-import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 
 interface WriterProps {
   data?: PostType;
@@ -15,28 +15,28 @@ interface WriterProps {
   btnName?: string;
 }
 
-/**
- * @param htmlStr 작성된 데이터
- * @param setHtmlStr 데이터 수정
- * post/add 에서 사용될 에디터
- */
+/** 2024/05/20 - post & notice editor in parent(each page) */
 export default function Writer({ data, notice, btnName = '수정하기' }: WriterProps) {
+  // set title when add notice
   const [noticeTit, setNoticeTit] = useState('');
   const router = useRouter();
+  // check login user
   const user = useAppSelector(state => state.loginSlice);
 
-  // 데이터 작성
+  // writer hooks
   const { content, editorState, toolbar, dateHandler, onEditorStateChange } = useEditor(data ? data.body : '');
 
-  // 글 수정 || 공지 추가
+  // add notice or edit post func
   const editHandler = () => {
     if (data) {
+      // edit post
       api
         .post(`/edit/${data.postNumber}`, { ...data, body: content })
         .then(() => alert('게시글이 수정되었습니다.'))
         .catch(() => alert('서버에러 입니다.'))
         .finally(() => router.push('/'));
     } else {
+      // add notice
       api
         .post('/notice', { author: user.id, title: noticeTit, content, date: dateHandler() })
         .then(() => alert('공지사항이 작성되었습니다.'))
@@ -45,6 +45,7 @@ export default function Writer({ data, notice, btnName = '수정하기' }: Write
     }
   };
 
+  // set title when notice func
   const noticeTitHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNoticeTit(value);
@@ -52,6 +53,7 @@ export default function Writer({ data, notice, btnName = '수정하기' }: Write
 
   return (
     <React.Fragment>
+      {/* add title when notice page */}
       {notice && <input onChange={e => noticeTitHandler(e)} placeholder="제목을 입력하세요." />}
       <div className="flex flex-col border p-5 text-black">
         <Editor

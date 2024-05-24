@@ -1,16 +1,21 @@
 'use client';
 
-import { CheckPass } from '@/type/sign/type';
-import { CheckCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
+
+import { CheckPass } from '@/type/sign/type';
+
+import { CheckCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/16/solid';
 
 type PasswordProps = {
   checkPass: CheckPass;
   setCheckPass: React.Dispatch<React.SetStateAction<CheckPass>>;
 };
 
+/** 2024/05/23 - user pass(parent: infoPage) in sign page */
 export default function Password({ checkPass, setCheckPass }: PasswordProps) {
+  // show | hide password
   const [toggle, setToggle] = useState({ first: false, second: false });
+  // check password validation
   const [pass, setPass] = useState({
     firstPass: '',
     secondPass: '',
@@ -19,23 +24,26 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
     validation: false,
   });
 
+  // check password validation func
   const checkPassHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
+    // first password
     if (name === 'firstPass') {
       setPass(prev => ({ ...prev, firstPass: value }));
 
-      // 비밀번호 길이
+      // length
       if (value.length >= 8 && value.length <= 20) setPass(prev => ({ ...prev, length: true }));
       else setPass(prev => ({ ...prev, length: false }));
 
       const check = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$/;
 
-      // 비밀번호 유효성
+      // special char
       if (check.test(value)) setPass(prev => ({ ...prev, word: true }));
       else setPass(prev => ({ ...prev, word: false }));
     }
 
+    // second password
     if (name === 'secondPass') {
       setPass(prev => ({ ...prev, secondPass: value }));
 
@@ -55,7 +63,7 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
         비밀번호
       </label>
       <div className="flex flex-col gap-1">
-        {/* 1차 비밀번호 */}
+        {/* first password */}
         <div className="flex justify-between items-center border border-lightGray">
           <input
             id="pass"
@@ -71,7 +79,7 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
             {toggle.first ? <EyeSlashIcon width={12} height={12} /> : <EyeIcon width={12} height={12} />}
           </div>
         </div>
-        {/* 2차 비밀번호 */}
+        {/* second password */}
         <div className="flex justify-between items-center border border-lightGray">
           <input
             type={toggle.second ? 'text' : 'password'}
@@ -82,10 +90,12 @@ export default function Password({ checkPass, setCheckPass }: PasswordProps) {
             autoComplete="new-password"
             className="w-full p-default outline-none"
           />
+          {/* show | hide password */}
           <div className="cursor-pointer" onClick={() => setToggle(prev => ({ ...prev, second: !prev.second }))}>
             {toggle.second ? <EyeSlashIcon width={12} height={12} /> : <EyeIcon width={12} height={12} />}
           </div>
         </div>
+        {/* password description */}
         <div className="flex flex-col">
           <span className="font-semibold">비밀번호 필수 조건</span>
           <p className="flex gap-1">

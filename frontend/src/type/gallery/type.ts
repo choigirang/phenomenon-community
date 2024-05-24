@@ -5,7 +5,7 @@ type ImageSrc = {
   _id: string;
 };
 
-/** 갤러리 타입 */
+/** gallery type */
 export interface GalleryType {
   galleryNumber: number;
   title: string;

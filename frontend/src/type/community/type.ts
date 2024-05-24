@@ -1,6 +1,6 @@
 import { CommentData } from '../common';
 
-/** 포스트 타입 */
+/** post type  */
 export interface PostType {
   postNumber: number;
   author: string;

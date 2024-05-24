@@ -1,16 +1,18 @@
-import Pagination from '@/app/(common)/pagination';
-import { Notice, SearchParams } from '@/type/common';
-import { api } from '@/util/api';
 import Link from 'next/link';
 import AddNotice from '../addNotice';
-import Search from '@/app/(common)/(aboutContent)/(content)/search';
+import Pagination from '@/app/(common)/pagination';
+import { api } from '@/util/api';
 
+import { Notice, SearchParams } from '@/type/common';
+
+// get notice all data
 async function getData(page: string = '1') {
   const API = `/notice?page=${page}`;
   const res = await api.get(API);
   return res.data;
 }
 
+/** 2024/05/21 - all notice list page */
 export default async function Page(props: SearchParams) {
   const pageParam = props.searchParams.page;
 
@@ -20,8 +22,10 @@ export default async function Page(props: SearchParams) {
     <div className="flex flex-col">
       <div className="flex justify-center items-center">
         <h2 className="w-full pb-default text-center text-blue text-xl font-bold">공지사항</h2>
+        {/* if super user */}
         <AddNotice />
       </div>
+      {/* notice list */}
       <ul className="w-full flex flex-col gap-2 text-sm border-y-4 border-blue">
         {notice.map((each: Notice) => (
           <li key={each.noticeNumber} className="w-full p-default border-b last:border-0">

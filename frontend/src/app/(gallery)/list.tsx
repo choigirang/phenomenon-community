@@ -1,9 +1,12 @@
-import { GALLERY_URL } from '@/constant/constant';
-import { GalleryType } from '@/type/gallery/type';
-import { EyeIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { GalleryType } from '@/type/gallery/type';
+
+import { EyeIcon } from '@heroicons/react/16/solid';
+import { GALLERY_URL } from '@/constant/constant';
+
+/** 2024/05/10 - gallery img list in home page (parent: preGallery) */
 export default function List(data: GalleryType) {
   return (
     <li className="relative flex justify-center items-center w-full min-h-[120px] h-full p-1 bg-lightBlue rounded overflow-hidden">

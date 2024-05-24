@@ -1,12 +1,14 @@
-import { SearchParams } from '@/type/common';
-import { api } from '@/util/api';
-import { PostType } from '@/type/community/type';
 import dynamic from 'next/dynamic';
+import { api } from '@/util/api';
+
+import { PostType } from '@/type/community/type';
+import { SearchParams } from '@/type/common';
 
 const Writer = dynamic(() => import('@/app/(common)/(aboutContent)/(content)/writer'), {
   ssr: false,
 });
 
+// add each post data for edit
 async function getPostData(postNum: string) {
   try {
     const res = await api.get(`/post/${postNum}`);
@@ -16,6 +18,7 @@ async function getPostData(postNum: string) {
   }
 }
 
+/** 2024/05/17 - each post edit page */
 export default async function Page(page: SearchParams) {
   const num = page.searchParams.num;
   const data: PostType = await getPostData(num);
