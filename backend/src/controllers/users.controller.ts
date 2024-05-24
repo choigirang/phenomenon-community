@@ -111,7 +111,8 @@ async function searchUserData(req: Request, res: Response) {
 
   try {
     const userInfo = await User.findOne({ id });
-    const userPosts = await Post.find({ author: id });
+    const userPosts = await Post.find({ author: id }).sort({ postNumber: -1 });
+    const userGallery = await Gallery.find({ author: id }).sort({ galleryNumber: -1 });
 
     const userAllComments: CommentData[] = [];
 
@@ -132,7 +133,7 @@ async function searchUserData(req: Request, res: Response) {
       });
     });
 
-    return res.status(200).send({ userPosts, userAllComments, userInfo });
+    return res.status(200).send({ userPosts, userGallery, userAllComments, userInfo });
   } catch (err) {
     return res.status(404).send(err);
   }
@@ -147,15 +148,14 @@ async function checkDuplicate(req: Request, res: Response) {
       const alreadyId = await User.findOne({ id });
 
       if (alreadyId) return res.status(404).json('존재하는 아이디입니다.');
-      else return res.status(200).json('사용 가능한 아이디입니다.');
     }
 
     if (nickName) {
       const alreadyNickName = await User.findOne({ name: nickName });
 
       if (alreadyNickName) return res.status(404).json('존재하는 닉네임입니다.');
-      else return res.status(200).json('사용 가능한 닉네임입니다.');
     }
+    return res.status(200).json('사용 가능한 닉네임입니다.');
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -164,6 +164,8 @@ async function checkDuplicate(req: Request, res: Response) {
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
   const { id, password, name, mail } = req.body;
+
+  console.log(req.body);
 
   try {
     const data = (req.file as Express.MulterS3.File)?.location;
@@ -180,6 +182,7 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
       hashed,
       name,
       mail,
+      password,
       super: false,
       img,
     });
