@@ -49,7 +49,6 @@ const gallerySchema = new mongoose.Schema({
       },
       commentNumber: {
         type: Number,
-        unique: true,
         required: true,
       },
     },

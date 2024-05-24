@@ -6,6 +6,7 @@ import User from '../models/users.model';
 
 // 갤러리 최근 조회
 export async function latestGallery(req: Request, res: Response) {
+  console.log('latestGallery 실행');
   try {
     const latestGallery = (await Gallery.find().sort({ galleryNumber: -1 })).splice(0, 5);
 
@@ -19,10 +20,35 @@ export async function latestGallery(req: Request, res: Response) {
 
 // 갤러리 조회
 export async function galleryList(req: Request, res: Response) {
-  try {
-    const findGallery = await Gallery.find().sort({ galleryNumber: -1 });
+  console.log('galleryList 실행');
+  const { page, keyword } = req.query;
+  const itemsPerPage = 10;
+  const currentPage = parseInt(page as string, 10) || 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  console.log(req.query);
 
-    res.status(200).json(findGallery);
+  try {
+    if (keyword) {
+      const gallery = await Gallery.find({
+        $or: [{ title: { $regex: keyword, $options: 'i' } }],
+      })
+        .sort({ galleryNumber: -1 })
+        .skip(startIndex)
+        .limit(itemsPerPage);
+
+      const totalGallery = await Gallery.find({
+        $or: [{ title: { $regex: keyword, $options: 'i' } }],
+      })
+        .sort({ galleryNumber: -1 })
+        .countDocuments();
+
+      return res.status(200).json({ gallery, totalGallery });
+    } else {
+      const gallery = await Gallery.find().sort({ galleryNumber: -1 }).skip(startIndex).limit(itemsPerPage);
+      const totalGallery = await Gallery.countDocuments();
+
+      return res.status(200).json({ gallery, totalGallery });
+    }
   } catch (err) {
     res.status(500).json('server err');
   }
@@ -30,6 +56,7 @@ export async function galleryList(req: Request, res: Response) {
 
 // 갤러리 추가
 export async function addImageToGallery(req: Request, res: Response) {
+  console.log('addImageToGallery 실행');
   try {
     // 클라이언트로부터 받은 정보
     const { title, author, date } = req.body;
@@ -62,6 +89,7 @@ export async function addImageToGallery(req: Request, res: Response) {
 
 // 개별 갤러리 조회
 export async function detailGallery(req: Request, res: Response) {
+  console.log('detailGallery 실행');
   const { id } = req.params;
   try {
     const findGallery = await Gallery.findOne({ galleryNumber: id });
@@ -79,6 +107,7 @@ export async function detailGallery(req: Request, res: Response) {
 
 // 게시글 삭제
 export async function deleteGallery(req: Request, res: Response) {
+  console.log('deleteGallery 실행');
   const { id } = req.params;
 
   try {
@@ -94,6 +123,7 @@ export async function deleteGallery(req: Request, res: Response) {
 
 // 게시글 좋아요
 export async function likesGallery(req: Request, res: Response) {
+  console.log('likesGallery 실행');
   const { id, galleryNumber } = req.body;
 
   try {
@@ -136,6 +166,7 @@ export async function likesGallery(req: Request, res: Response) {
 
 // 갤러리 댓글
 export async function galleryAddComment(req: Request, res: Response) {
+  console.log('galleryAddComment 실행');
   const { galleryNumber, author, comment, date } = req.body;
   try {
     const findGallery: GalleryType | null = await Gallery.findOne({ galleryNumber });
@@ -144,19 +175,28 @@ export async function galleryAddComment(req: Request, res: Response) {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    const commentNumber = findGallery.comments.length;
+    const maxCommentNumber =
+      findGallery.comments.length > 0
+        ? Math.max(...findGallery.comments.map(comment => comment.commentNumber || 0))
+        : 0;
 
-    const newComment: CommentData = { commentNumber: commentNumber + 1, author, comment, date };
+    const newComment: CommentData = { commentNumber: maxCommentNumber + 1, author, comment, date };
     findGallery.comments.unshift(newComment);
 
-    await findGallery.save();
+    await findGallery
+      .save()
+      .then(() => console.log('중단점'))
+      .catch(err => console.log('중단점2', err));
 
     return res.status(200).json({ message: '댓글이 추가되었습니다.', gallery: findGallery });
-  } catch (err) {}
+  } catch (err) {
+    return res.status(404).send('check err');
+  }
 }
 
 // 갤러리 댓글 수정
 export async function galleryEditComment(req: Request, res: Response) {
+  console.log('galleryEditComment 실행');
   const { galleryNumber, commentNumber } = req.params;
   const { comment: newComment } = req.body;
 
@@ -189,6 +229,7 @@ export async function galleryEditComment(req: Request, res: Response) {
 
 // 갤러리 댓글 삭제
 export async function galleryDeleteComment(req: Request, res: Response) {
+  console.log('galleryDeleteComment 실행');
   const { galleryNumber, commentNumber } = req.params;
 
   try {

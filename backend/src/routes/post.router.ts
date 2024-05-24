@@ -29,7 +29,7 @@ postRouter.get('/posts', showPosts);
 postRouter.get('/post/:id', showEachPost);
 
 // 카테고리 게시글 조회
-postRouter.get('/posts/:category', categoryPost);
+postRouter.get('/posts/category', categoryPost);
 
 // 게시글 추가
 postRouter.post('/posts', addPost);
@@ -53,4 +53,4 @@ postRouter.delete('/post/:postNumber/comments/:commentNumber', deleteComment);
 postRouter.post('/post/likes', postAddLikes);
 
 // 게시글 검색
-postRouter.get('/search', searchPost);
+postRouter.get('/posts/search', searchPost);

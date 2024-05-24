@@ -7,6 +7,7 @@ import Gallery from '../models/gallery.model';
 
 // 전체 게시글 조회
 export async function allPost(req: Request, res: Response) {
+  console.log('allPost 실행');
   const posts = await Post.find().sort({ postNumber: -1 });
 
   try {
@@ -18,6 +19,7 @@ export async function allPost(req: Request, res: Response) {
 
 // 최신 게시글 조회
 export async function latestPost(req: Request, res: Response) {
+  console.log('latest 실행');
   const posts = await Post.find().sort({ postNumber: -1 }).limit(10);
 
   try {
@@ -29,6 +31,7 @@ export async function latestPost(req: Request, res: Response) {
 
 // 페이지네이션 게시글 조회
 export async function showPosts(req: Request, res: Response) {
+  console.log('showPosts 실행');
   const { page, category } = req.query;
   const itemsPerPage = 10;
   const currentPage = parseInt(page as string, 10) || 1;
@@ -49,6 +52,7 @@ export async function showPosts(req: Request, res: Response) {
 
 // 개별 게시글 조회
 export async function showEachPost(req: Request, res: Response) {
+  console.log('showEachPost 실행');
   const { id } = req.params;
 
   if (!id) return;
@@ -72,6 +76,7 @@ export async function showEachPost(req: Request, res: Response) {
 
 // 카테고리 게시글 조회
 export async function categoryPost(req: Request, res: Response) {
+  console.log('categoryPost 실행');
   const { category } = req.params;
 
   try {
@@ -87,6 +92,7 @@ export async function categoryPost(req: Request, res: Response) {
 
 // 게시글 추가
 export async function addPost(req: Request, res: Response) {
+  console.log('addPost 실행');
   const { title, body, date, author, name, category } = req.body;
 
   try {
@@ -112,6 +118,7 @@ export async function addPost(req: Request, res: Response) {
 
 // 게시글 삭제
 export async function deletePost(req: Request, res: Response) {
+  console.log('deletePost 실행');
   const { id } = req.params;
 
   try {
@@ -127,6 +134,7 @@ export async function deletePost(req: Request, res: Response) {
 
 // 게시글 수정
 export async function editPost(req: Request, res: Response) {
+  console.log('editPost 실행');
   const { id } = req.params;
   const { title, body, date, author, category } = req.body;
 
@@ -157,6 +165,7 @@ export async function editPost(req: Request, res: Response) {
 
 // 게시글 댓글 추가
 export async function addComment(req: Request, res: Response) {
+  console.log('addComment 실행');
   const { postNumber, author, comment, date } = req.body;
 
   try {
@@ -182,6 +191,7 @@ export async function addComment(req: Request, res: Response) {
 
 // 댓글 수정
 export async function editComment(req: Request, res: Response) {
+  console.log('editComment 실행');
   const { postNumber, commentNumber } = req.params;
   const { comment: newComment } = req.body;
 
@@ -212,6 +222,7 @@ export async function editComment(req: Request, res: Response) {
 
 // 댓글 삭제
 export async function deleteComment(req: Request, res: Response) {
+  console.log('deleteComment 실행');
   const { postNumber, commentNumber } = req.params;
 
   try {
@@ -240,6 +251,7 @@ export async function deleteComment(req: Request, res: Response) {
 
 /** 게시글 좋아요 */
 export async function postAddLikes(req: Request, res: Response) {
+  console.log('postAddLikes 실행');
   const { id, postNumber } = req.body;
 
   try {
@@ -285,19 +297,43 @@ export async function postAddLikes(req: Request, res: Response) {
 
 /** 특정 게시글 검색 */
 export async function searchPost(req: Request, res: Response) {
+  console.log('searchPost 실행');
   try {
     const keyword = req.query.keyword;
+    const page = req.query.page || 1;
+
+    const itemsPerPage = 10;
+    const currentPage = parseInt(page as string, 10) || 1;
+    const startIndex = (currentPage - 1) * itemsPerPage;
 
     // 키워드를 포함하는 데이터 검색
-    const searchPostResults = await Post.find({
+    const posts = await Post.find({
       $or: [{ title: { $regex: keyword, $options: 'i' } }, { content: { $regex: keyword, $options: 'i' } }],
-    }).sort({ postNumber: -1 });
+    })
+      .sort({ postNumber: -1 })
+      .skip(startIndex)
+      .limit(itemsPerPage);
+
+    const totalPosts = await Post.find({
+      $or: [{ title: { $regex: keyword, $options: 'i' } }, { content: { $regex: keyword, $options: 'i' } }],
+    })
+      .sort({ postNumber: -1 })
+      .countDocuments();
 
     const searchGalleryResults = await Gallery.find({
       $or: [{ title: { $regex: keyword, $options: 'i' } }],
-    }).sort({ galleryNumber: -1 });
+    })
+      .sort({ galleryNumber: -1 })
+      .skip(startIndex)
+      .limit(itemsPerPage);
 
-    res.status(200).json({ searchPostResults, searchGalleryResults });
+    const totalGallery = await Gallery.find({
+      $or: [{ title: { $regex: keyword, $options: 'i' } }],
+    })
+      .sort({ galleryNumber: -1 })
+      .countDocuments();
+
+    res.status(200).json({ posts, totalPosts });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

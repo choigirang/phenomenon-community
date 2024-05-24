@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'logo';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* for editor */
+.rdw-editor-main {
+  height: auto;
+}
+
+.DraftEditor-editorContainer,
+.DraftEditor-root {
+  height: auto !important;
+}
