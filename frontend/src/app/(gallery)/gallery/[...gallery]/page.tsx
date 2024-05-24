@@ -1,4 +1,4 @@
-import Comment from '@/app/(common)/(aboutContent)/(comment)/comment';
+import Comment from '@/app/(common)/(aboutContent)/(comment)/comments';
 import Title from '@/app/(common)/(aboutContent)/(content)/title';
 import Edit from '@/app/(common)/(aboutContent)/(content)/edit';
 import Like from '@/app/(common)/(aboutContent)/(content)/like';
@@ -50,7 +50,7 @@ export default async function Page(page: SearchParams) {
         <h3 className="font-bold">전체 댓글</h3>
         <span className="text-red">{data.comments.length}</span>
       </div>
-      <Comment data={data} comment={data.comments} />
+      <Comment src="gallery" data={data} comment={data.comments} />
     </section>
   );
 }

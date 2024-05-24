@@ -2,7 +2,7 @@ import { PostType } from '@/type/community/type';
 import { api } from '@/util/api';
 import Content from '../../../(common)/(aboutContent)/(content)/content';
 import Like from '../../../(common)/(aboutContent)/(content)/like';
-import Comment from '@/app/(common)/(aboutContent)/(comment)/comment';
+import Comment from '@/app/(common)/(aboutContent)/(comment)/comments';
 import Edit from '../../../(common)/(aboutContent)/(content)/edit';
 import { SearchParams } from '@/type/common';
 import Title from '@/app/(common)/(aboutContent)/(content)/title';
@@ -37,7 +37,7 @@ export default async function Page(page: SearchParams) {
         <h3 className="font-bold">전체 댓글</h3>
         <span className="text-red">{data.comments.length}</span>
       </div>
-      <Comment data={data} comment={data.comments} />
+      <Comment src="post" data={data} comment={data.comments} />
     </section>
   );
 }
