@@ -1,10 +1,17 @@
+import { Metadata } from 'next';
 import PostList from '@/app/(posts)/list';
 import GalleryList from '@/app/(gallery)/list';
 import { api } from '@/util/api';
+import { getMetadata } from '@/constant/metaData';
 
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
 import { UserType } from '@/type/user/type';
+
+/** user id meta */
+export const generateMetadata = async ({ params: { id } }: { params: { id: string } }): Promise<Metadata> => {
+  return getMetadata({ title: `${id}`, asPath: `/user/${id}` });
+};
 
 // fetch user data
 async function getUser(user: string) {
@@ -35,7 +42,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
       <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">게시글</h2>
       {/* user's post list */}
       <ul className="flex flex-col gap-2">
-        {posts.length !== 0 ? (
+        {posts && posts.length !== 0 ? (
           posts.map(list => <PostList key={list.title} {...list} />)
         ) : (
           <li>작성된 게시글이 없습니다.</li>
@@ -44,7 +51,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
       <h2 className="flex gap-4 items-center text-lg text-blue border-b-4 border-darkBlue font-bold">갤러리</h2>
       {/* user's gallery list */}
       <ul className="grid grid-cols-preGallery aspect-auto gap-3">
-        {gallery.length !== 0 ? (
+        {gallery && gallery.length !== 0 ? (
           gallery.map(list => <GalleryList key={list.title} {...list} />)
         ) : (
           <li>작성된 갤러리가 없습니다.</li>
