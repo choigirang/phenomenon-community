@@ -27,7 +27,7 @@ export default function AddComment(props: AddCommentProps) {
   // comment content
   const [content, setContent] = useState('');
   // create date
-  const { dateHandler } = useEditor('');
+  // const { dateHandler } = useEditor('');
 
   // handle write comment data
   const writeComment = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,7 +38,7 @@ export default function AddComment(props: AddCommentProps) {
     if (content) {
       // type guard post
       if (isPostType(props.data)) {
-        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: dateHandler() };
+        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: '' }; // date: dateHandler()
         api.post('/post/comment', { ...comment }).then(res => {
           alert('댓글이 작성되었습니다.');
           props.setComments(prev => [comment, ...prev]);
@@ -50,7 +50,7 @@ export default function AddComment(props: AddCommentProps) {
           galleryNumber: props.data.galleryNumber,
           author: user.id,
           comment: content,
-          date: dateHandler(),
+          date: '', //dateHandler()
         };
         api
           .post('/gallery/comment', { ...comment })
