@@ -6,7 +6,13 @@
 
 module.exports = {
   images: {
-    domains: ['choigirang-why-community.s3.ap-northeast-2.amazonaws.com'], // 사용하는 도메인에 맞게 수정
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'choigirang-why-community.s3.ap-northeast-2.amazonaws.com',
+        pathname: '/**',
+      },
+    ],
   },
   reactStrictMode: false,
 };
