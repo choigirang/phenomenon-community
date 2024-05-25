@@ -1,5 +1,7 @@
+import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { api } from '@/util/api';
+import { getMetadata } from '@/constant/metaData';
 
 import { PostType } from '@/type/community/type';
 import { SearchParams } from '@/type/common';
@@ -7,6 +9,16 @@ import { SearchParams } from '@/type/common';
 const Writer = dynamic(() => import('@/app/(common)/(aboutContent)/(content)/writer'), {
   ssr: false,
 });
+
+/** posts edit page meta */
+export const generateMetadata = async (page: SearchParams): Promise<Metadata> => {
+  const num = page.searchParams.num;
+
+  return getMetadata({
+    title: `게시글 수정`,
+    asPath: `/posts/edit?num=${num}`,
+  });
+};
 
 // add each post data for edit
 async function getPostData(postNum: string) {
