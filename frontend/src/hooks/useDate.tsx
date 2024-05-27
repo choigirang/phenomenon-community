@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 /** 2024/05/27 - date generate */
 export default function useDate() {
-  const [date, setDate] = useState<string>();
+  const [date, setDate] = useState<string>('0000-00-00');
 
   // create date func
   const dateHandler = () => {
@@ -23,5 +23,5 @@ export default function useDate() {
     }
   }, []);
 
-  return { dateHandler };
+  return { date };
 }

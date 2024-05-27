@@ -1,5 +1,5 @@
 <h4 align="center">혼자서 만들어보는 커뮤니티</h4>
-<h1 align="center">아 왜?</h1>
+<h1 align="center">이게 왜 진짠가요?</h1>
 <div  align="center">
   <img width="40%" src="https://github.com/choigirang/why-community/assets/118104644/4ed922a7-d868-4925-9c75-7e9431c219e8" alt="YC">
 </div>
@@ -10,7 +10,6 @@
 
 - **프로젝트 명 :** `Why-chat`
 - **프로젝트 소개 :** 간단한 글을 작성하고 이미지를 올릴 수 있는 커뮤니티를 만들보았습니다.
-<!-- - **배포 링크 :** <a href='https://sidequest.co.kr' target='_blank'>Why-Community</a> -->
 
 <br>
 
@@ -28,6 +27,28 @@
 
 <br>
 
+<detail>
+<summary>after : Next 14 펼치기</summary>
+
+## 기술 목록
+
+## FrontEnd
+
+|                                                                                    TypeScript                                                                                     |                                                                                      Next.js                                                                                      |                                                                                     Redux                                                                                     |                                                                                  tailwind                                                                                   |                                                                                    EC2                                                                                    |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/nextdotjs/#61DAFB" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/redux/#61DAFB" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/tailwindcss" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazonec2" alt="icon" width="75" height="75" /></div> |
+
+<br />
+
+## BackEnd
+
+- **Next 13 동일**
+
+</detail>
+
+<detail>
+<summary>before : Next 13 펼치기</summary>
+
 ## 기술 목록
 
 ## FrontEnd
@@ -44,7 +65,10 @@
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/express/#E0234E" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/jsonwebtokens/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/mongodb/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazons3/#569A31" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazonec2/#FF9900" alt="icon" width="75" height="75" /></div> |
 
+</detail>
+
 ## npm
+
 ```js
 cd frontend
 npm install
