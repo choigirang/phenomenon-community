@@ -34,7 +34,7 @@ export default function Login() {
       ) : (
         // when not login
         <NotLogin props={needNotLogin}>
-          <Link href={'/sign'}>회원가입</Link>
+          <Link href={'/sign?page=agree'}>회원가입</Link>
           <Link href={'/user/findId'}>아이디·비밀번호</Link>
         </NotLogin>
       )}

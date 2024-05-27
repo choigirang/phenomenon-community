@@ -25,7 +25,6 @@ export async function galleryList(req: Request, res: Response) {
   const itemsPerPage = 10;
   const currentPage = parseInt(page as string, 10) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  console.log(req.query);
 
   try {
     if (keyword) {

@@ -9,6 +9,7 @@ import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
 import { LoginIni } from '@/type/user/type';
+import useDate from '@/hooks/useDate';
 
 /** 2024/05/22 - 타입 가드 post or gallery */
 function isPostType(data: PostType | GalleryType): data is PostType {
@@ -27,7 +28,7 @@ export default function AddComment(props: AddCommentProps) {
   // comment content
   const [content, setContent] = useState('');
   // create date
-  const { dateHandler } = useEditor('');
+  const { dateHandler } = useDate();
 
   // handle write comment data
   const writeComment = (e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -6,6 +6,30 @@ import Search from '@/app/(common)/(aboutContent)/(content)/search';
 
 import { PostType } from '@/type/community/type';
 import { SearchParams } from '@/type/common';
+import { Metadata } from 'next';
+import { getMetadata } from '@/constant/metaData';
+import { CATEGORY } from '@/constant/constant';
+
+/** posts page meta */
+export const generateMetadata = async (props: SearchParams): Promise<Metadata> => {
+  const path = props.searchParams.page;
+  const pageParam = props.searchParams.page;
+  const categoryParam = props.searchParams.category;
+  const keyword = props.searchParams.keyword;
+
+  function title() {
+    const category = Object.entries(CATEGORY).find(([key, val]) => val === categoryParam)?.[0];
+
+    if (keyword) return `${keyword}`;
+    else if (category) return `${category} 게시글`;
+    else return `${pageParam} 페이지`;
+  }
+
+  return getMetadata({
+    title: title(),
+    asPath: `/sign?page=${path}`,
+  });
+};
 
 // get all post data
 export async function getAllPosts(page: string = '1', category: string = 'all', search?: string) {
@@ -32,7 +56,7 @@ export default async function Page(props: SearchParams) {
       <div className="flex flex-col gap-2">
         <p className="text-xs border-b border-dashed border-darkBlue pb-default">전체 게시물</p>
         {/* post list */}
-        {posts.length ? (
+        {posts && posts.length ? (
           <ul className="flex flex-col gap-2">
             {posts.map((list: PostType) => (
               <List key={list.title} {...list} />

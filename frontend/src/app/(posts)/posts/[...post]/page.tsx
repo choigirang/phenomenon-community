@@ -1,12 +1,25 @@
+import { Metadata } from 'next';
 import { api } from '@/util/api';
 import Title from '@/app/(common)/(aboutContent)/(content)/title';
 import Edit from '../../../(common)/(aboutContent)/(content)/edit';
 import Content from '../../../(common)/(aboutContent)/(content)/content';
 import Like from '../../../(common)/(aboutContent)/(content)/like';
 import Comment from '@/app/(common)/(aboutContent)/(comment)/comments';
+import { getMetadata } from '@/constant/metaData';
 
 import { SearchParams } from '@/type/common';
 import { PostType } from '@/type/community/type';
+
+/** posts edit page meta */
+export const generateMetadata = async (page: SearchParams): Promise<Metadata> => {
+  const post = page.params.post;
+  const data: PostType = await getPostData(post[0]);
+
+  return getMetadata({
+    title: `${data.title}`,
+    asPath: `/posts/${post}`,
+  });
+};
 
 // get each post data
 async function getPostData(postNum: string) {

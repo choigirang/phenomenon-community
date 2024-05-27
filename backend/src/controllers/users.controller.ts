@@ -11,6 +11,7 @@ import Gallery from '../models/gallery.model';
 
 // 로그인
 async function loginUser(req: Request, res: Response) {
+  console.log('loginUser 실행');
   try {
     const { id, password } = req.body;
     const user: UserType | null = await User.findOne({ id });
@@ -47,6 +48,7 @@ async function loginUser(req: Request, res: Response) {
 
 // 유저 확인
 async function checkUser(req: Request, res: Response) {
+  console.log('checkUser 실행');
   try {
     const cookie = req.cookies.refresh;
 
@@ -76,10 +78,32 @@ async function checkUser(req: Request, res: Response) {
 
 // 전체 유저
 async function allUser(req: Request, res: Response) {
-  try {
-    const findAllUser = await User.find();
+  console.log('allUser 실행');
 
-    res.status(200).json({ findAllUser });
+  const { page, id } = req.query;
+  const itemsPerPage = 30;
+  const currentPage = parseInt(page as string, 10) || 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  try {
+    if (id) {
+      const users = await User.find({
+        $or: [{ id: { $regex: id, $options: 'i' } }],
+      })
+        .skip(startIndex)
+        .limit(itemsPerPage);
+
+      const totalUsers = await User.find({
+        $or: [{ id: { $regex: id, $options: 'i' } }],
+      }).countDocuments();
+
+      return res.status(200).json({ users: users.reverse(), totalUsers });
+    } else {
+      const users = await User.find().skip(startIndex).limit(itemsPerPage);
+      const totalUsers = await User.countDocuments();
+
+      return res.status(200).json({ users: users.reverse(), totalUsers });
+    }
   } catch (err) {
     res.status(500).json({ error: '서버오류' });
   }
@@ -87,6 +111,7 @@ async function allUser(req: Request, res: Response) {
 
 // 개별 유저 검색
 async function searchUser(req: Request, res: Response) {
+  console.log('searchUser 실행');
   try {
     const id = req.query.id;
 
@@ -107,6 +132,7 @@ async function searchUser(req: Request, res: Response) {
 
 // 개별 유저 작성 게시글
 async function searchUserData(req: Request, res: Response) {
+  console.log('searchUserData 실행');
   const id = req.query.id;
 
   try {
@@ -141,6 +167,7 @@ async function searchUserData(req: Request, res: Response) {
 
 // 중복 검사
 async function checkDuplicate(req: Request, res: Response) {
+  console.log('checkDuplicate 실행');
   const { id, nickName } = req.query;
 
   try {
@@ -163,6 +190,7 @@ async function checkDuplicate(req: Request, res: Response) {
 
 // 회원가입
 async function createUser(req: Request, res: Response, next: NextFunction) {
+  console.log('createUser 실행');
   const { id, password, name, mail } = req.body;
 
   console.log(req.body);
@@ -204,6 +232,7 @@ function generateRandomCode() {
 
 // 보안 코드 전송
 async function sendSecurityCode(req: Request, res: Response) {
+  console.log('sendSecurityCode 실행');
   const { mail, domain } = req.body;
   const securityCode = generateRandomCode();
   try {

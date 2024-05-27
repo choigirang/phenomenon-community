@@ -27,7 +27,7 @@ export default async function Page(props: SearchParams) {
   return (
     <section>
       <ul className="grid grid-cols-preGallery aspect-auto gap-3">
-        {gallery.length ? (
+        {gallery && gallery.length ? (
           gallery.map((data: GalleryType) => <List key={data.galleryNumber} {...data} />)
         ) : (
           <div className="flex justify-center">작성된 게시글이 없습니다.</div>

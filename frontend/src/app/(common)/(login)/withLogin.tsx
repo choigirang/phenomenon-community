@@ -16,7 +16,7 @@ export default function WithLogin({ children }: React.PropsWithChildren) {
   // hide login path
   const checkpath = path === '/' || path === '/posts' || path === '/gallery';
   // guard path when user approch with url
-  const guard = path === '/post/edit' || path === '/notice/add';
+  const guard = path === '/posts/edit' || path === '/notice/add';
 
   useEffect(() => {
     const user = window.localStorage.getItem('user');
