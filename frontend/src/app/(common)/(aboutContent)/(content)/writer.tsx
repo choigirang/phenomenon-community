@@ -28,7 +28,7 @@ export default function Writer({ data, notice, btnName = '수정하기' }: Write
   const { content, editorState, toolbar, onEditorStateChange } = useEditor(data ? data.body : '');
 
   // date hooks
-  const { dateHandler } = useDate();
+  const { date } = useDate();
 
   // add notice or edit post func
   const editHandler = () => {
@@ -42,7 +42,7 @@ export default function Writer({ data, notice, btnName = '수정하기' }: Write
     } else {
       // add notice
       api
-        .post('/notice', { author: user.id, title: noticeTit, content, date: dateHandler() })
+        .post('/notice', { author: user.id, title: noticeTit, content, date })
         .then(() => alert('공지사항이 작성되었습니다.'))
         .catch(() => alert('서버에러입니다.'))
         .finally(() => router.push('/'));

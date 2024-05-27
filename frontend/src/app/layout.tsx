@@ -1,14 +1,23 @@
+import { Metadata } from 'next';
 import Header from './(common)/(header)/header';
 import Footer from './(common)/(footer)/footer';
+import WithLogin from './(common)/(login)/withLogin';
 import WithProvider from '@/util/provider/withProvider';
+import { getMetadata } from '@/constant/metaData';
 
 import '../style/global.css';
-import WithLogin from './(common)/(login)/withLogin';
 
 interface RootLayoutProps {
   children: React.ReactNode;
   showLogin?: boolean;
 }
+
+/** home page meta */
+export const generateMetadata = async (): Promise<Metadata> => {
+  return getMetadata({
+    asPath: `/`,
+  });
+};
 
 /** 2024/05/23 - layout by path(withLogin) */
 export default function RootLayout({ children }: RootLayoutProps) {
