@@ -1,5 +1,11 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
 /** 2024/05/27 - date generate */
 export default function useDate() {
+  const [date, setDate] = useState<string>();
+
   // create date func
   const dateHandler = () => {
     const currentDate = new Date();
@@ -10,6 +16,12 @@ export default function useDate() {
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
   };
+
+  useEffect(() => {
+    if (window) {
+      setDate(dateHandler());
+    }
+  }, []);
 
   return { dateHandler };
 }

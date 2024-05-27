@@ -5,6 +5,25 @@ import { api } from '@/util/api';
 
 import { SearchParams } from '@/type/common';
 import { GalleryType } from '@/type/gallery/type';
+import { getMetadata } from '@/constant/metaData';
+import { Metadata } from 'next';
+
+/** gallery page meta */
+export const generateMetadata = async (props: SearchParams): Promise<Metadata> => {
+  const pageParam = props.searchParams.page;
+  const keyword = props.searchParams.keyword;
+
+  function title() {
+    if (keyword) return `${keyword}`;
+    else if (pageParam) return `${pageParam} 페이지`;
+    else return '갤러리';
+  }
+
+  return getMetadata({
+    title: title(),
+    asPath: `/gallery/page=${pageParam}`,
+  });
+};
 
 // get all gallery posts data
 export async function getAllPosts(page: string = '1', search?: string) {

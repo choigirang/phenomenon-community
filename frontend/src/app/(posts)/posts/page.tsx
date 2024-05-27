@@ -22,12 +22,13 @@ export const generateMetadata = async (props: SearchParams): Promise<Metadata> =
 
     if (keyword) return `${keyword}`;
     else if (category) return `${category} 게시글`;
-    else return `${pageParam} 페이지`;
+    else if (pageParam) return `${pageParam} 페이지`;
+    else return `게시글`;
   }
 
   return getMetadata({
     title: title(),
-    asPath: `/sign?page=${path}`,
+    asPath: `/posts?page=${path}`,
   });
 };
 
