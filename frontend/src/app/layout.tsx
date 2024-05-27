@@ -4,11 +4,20 @@ import WithProvider from '@/util/provider/withProvider';
 
 import '../style/global.css';
 import WithLogin from './(common)/(login)/withLogin';
+import { getMetadata } from '@/constant/metaData';
+import { Metadata } from 'next';
 
 interface RootLayoutProps {
   children: React.ReactNode;
   showLogin?: boolean;
 }
+
+/** home page meta */
+export const generateMetadata = async (): Promise<Metadata> => {
+  return getMetadata({
+    asPath: `/`,
+  });
+};
 
 /** 2024/05/23 - layout by path(withLogin) */
 export default function RootLayout({ children }: RootLayoutProps) {
