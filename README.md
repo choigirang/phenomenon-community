@@ -15,7 +15,13 @@
 
 ## Why-chat
 
-- `부트캠프`의 팀 프로젝트가 끝난 후, 팀원들과 여러 가지 기능과 페이지를 분담하여 진행하면서 내가 부족한 부분과 놓치고 넘어간 부분을 다시 작성해보고자 제작하였다.
+- `부트캠프`의 팀 프로젝트가 끝난 후, 팀원들과 여러 가지 기능과 페이지를 분담하여 진행하면서 내가 부족한 부분과 놓치고 넘어간 부분을 다시 작성해보고자 제작하였습니다.
+
+#### 최적화
+
+|                                                                                                     13                                                                                                     |                                                                                                    14                                                                                                     |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://github.com/choigirang/why-chat/assets/118104644/28016a84-70de-4d1c-b161-3070a5ba33c6" alt="before"/></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://github.com/choigirang/why-chat/assets/118104644/9d203140-dbfc-4880-872e-e14d35ce6651" alt="after"/></div> |
 
 <br>
 ## 테스트 아이디
@@ -27,9 +33,7 @@
 
 <br>
 
-
-
-<detail>
+<details>
 <summary>after : Next 14 펼치기</summary>
 
 ## 기술 목록
@@ -46,11 +50,9 @@
 
 - **Next 13 동일**
 
-</detail>
+</details>
 
-
-
-<detail>
+<details>
 <summary>before : Next 13 펼치기</summary>
 
 ## 기술 목록
@@ -69,7 +71,7 @@
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/express/#E0234E" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/jsonwebtokens/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/mongodb/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazons3/#569A31" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazonec2/#FF9900" alt="icon" width="75" height="75" /></div> |
 
-</detail>
+</details>
 
 ## npm
 
