@@ -1,11 +1,11 @@
+import { Metadata } from 'next';
 import Header from './(common)/(header)/header';
 import Footer from './(common)/(footer)/footer';
+import WithLogin from './(common)/(login)/withLogin';
 import WithProvider from '@/util/provider/withProvider';
+import { getMetadata } from '@/constant/metaData';
 
 import '../style/global.css';
-import WithLogin from './(common)/(login)/withLogin';
-import { getMetadata } from '@/constant/metaData';
-import { Metadata } from 'next';
 
 interface RootLayoutProps {
   children: React.ReactNode;
