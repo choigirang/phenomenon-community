@@ -4,11 +4,23 @@ import Title from '@/app/(common)/(aboutContent)/(content)/title';
 import Edit from '@/app/(common)/(aboutContent)/(content)/edit';
 import Like from '@/app/(common)/(aboutContent)/(content)/like';
 import { api } from '@/util/api';
+import { GALLERY_URL } from '@/constant/constant';
 
 import { SearchParams } from '@/type/common';
 import { GalleryType } from '@/type/gallery/type';
+import { getMetadata } from '@/constant/metaData';
+import { Metadata } from 'next';
 
-import { GALLERY_URL } from '@/constant/constant';
+/** each gallery page meta */
+export const generateMetadata = async (props: SearchParams): Promise<Metadata> => {
+  const gallery = props.params.gallery[0];
+  const data: GalleryType = await getGalleryData(gallery);
+
+  return getMetadata({
+    title: `${data.title}`,
+    asPath: `/gallery/${data.galleryNumber}`,
+  });
+};
 
 // get gallery data
 async function getGalleryData(postNum: string) {

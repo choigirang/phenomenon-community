@@ -1,9 +1,19 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import AddNotice from '../addNotice';
 import Pagination from '@/app/(common)/pagination';
 import { api } from '@/util/api';
+import { getMetadata } from '@/constant/metaData';
 
 import { Notice, SearchParams } from '@/type/common';
+
+/** notice page meta */
+export const generateMetadata = async (): Promise<Metadata> => {
+  return getMetadata({
+    title: `공지사항`,
+    asPath: `/notice`,
+  });
+};
 
 // get notice all data
 async function getData(page: string = '1') {
