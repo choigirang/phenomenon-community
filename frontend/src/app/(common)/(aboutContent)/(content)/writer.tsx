@@ -8,6 +8,7 @@ import { api } from '@/util/api';
 import { useAppSelector } from '@/hooks/useRedux';
 
 import { PostType } from '@/type/community/type';
+import useDate from '@/hooks/useDate';
 
 interface WriterProps {
   data?: PostType;
@@ -24,7 +25,10 @@ export default function Writer({ data, notice, btnName = '수정하기' }: Write
   const user = useAppSelector(state => state.loginSlice);
 
   // writer hooks
-  const { content, editorState, toolbar, dateHandler, onEditorStateChange } = useEditor(data ? data.body : '');
+  const { content, editorState, toolbar, onEditorStateChange } = useEditor(data ? data.body : '');
+
+  // date hooks
+  const { dateHandler } = useDate();
 
   // add notice or edit post func
   const editHandler = () => {

@@ -5,7 +5,7 @@ import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '@/style/react-draft-wysiwyg.css';
 
 /** 2024/05/17 - draft editor in post edit page*/
 export default function useEditor(htmlStr: string) {

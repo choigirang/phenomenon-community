@@ -9,6 +9,7 @@ import { CommentData } from '@/type/common';
 import { PostType } from '@/type/community/type';
 import { GalleryType } from '@/type/gallery/type';
 import { LoginIni } from '@/type/user/type';
+import useDate from '@/hooks/useDate';
 
 /** 2024/05/22 - 타입 가드 post or gallery */
 function isPostType(data: PostType | GalleryType): data is PostType {
@@ -27,7 +28,7 @@ export default function AddComment(props: AddCommentProps) {
   // comment content
   const [content, setContent] = useState('');
   // create date
-  // const { dateHandler } = useEditor('');
+  const { dateHandler } = useDate();
 
   // handle write comment data
   const writeComment = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,7 +39,7 @@ export default function AddComment(props: AddCommentProps) {
     if (content) {
       // type guard post
       if (isPostType(props.data)) {
-        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: '' }; // date: dateHandler()
+        const comment = { postNumber: props.data.postNumber, author: user.id, comment: content, date: dateHandler() };
         api.post('/post/comment', { ...comment }).then(res => {
           alert('댓글이 작성되었습니다.');
           props.setComments(prev => [comment, ...prev]);
@@ -50,7 +51,7 @@ export default function AddComment(props: AddCommentProps) {
           galleryNumber: props.data.galleryNumber,
           author: user.id,
           comment: content,
-          date: '', //dateHandler()
+          date: dateHandler(),
         };
         api
           .post('/gallery/comment', { ...comment })
